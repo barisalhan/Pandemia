@@ -1,10 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 
-public class CountryController : MonoBehaviour
+[CreateAssetMenu(menuName = "ManageThePandemic/Country")]
+public class CountryController : ScriptableObject
 {
+    public List<StateController> stateControllers = new List<StateController>();
+
     private int population;
 
     private int vulnerablePopulation;
@@ -15,26 +17,8 @@ public class CountryController : MonoBehaviour
 
     private int quarantinedActiveCases;
 
-    private List<StateController> stateControllers;
-
     private EconomyModel economyModel;
 
     private SocietyModel societyModel;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    void ExecuteEvent(MTPEvent mtpEvent)
-    {
-        throw new System.NotImplementedException();
-    }
 }
+

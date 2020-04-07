@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Data;
+using TMPro;
 using UnityEngine;
 
-public class StateController : MonoBehaviour
-{
+[CreateAssetMenu(menuName = "ManageThePandemic/State")]
+public class StateController : ScriptableObject
+{ 
+    [SerializeField]
     private int population;
 
     private int vulnerablePopulation;
@@ -12,26 +16,19 @@ public class StateController : MonoBehaviour
 
     private bool isQuarantined;
 
-    private double outbreakProbability;
+    public double outbreakProbability;
 
-    private HealthSystemModel healthSystemModel;
+    public HealthSystemModel healthSystemModel;
 
-    private VirusModel virusModel;
+    public VirusModel virusModel;
 
-    // Start is called before the first frame update
-    void Start()
+
+    public int GetPopulation()
     {
-        
+        return population;
     }
-
-    // Update is called once per frame
-    void Update()
+    public int GetActiveCases()
     {
-        
-    }
-
-    void ExecuteEvent(MTPEvent mtpEvent)
-    {
-        throw new System.NotImplementedException();
+        return virusModel.activeCaseNumber[virusModel.day];
     }
 }
