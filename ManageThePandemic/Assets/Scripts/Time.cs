@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Global time of the game. It follows singleton pattern.
+ * GameController and each model is dependent to this class.
+ */
 public class Time
 {
     private int day;
@@ -29,10 +33,11 @@ public class Time
         if (time == null)
         {
             time = new Time();
+            Debug.Log("New Time object is created.");
             return time;
         }
         else
-        {
+        { 
             return time;
         }
 
@@ -48,6 +53,7 @@ public class Time
         {
             int currentDay = time.GetDay();
             time.SetDay(currentDay + 1);
+            Debug.Log("NextDay() is invoked. Current day: " + time.GetDay());
         }
     }
 

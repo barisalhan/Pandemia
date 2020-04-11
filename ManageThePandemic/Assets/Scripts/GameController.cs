@@ -14,8 +14,6 @@ using Object = System.Object;
  */
 public class GameController : MonoBehaviour
 {
-    public int day = 0;
-
     private Dictionary<int, List<Event>> calendar;
 
     public List<CountryController> countryControllers;
@@ -35,6 +33,9 @@ public class GameController : MonoBehaviour
     // TODO: extend this for other models.
     void SetDefaultEnvironment()
     {
+        // Global time of the game is created.
+        Time.GetInstance();
+
         foreach (CountryController country in countryControllers)
         {
             foreach (StateController state in country.stateControllers)
@@ -47,6 +48,8 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Time.NextDay();
+
         foreach (CountryController country in countryControllers)
         {
             foreach (StateController state in country.stateControllers)
@@ -54,11 +57,6 @@ public class GameController : MonoBehaviour
                 state.virusModel.Update();
             }
         }
-    }
-
-    private void NextDay()
-    {
-       
     }
 
     private void ExecuteCurrentEvents()

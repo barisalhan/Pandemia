@@ -7,8 +7,7 @@ using UnityEngine.Experimental.Audio.Google;
 [CreateAssetMenu(menuName = "ManageThePandemic/VirusModel")]
 public class VirusModel : ScriptableObject
 {
-    public int day = 0;
-
+    private int day;
     // [Day, Aggregate active case number]
     public Dictionary<int, int> activeCaseNumber = new Dictionary<int, int>();
 
@@ -39,8 +38,8 @@ public class VirusModel : ScriptableObject
     // TODO: Think about creating a super-class.
     public void SetDefaultModel()
     {
-        day = 1;
-        // TODO: parametrize the day
+        day = Time.GetInstance().GetDay();
+
         activeCaseNumber.Add(day, 5);
         dailyCaseNumber.Add(day, 5);
         // TODO: change this
@@ -49,7 +48,8 @@ public class VirusModel : ScriptableObject
 
     public void Update()
     {
-        day++;
+        day = Time.GetInstance().GetDay();
+
         activeCaseNumber.Add(day, activeCaseNumber[day-1]*2);        
     }
 }

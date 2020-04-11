@@ -29,6 +29,6 @@ public class StateController : ScriptableObject
     }
     public int GetActiveCases()
     {
-        return virusModel.activeCaseNumber[virusModel.day];
+        return virusModel.activeCaseNumber[Time.GetInstance().GetDay()];
     }
 }

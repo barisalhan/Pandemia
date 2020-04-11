@@ -5,7 +5,10 @@ using UnityEngine.UI;
 
 public class DisplayController : MonoBehaviour
 {
-    public Text population, activeCases;
+    public Text populationText, 
+                activeCasesText,
+                currentDayText;
+
     // Start is called before the first frame update
     void Start()
     {

@@ -21,14 +21,15 @@ public class Main : MonoBehaviour
 
     void Start()
     {
-        displayController.population.text = "Population : " + gameController.GetParameter(0,0,"Population");
-        displayController.activeCases.text = "Active Cases: " + gameController.GetParameter(0, 0, "ActiveCases");
+        displayController.populationText.text = "Population : " + gameController.GetParameter(0,0,"Population");
+        displayController.activeCasesText.text = "Active Cases: " + gameController.GetParameter(0, 0, "ActiveCases");
+        displayController.currentDayText.text = "Day: " + Time.GetInstance().GetDay();
     }
 
-    // TODO: gunu nasil tuttugumuzu duzelt.
     // TODO: Su an next day butonu ekleyecektik. Bu fonksiyon degisecek.
     void Update()
-    {
-        displayController.activeCases.text = "Active Cases: " + gameController.GetParameter(0, 0, "ActiveCases");
+    { 
+        displayController.activeCasesText.text = "Active Cases: " + gameController.GetParameter(0, 0, "ActiveCases");
+        displayController.currentDayText.text = "Day: " + Time.GetInstance().GetDay();
     }
 }
