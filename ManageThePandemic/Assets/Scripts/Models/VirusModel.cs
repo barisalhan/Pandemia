@@ -8,20 +8,27 @@ using UnityEngine.Experimental.Audio.Google;
 public class VirusModel : ScriptableObject
 {
     public int day = 0;
+
     // [Day, Aggregate active case number]
     public Dictionary<int, int> activeCaseNumber = new Dictionary<int, int>();
-    // [Day, new case number on that day]
-    private Dictionary<int, int> dailyCaseNumber = new Dictionary<int, int>();
-    // [Day, Growth Rate on that day]
-    private Dictionary<int, double> growthRate = new Dictionary<int, double>();
-
-    public double averageNumberOfContactedPeople;
-    public double probabilityOfTransmittingInfection;
-    public double vulnerabilityRatio;
 
     // It will multiplied with the activeCaseNumber.
     // The result is the new dailyCaseNumber;
     public double growthRateParameter;
+
+    // [Day, new case number on that day]
+    private Dictionary<int, int> dailyCaseNumber = new Dictionary<int, int>();
+
+    // [Day, Growth Rate on that day]
+    private Dictionary<int, double> growthRate = new Dictionary<int, double>();
+
+    public double averageNumberOfContactedPeople;
+
+    public double probabilityOfTransmittingInfection;
+
+    public double vulnerabilityRatio;
+
+    
 
     public void CalculateGrowthRateParameter()
     {

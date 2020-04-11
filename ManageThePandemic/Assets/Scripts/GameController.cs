@@ -5,13 +5,21 @@ using UnityEngine;
 using UnityEngine.Experimental.UIElements;
 using Object = System.Object;
 
+
+/*
+ * Manages the time of the game.
+ * Handles the actions and records the required events to the calendar.
+ * Executes the events.
+ * Manages the country controllers.
+ */
 public class GameController : MonoBehaviour
 {
-    public List<CountryController> countryControllers;
+    public int day = 0;
 
     private Dictionary<int, List<Event>> calendar;
 
-    public int day = 0;
+    public List<CountryController> countryControllers;
+
 
     void Awake()
     {
@@ -70,7 +78,7 @@ public class GameController : MonoBehaviour
 
    
     /*
-     * fieldName:
+     * @fieldName:
      *  - Population
      *  - ActiveCases
      */
