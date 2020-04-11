@@ -1,56 +1,110 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Experimental.Audio.Google;
+using Object = System.Object;
 
 [CreateAssetMenu(menuName = "ManageThePandemic/VirusModel")]
 public class VirusModel : ScriptableObject, ITimeDrivable
 {
-    private int day;
-    // [Day, Aggregate active case number]
-    public Dictionary<int, int> activeCaseNumber = new Dictionary<int, int>();
+    //[Independent]
+    // Daily number of the contacted people of a person
+    public double averageNumberOfContactedPeople;
 
+    //[Dependent]
+    // Ratio of population who can be get infected. [vulnerable population / population]
+    public double vulnerabilityRatio;
+
+    //[Independent]
+    // Probability of transmitting to a vulnerable person through physical contact.
+    public double probabilityOfTransmittingInfection;
+
+    //[Dependent]
     // It will multiplied with the activeCaseNumber.
     // The result is the new dailyCaseNumber;
     public double growthRateParameter;
 
+    // [Day, Aggregate active case number]
+    public Dictionary<int, int> activeCaseNumbers = new Dictionary<int, int>();
+
     // [Day, new case number on that day]
-    private Dictionary<int, int> dailyCaseNumber = new Dictionary<int, int>();
+    private Dictionary<int, int> dailyCaseNumbers = new Dictionary<int, int>();
 
     // [Day, Growth Rate on that day]
-    private Dictionary<int, double> growthRate = new Dictionary<int, double>();
+    private Dictionary<int, double> growthRates = new Dictionary<int, double>();
 
-    public double averageNumberOfContactedPeople;
 
-    public double probabilityOfTransmittingInfection;
-
-    public double vulnerabilityRatio;
-
-    
-
-    public void CalculateGrowthRateParameter()
+    //TODO: make it safer.
+    /*
+     * Sets the value of an independent parameter.
+     * Parameters:
+     *  - averageNumberOfContactedPeople
+     *  - probabilityOfTransmittingInfection
+     */
+    public void SetParameter(string parameterName, double value)
     {
-        growthRateParameter = averageNumberOfContactedPeople *
-                              probabilityOfTransmittingInfection;
+        Type type = typeof(VirusModel);
+        Object instance = this;
+
+        FieldInfo fieldInfo= type.GetField(parameterName);
+
+        if (fieldInfo != null)
+        {
+            fieldInfo.SetValue(instance, value);
+        }
+        else
+        {
+            Debug.Log("Non-existing field is tried to be reached.");
+        }
     }
+
+
+    /*
+     * Updates the dependent parameters.
+     */
+    public void UpdateParameters(int population, int vulnerablePopulation)
+    {
+        CalculateGrowthRateParameter(population, vulnerablePopulation);
+    }
+
+
+    // TODO: death populationdan dusuyor.
+    public void CalculateGrowthRateParameter(int population, int vulnerablePopulation)
+    {
+        if (population != 0)
+        {
+            vulnerabilityRatio = (double) vulnerablePopulation / (double) population;
+        }
+        else
+        {
+            vulnerabilityRatio = 0;
+            Debug.Log("Vulnerability ratio is tried to be calculated while population is zero.");
+        }
+
+        growthRateParameter =
+            (averageNumberOfContactedPeople * vulnerabilityRatio) * probabilityOfTransmittingInfection;
+    }
+
 
     // TODO: Think about creating a super-class.
     public void SetDefaultModel()
     {
-        day = Time.GetInstance().GetDay();
+        int day = Time.GetInstance().GetDay();
 
-        activeCaseNumber.Add(day, 5);
-        dailyCaseNumber.Add(day, 5);
+        activeCaseNumbers.Add(day, 5);
+        dailyCaseNumbers.Add(day, 5);
         // TODO: change this
-        growthRate.Add(day,5);
+        growthRates.Add(day,5);
     }
 
     // TODO: Think about creating a super-class.
     public void NextDay()
     {
-        day = Time.GetInstance().GetDay();
+        int day = Time.GetInstance().GetDay();
 
-        activeCaseNumber.Add(day, activeCaseNumber[day-1]*2);        
+        activeCaseNumbers.Add(day, activeCaseNumbers[day-1]*2);        
     }
 }

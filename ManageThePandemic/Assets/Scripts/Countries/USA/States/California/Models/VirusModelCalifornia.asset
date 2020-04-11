@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db2e85e1a533e4d419edc03fe4dfc609, type: 3}
   m_Name: VirusModelCalifornia
   m_EditorClassIdentifier: 
-  averageNumberOfContactedPeople: 50
-  probabilityOfTransmittingInfection: 0.5
+  averageNumberOfContactedPeople: 12
   vulnerabilityRatio: 0
-  growthRateParameter: 25
+  probabilityOfTransmittingInfection: 0.5
+  growthRateParameter: 0

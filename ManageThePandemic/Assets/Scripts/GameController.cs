@@ -45,6 +45,7 @@ public class GameController : MonoBehaviour, ITimeDrivable
         }
     }
 
+
     // TODO: Make models tunable.
     // Update is called once per frame
     public void NextDay()
@@ -72,7 +73,7 @@ public class GameController : MonoBehaviour, ITimeDrivable
         throw new System.NotImplementedException();
     }
 
-   
+   // TODO: think about inheritance. Abstract controller class could be suitable.
     /*
      * @fieldName:
      *  - Population
