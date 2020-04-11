@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(menuName = "ManageThePandemic/Country")]
-public class CountryController : ScriptableObject
+public class CountryController : ScriptableObject, ITimeDrivable
 {
     public List<StateController> stateControllers = new List<StateController>();
 
@@ -20,5 +20,13 @@ public class CountryController : ScriptableObject
     private EconomyModel economyModel;
 
     private SocietyModel societyModel;
+
+    public void NextDay()
+    {
+        foreach (StateController state in stateControllers)
+        {
+            state.NextDay();
+        }
+    }
 }
 

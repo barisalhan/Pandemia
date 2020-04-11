@@ -1,0 +1,4 @@
+﻿interface ITimeDrivable
+{
+    void NextDay();
+}

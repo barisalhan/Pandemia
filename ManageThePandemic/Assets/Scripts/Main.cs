@@ -26,9 +26,10 @@ public class Main : MonoBehaviour
         displayController.currentDayText.text = "Day: " + Time.GetInstance().GetDay();
     }
 
-    // TODO: Su an next day butonu ekleyecektik. Bu fonksiyon degisecek.
-    void Update()
-    { 
+
+    public void NextDay()
+    {
+        gameController.NextDay();
         displayController.activeCasesText.text = "Active Cases: " + gameController.GetParameter(0, 0, "ActiveCases");
         displayController.currentDayText.text = "Day: " + Time.GetInstance().GetDay();
     }

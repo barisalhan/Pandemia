@@ -12,7 +12,7 @@ using Object = System.Object;
  * Executes the events.
  * Manages the country controllers.
  */
-public class GameController : MonoBehaviour
+public class GameController : MonoBehaviour, ITimeDrivable
 {
     private Dictionary<int, List<Event>> calendar;
 
@@ -45,17 +45,15 @@ public class GameController : MonoBehaviour
         }
     }
 
+    // TODO: Make models tunable.
     // Update is called once per frame
-    void Update()
+    public void NextDay()
     {
         Time.NextDay();
 
         foreach (CountryController country in countryControllers)
         {
-            foreach (StateController state in country.stateControllers)
-            {
-                state.virusModel.Update();
-            }
+            country.NextDay();
         }
     }
 

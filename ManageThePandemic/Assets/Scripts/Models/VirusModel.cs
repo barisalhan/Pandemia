@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Experimental.Audio.Google;
 
 [CreateAssetMenu(menuName = "ManageThePandemic/VirusModel")]
-public class VirusModel : ScriptableObject
+public class VirusModel : ScriptableObject, ITimeDrivable
 {
     private int day;
     // [Day, Aggregate active case number]
@@ -46,7 +46,8 @@ public class VirusModel : ScriptableObject
         growthRate.Add(day,5);
     }
 
-    public void Update()
+    // TODO: Think about creating a super-class.
+    public void NextDay()
     {
         day = Time.GetInstance().GetDay();
 

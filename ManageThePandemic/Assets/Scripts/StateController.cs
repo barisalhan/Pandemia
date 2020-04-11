@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "ManageThePandemic/State")]
-public class StateController : ScriptableObject
+public class StateController : ScriptableObject, ITimeDrivable
 { 
     [SerializeField]
     private int population;
@@ -30,5 +30,10 @@ public class StateController : ScriptableObject
     public int GetActiveCases()
     {
         return virusModel.activeCaseNumber[Time.GetInstance().GetDay()];
+    }
+
+    public void NextDay()
+    {
+        virusModel.NextDay();
     }
 }
