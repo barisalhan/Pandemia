@@ -5,18 +5,11 @@ using TMPro;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "ManageThePandemic/State")]
-public class StateController : ScriptableObject, ITimeDrivable
+public class StateController : MTPScriptableObject, ITimeDrivable
 { 
     // Total number of alive people.
     [SerializeField]
     private int population;
-
-    // TODO: think about converting this to daily number.
-    // Number of total people who died because of infection up to that day.
-    private Dictionary<int, int> AggreagateDeathCases = new Dictionary<int, int>();
-
-    // Number of population who can get infected.(Population - (active cases + recovered cases))
-    private int vulnerablePopulation;
 
     // If true, there is at least one case in the state.
     private bool isInfected;
@@ -28,24 +21,77 @@ public class StateController : ScriptableObject, ITimeDrivable
     // If true, state is under quarantine.
     private bool isQuarantined;
 
+    // TODO: think about converting this to daily number.
+    // Number of total people who died because of infection up to that day.
+    private Dictionary<int, int> aggreagateDeathCases = new Dictionary<int, int>();
+
+    // [Day, Aggregate active case number]
+    public Dictionary<int, int> activeCases = new Dictionary<int, int>();
+
+    private int dailyNewCaseNumber;
+
+    // Number of population who can get infected.(Population - (active cases + recovered cases))
+    private int vulnerablePopulation;
+
     public HealthSystemModel healthSystemModel;
 
     public VirusModel virusModel;
 
 
+    // TODO: extend here for all models.
+    public void SetDefaultEnvironment()
+    {
+        virusModel.SetDefaultModel();
+
+        activeCases.Add(0, 1);
+    }
+
+
+    // TODO: Extend this method for other models.
+    public void NextDay()
+    {
+        virusModel.UpdateParameters(population, vulnerablePopulation);
+        dailyNewCaseNumber = virusModel.CalculateDailyNewCase(activeCases[Time.GetInstance().GetDay() - 1]);
+
+        UpdateFields();
+    }
+
+
+    public void UpdateFields()
+    {
+        UpdateVulnerablePopulation();
+        CalculateActiveCaseNumber();
+    }
+
+
+    void UpdateVulnerablePopulation()
+    {
+        vulnerablePopulation = population - activeCases[Time.GetInstance().GetDay() - 1];
+    }
+
+
+    /*
+     * Preconditions:
+     *  - Daily new case number is calculated for today.
+     */
+    public void CalculateActiveCaseNumber()
+    {
+        int today = Time.GetInstance().GetDay();
+        //TODO: add recovered and death people
+        activeCases[today] = activeCases[today - 1] + dailyNewCaseNumber;
+    }
+
+
+    /* Returns the active case number of yesterday. */
+    public int GetActiveCases()
+    {
+        return activeCases[Time.GetInstance().GetDay() - 1];
+    }
+
+
+    /* Returns the population number of yesterday. */
     public int GetPopulation()
     {
         return population;
-    }
-    public int GetActiveCases()
-    {
-        return virusModel.activeCaseNumbers[Time.GetInstance().GetDay()];
-    }
-
-    public void NextDay()
-    {
-        virusModel.SetParameter("averageNumberOfContactedPeople", 12);
-        virusModel.UpdateParameters(population, vulnerablePopulation);
-        virusModel.NextDay();
     }
 }

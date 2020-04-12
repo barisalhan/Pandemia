@@ -18,22 +18,26 @@ public class Time
         day = 1;
     }
 
-    public int GetDay()
-    {
-        return day;
-    }
 
-    public void SetDay(int newDay)
-    {
-        day = newDay;
-    }
-
-    public static Time GetInstance()
+    public static void CreateTime()
     {
         if (time == null)
         {
             time = new Time();
             Debug.Log("New Time object is created.");
+        }
+        else
+        {
+            Debug.Log("Time is tried to be created multiple times.");
+        }
+    }
+
+
+    public static Time GetInstance()
+    {
+        if (time == null)
+        {
+            CreateTime();
             return time;
         }
         else
@@ -42,6 +46,7 @@ public class Time
         }
 
     }
+
 
     public static void NextDay()
     {
@@ -58,7 +63,14 @@ public class Time
     }
 
 
+    public int GetDay()
+    {
+        return day;
+    }
 
 
-    
+    public void SetDay(int newDay)
+    {
+        day = newDay;
+    }
 }

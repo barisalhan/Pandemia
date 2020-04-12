@@ -21,16 +21,18 @@ public class Main : MonoBehaviour
 
     void Start()
     {
-        displayController.populationText.text = "Population : " + gameController.GetParameter(0,0,"Population");
-        displayController.activeCasesText.text = "Active Cases: " + gameController.GetParameter(0, 0, "ActiveCases");
-        displayController.currentDayText.text = "Day: " + Time.GetInstance().GetDay();
+        gameController.SetDefaultEnvironment();
+        gameController.countryControllers[0].SetParameter("population", 1, 2);
+        displayController.populationText.text = "Population : " + gameController.countryControllers[0].GetParameter("Population");
+        //displayController.activeCasesText.text = "Active Cases: " + gameController.GetParameter(0, 0, "ActiveCases");
+        //displayController.currentDayText.text = "Day: " + Time.GetInstance().GetDay();
     }
 
 
     public void NextDay()
     {
-        gameController.NextDay();
-        displayController.activeCasesText.text = "Active Cases: " + gameController.GetParameter(0, 0, "ActiveCases");
-        displayController.currentDayText.text = "Day: " + Time.GetInstance().GetDay();
+       // gameController.NextDay();
+       // displayController.activeCasesText.text = "Active Cases: " + gameController.GetParameter(0, 0, "ActiveCases");
+       // displayController.currentDayText.text = "Day: " + Time.GetInstance().GetDay();
     }
 }

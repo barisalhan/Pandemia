@@ -19,29 +19,25 @@ public class GameController : MonoBehaviour, ITimeDrivable
     public List<CountryController> countryControllers;
 
 
-    void Awake()
-    {
-       
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        SetDefaultEnvironment();
-    }
-
     // TODO: extend this for other models.
-    void SetDefaultEnvironment()
+    /*
+     * Creates the time.
+     * Fills 0th day values.
+     * Sets models to default.
+     *
+     * It is called in the very beginning of the game from Main.Start().
+     *
+     * We need values of 0th day to start the  game, because in each day,
+     * we use numbers of yesterday and parameters of today. 
+     */
+    public void SetDefaultEnvironment()
     {
         // Global time of the game is created.
-        Time.GetInstance();
+        Time.CreateTime();
 
         foreach (CountryController country in countryControllers)
         {
-            foreach (StateController state in country.stateControllers)
-            {
-                state.virusModel.SetDefaultModel();
-            }
+            country.SetDefaultEnvironment();
         }
     }
 
@@ -50,12 +46,16 @@ public class GameController : MonoBehaviour, ITimeDrivable
     // Update is called once per frame
     public void NextDay()
     {
-        Time.NextDay();
-
         foreach (CountryController country in countryControllers)
         {
             country.NextDay();
         }
+        Time.NextDay();
+    }
+
+    public void UpdateFields()
+    {
+        throw new NotImplementedException();
     }
 
     private void ExecuteCurrentEvents()
@@ -71,28 +71,6 @@ public class GameController : MonoBehaviour, ITimeDrivable
     private void AddEventsToCalendar(Action action)
     {
         throw new System.NotImplementedException();
-    }
-
-   // TODO: think about inheritance. Abstract controller class could be suitable.
-    /*
-     * @fieldName:
-     *  - Population
-     *  - ActiveCases
-     */
-    public string GetParameter(int country, int state, string fieldName)
-    {
-        // Holds the metadata of the class.
-        Type type = typeof(StateController);
-        string methodName = "Get" + fieldName;
-        // Holds kind of a pointer to the method that we want to reach.
-        MethodInfo method = type.GetMethod(methodName);
-
-        Object instanceOfTheClass = countryControllers[country].stateControllers[state];
-
-        // Runs the method in the given instance and returns the result.
-        var value = method.Invoke(instanceOfTheClass, null);
-
-        return value.ToString();
     }
 }
 

@@ -3,11 +3,12 @@ using UnityEngine;
 
 
 [CreateAssetMenu(menuName = "ManageThePandemic/Country")]
-public class CountryController : ScriptableObject, ITimeDrivable
+public class CountryController : MTPScriptableObject, ITimeDrivable
 {
     public List<StateController> stateControllers = new List<StateController>();
 
-    private int population;
+    [SerializeField]
+    public int population;
 
     private int vulnerablePopulation;
 
@@ -21,12 +22,37 @@ public class CountryController : ScriptableObject, ITimeDrivable
 
     private SocietyModel societyModel;
 
+
+    // TODO: extends this for country models.
+    public void SetDefaultEnvironment()
+    {
+        foreach (StateController state in stateControllers)
+        {
+            state.SetDefaultEnvironment();
+        }
+    }
+
+
     public void NextDay()
     {
         foreach (StateController state in stateControllers)
         {
             state.NextDay();
         }
+
+        UpdateFields();
     }
+
+
+    public void UpdateFields()
+    {
+        //TODO: implement here.
+    }
+
+    public int GetPopulation()
+    {
+        return population;
+    }
+   
 }
 

@@ -7,58 +7,62 @@ using UnityEngine;
 using UnityEngine.Experimental.Audio.Google;
 using Object = System.Object;
 
+
+/*
+ * A DAY:
+ *  1.Events of the day in the calendar are executed.[SetParameter()]
+ *  2.Instant events are executed.[SetParameter()]
+ *  3.[UpdateParameters()]
+ *  4.Calculate new daily cases of today at the end of the day. We use (active case
+ *    number of yesterday) and (parameters of today) while doing this calculation.
+ *  5.END
+ *
+ *  Convention:
+ *      All parameters must be classified as independent and dependent.
+ *      To restrict access, all dependent parameters must be private and
+ *                          all independent parameters must be protected.
+ */
 [CreateAssetMenu(menuName = "ManageThePandemic/VirusModel")]
-public class VirusModel : ScriptableObject, ITimeDrivable
+public class VirusModel : MTPScriptableObject
 {
     //[Independent]
     // Daily number of the contacted people of a person
-    public double averageNumberOfContactedPeople;
+    [SerializeField]
+    protected double averageNumberOfContactedPeople;
 
-    //[Dependent]
+    // [Dependent]
     // Ratio of population who can be get infected. [vulnerable population / population]
-    public double vulnerabilityRatio;
+    [SerializeField]
+    private double vulnerabilityRatio;
 
-    //[Independent]
+    // [Independent]
     // Probability of transmitting to a vulnerable person through physical contact.
-    public double probabilityOfTransmittingInfection;
+    [SerializeField]
+    protected double probabilityOfTransmittingInfection;
 
-    //[Dependent]
+    // [Dependent]
+    // It is calculated as a result of independent parameters.
     // It will multiplied with the activeCaseNumber.
     // The result is the new dailyCaseNumber;
-    public double growthRateParameter;
+    [SerializeField]
+    private double growthRateParameter;
 
-    // [Day, Aggregate active case number]
-    public Dictionary<int, int> activeCaseNumbers = new Dictionary<int, int>();
-
+    // [Dependent]
     // [Day, new case number on that day]
-    private Dictionary<int, int> dailyCaseNumbers = new Dictionary<int, int>();
-
+    private Dictionary<int, int> dailyNewCaseNumbers = new Dictionary<int, int>();
+    
+    // [Dependent]
     // [Day, Growth Rate on that day]
     private Dictionary<int, double> growthRates = new Dictionary<int, double>();
 
 
-    //TODO: make it safer.
+    // TODO: Think about creating a super-class.
     /*
-     * Sets the value of an independent parameter.
-     * Parameters:
-     *  - averageNumberOfContactedPeople
-     *  - probabilityOfTransmittingInfection
+     * It is called on the first day of simulation.
      */
-    public void SetParameter(string parameterName, double value)
+    public void SetDefaultModel()
     {
-        Type type = typeof(VirusModel);
-        Object instance = this;
-
-        FieldInfo fieldInfo= type.GetField(parameterName);
-
-        if (fieldInfo != null)
-        {
-            fieldInfo.SetValue(instance, value);
-        }
-        else
-        {
-            Debug.Log("Non-existing field is tried to be reached.");
-        }
+        dailyNewCaseNumbers.Add(0, 1);
     }
 
 
@@ -67,12 +71,15 @@ public class VirusModel : ScriptableObject, ITimeDrivable
      */
     public void UpdateParameters(int population, int vulnerablePopulation)
     {
-        CalculateGrowthRateParameter(population, vulnerablePopulation);
+        UpdateGrowthRateParameter();
+        UpdateVulnerabilityRatio(population, vulnerablePopulation);
     }
 
 
-    // TODO: death populationdan dusuyor.
-    public void CalculateGrowthRateParameter(int population, int vulnerablePopulation)
+    /*
+     * Updates the value, according to death and recovered numbers of yesterday.
+     */
+    public void UpdateVulnerabilityRatio(int population, int vulnerablePopulation)
     {
         if (population != 0)
         {
@@ -83,28 +90,31 @@ public class VirusModel : ScriptableObject, ITimeDrivable
             vulnerabilityRatio = 0;
             Debug.Log("Vulnerability ratio is tried to be calculated while population is zero.");
         }
+    }
 
+
+    /*
+     * Preconditions:
+     *  - VulnerabilityRatio is updated.
+     */
+    public void UpdateGrowthRateParameter()
+    {
         growthRateParameter =
             (averageNumberOfContactedPeople * vulnerabilityRatio) * probabilityOfTransmittingInfection;
     }
 
 
-    // TODO: Think about creating a super-class.
-    public void SetDefaultModel()
+    /*
+     * Preconditions:
+     *  - Parameters are adjusted according to events of today.
+     * TODO: error-prone method.
+     */
+    public int CalculateDailyNewCase(int activeCaseNumberOfYesterday)
     {
-        int day = Time.GetInstance().GetDay();
+        int today = Time.GetInstance().GetDay();
 
-        activeCaseNumbers.Add(day, 5);
-        dailyCaseNumbers.Add(day, 5);
-        // TODO: change this
-        growthRates.Add(day,5);
-    }
+        dailyNewCaseNumbers[today] = (int)(growthRateParameter * activeCaseNumberOfYesterday); ;
 
-    // TODO: Think about creating a super-class.
-    public void NextDay()
-    {
-        int day = Time.GetInstance().GetDay();
-
-        activeCaseNumbers.Add(day, activeCaseNumbers[day-1]*2);        
+        return dailyNewCaseNumbers[today];
     }
 }
