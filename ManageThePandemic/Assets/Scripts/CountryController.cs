@@ -53,6 +53,10 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
     {
         return population;
     }
-   
+
+    public int GetActiveCases()
+    {
+        return activeCases;
+    }
 }
 

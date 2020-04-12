@@ -44,6 +44,8 @@ public class StateController : MTPScriptableObject, ITimeDrivable
         virusModel.SetDefaultModel();
 
         activeCases.Add(0, 1);
+        vulnerablePopulation = population - 1;
+        virusModel.UpdateParameters(population, vulnerablePopulation);
     }
 
 
@@ -58,15 +60,15 @@ public class StateController : MTPScriptableObject, ITimeDrivable
 
 
     public void UpdateFields()
-    {
-        UpdateVulnerablePopulation();
+    { 
         CalculateActiveCaseNumber();
+        UpdateVulnerablePopulation();
     }
 
 
     void UpdateVulnerablePopulation()
     {
-        vulnerablePopulation = population - activeCases[Time.GetInstance().GetDay() - 1];
+        vulnerablePopulation = population - activeCases[Time.GetInstance().GetDay()];
     }
 
 
@@ -94,4 +96,6 @@ public class StateController : MTPScriptableObject, ITimeDrivable
     {
         return population;
     }
+
+
 }

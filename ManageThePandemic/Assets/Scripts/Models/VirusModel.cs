@@ -71,8 +71,8 @@ public class VirusModel : MTPScriptableObject
      */
     public void UpdateParameters(int population, int vulnerablePopulation)
     {
-        UpdateGrowthRateParameter();
         UpdateVulnerabilityRatio(population, vulnerablePopulation);
+        UpdateGrowthRateParameter();
     }
 
 
