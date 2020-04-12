@@ -7,6 +7,11 @@ using UnityEngine;
 
 /*
  *  The bridge between gameController and displayController.
+ * TODO: activate event system
+ * TODO: Implement HealthSystem model.
+ * TODO: Ekonomik model
+ * TODO: Society model
+ * TODO: action list
  */
 public class Main : MonoBehaviour
 {
