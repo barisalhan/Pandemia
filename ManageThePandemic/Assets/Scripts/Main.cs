@@ -5,13 +5,16 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
+
 /*
  *  The bridge between gameController and displayController.
  * TODO: activate event system
  * TODO: Implement HealthSystem model.
  * TODO: Ekonomik model
  * TODO: Society model
- * TODO: action list
+ * TODO: add probability system.
+ * TODO: add delay
+ * TODO: connect UI
  */
 public class Main : MonoBehaviour
 {
@@ -41,5 +44,13 @@ public class Main : MonoBehaviour
         gameController.NextDay();
         displayController.activeCasesText.text = "Active Cases: " + gameController.countryControllers[0].stateControllers[0].GetParameter("ActiveCases");
         displayController.currentDayText.text = "Day: " + Time.GetInstance().GetDay();
+
+        if (Time.GetInstance().GetDay() == 3)
+        {
+            //Actions actions = GetComponent<Actions>();
+            //actions;
+            PrefabInstantiater prefabInstantiater = GetComponent<PrefabInstantiater>();
+            prefabInstantiater.InstantiatePrefab("ActionAsker");
+        }
     }
 }

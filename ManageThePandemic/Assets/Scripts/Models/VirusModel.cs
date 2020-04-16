@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Experimental.Audio.Google;
@@ -99,8 +100,8 @@ public class VirusModel : MTPScriptableObject
      */
     public void UpdateGrowthRateParameter()
     {
-        growthRateParameter =
-            (averageNumberOfContactedPeople * vulnerabilityRatio) * probabilityOfTransmittingInfection;
+        growthRateParameter = 0.16;
+        //(averageNumberOfContactedPeople * vulnerabilityRatio) * probabilityOfTransmittingInfection;
     }
 
 
@@ -109,6 +110,7 @@ public class VirusModel : MTPScriptableObject
      *  - Parameters are adjusted according to events of today.
      * TODO: error-prone method.
      */
+    /*
     public int CalculateDailyNewCase(int activeCaseNumberOfYesterday)
     {
         int today = Time.GetInstance().GetDay();
@@ -116,5 +118,19 @@ public class VirusModel : MTPScriptableObject
         dailyNewCaseNumbers[today] = (int)(growthRateParameter * activeCaseNumberOfYesterday); ;
 
         return dailyNewCaseNumbers[today];
+    }
+    */
+
+    //TODO: think about converting activeCaseNumberOfYesterday to double.
+    public int CalculateDailyNewCase(int normalizedPopulation, int activeCaseNumberOfYesterday)
+    {
+        double formula = ((double)normalizedPopulation / (double)activeCaseNumberOfYesterday) - 1;
+        double delay = Math.Log(formula) / growthRateParameter;
+
+        double denominator = 1 + Math.Exp((-growthRateParameter) * (1 - delay));
+        double aggregateActiveCaseNumber = normalizedPopulation / denominator;
+
+        // TODO: aggregateActiveCaseNumber > activeCaseNumberOfYesterday [varsayim]
+        return (int)Math.Ceiling(aggregateActiveCaseNumber - activeCaseNumberOfYesterday);
     }
 }

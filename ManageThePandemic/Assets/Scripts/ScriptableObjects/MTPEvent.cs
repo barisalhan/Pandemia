@@ -5,10 +5,9 @@ using UnityEngine;
 /*
  * A data type for events.
  */
+[CreateAssetMenu(menuName = "ManageThePandemic/Event")]
 public class MTPEvent : ScriptableObject
 {
-    public string targetCountryName;
-    public string targetCityName;
     public string targetModelName;
     public string targetParameter;
 

@@ -6,6 +6,7 @@ using UnityEngine;
 public class Action : ScriptableObject
 {
     public string actionName;
+    [TextArea]
     public string description;
 
     public List<MTPEvent> events;

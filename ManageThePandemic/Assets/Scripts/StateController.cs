@@ -52,8 +52,10 @@ public class StateController : MTPScriptableObject, ITimeDrivable
     // TODO: Extend this method for other models.
     public void NextDay()
     {
+        
         virusModel.UpdateParameters(population, vulnerablePopulation);
-        dailyNewCaseNumber = virusModel.CalculateDailyNewCase(activeCases[Time.GetInstance().GetDay() - 1]);
+        dailyNewCaseNumber = virusModel.CalculateDailyNewCase((population/100)*20,
+                                                              activeCases[Time.GetInstance().GetDay() - 1]);
 
         UpdateFields();
     }
@@ -65,6 +67,10 @@ public class StateController : MTPScriptableObject, ITimeDrivable
         UpdateVulnerablePopulation();
     }
 
+    public void ExecuteEvents()
+    {
+
+    }
 
     void UpdateVulnerablePopulation()
     {
