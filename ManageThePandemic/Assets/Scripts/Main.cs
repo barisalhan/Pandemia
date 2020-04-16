@@ -2,8 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 
 /*
@@ -20,11 +23,15 @@ public class Main : MonoBehaviour
 {
     private GameController gameController;
     private DisplayController displayController;
+    private Prefabs prefabs;
+    private Actions actions;
 
     void Awake()
     {
         gameController = GetComponent<GameController>();
         displayController = GetComponent<DisplayController>();
+        prefabs = GetComponent<Prefabs>();
+        actions = GetComponent<Actions>();
     }
 
     void Start()
@@ -46,11 +53,9 @@ public class Main : MonoBehaviour
         displayController.currentDayText.text = "Day: " + Time.GetInstance().GetDay();
 
         if (Time.GetInstance().GetDay() == 3)
-        {
-            //Actions actions = GetComponent<Actions>();
-            //actions;
-            PrefabInstantiater prefabInstantiater = GetComponent<PrefabInstantiater>();
-            prefabInstantiater.InstantiatePrefab("ActionAsker");
+        { 
+            GameObject actionAsker = prefabs.InstantiatePrefab(Prefabs.Name.ActionAsker);
+            actionAsker.GetComponentInChildren<Text>().text = actions.GetAction(Actions.Name.PropagandaToRaiseAwareness).description;
         }
     }
 }
