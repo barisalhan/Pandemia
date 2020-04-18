@@ -51,7 +51,7 @@ public class VirusModel : MTPScriptableObject
     // [Dependent]
     // [Day, new case number on that day]
     private Dictionary<int, int> dailyNewCaseNumbers = new Dictionary<int, int>();
-    
+
     // [Dependent]
     // [Day, Growth Rate on that day]
     private Dictionary<int, double> growthRates = new Dictionary<int, double>();
@@ -84,7 +84,7 @@ public class VirusModel : MTPScriptableObject
     {
         if (population != 0)
         {
-            vulnerabilityRatio = (double) vulnerablePopulation / (double) population;
+            vulnerabilityRatio = (double)vulnerablePopulation / (double)population;
         }
         else
         {

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: VirusModelCalifornia
   m_EditorClassIdentifier: 
   averageNumberOfContactedPeople: 12
-  vulnerabilityRatio: -0.8730980759493671
+  vulnerabilityRatio: 0.9999999746835443
   probabilityOfTransmittingInfection: 0.5
-  growthRateParameter: -5.238588455696203
+  growthRateParameter: 0.16
