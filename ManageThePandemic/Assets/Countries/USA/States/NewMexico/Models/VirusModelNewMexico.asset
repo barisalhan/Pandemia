@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61d2537a166d8d44caab7cb210b04e0b, type: 3}
-  m_Name: California
+  m_Script: {fileID: 11500000, guid: db2e85e1a533e4d419edc03fe4dfc609, type: 3}
+  m_Name: VirusModelNewMexico
   m_EditorClassIdentifier: 
-  population: 39500000
-  outbreakProbability: 0
-  healthSystemModel: {fileID: 0}
-  virusModel: {fileID: 11400000, guid: 1ee70c30231b53d41b3c71913cecb641, type: 2}
+  averageNumberOfContactedPeople: 0
+  vulnerabilityRatio: 0
+  probabilityOfTransmittingInfection: 0
+  growthRateParameter: 0

@@ -26,6 +26,9 @@ public class Main : MonoBehaviour
     private Prefabs prefabs;
     private Actions actions;
 
+    [SerializeField]
+    private List<CountryController> countryControllers;
+
     void Awake()
     {
         gameController = GetComponent<GameController>();
@@ -40,6 +43,7 @@ public class Main : MonoBehaviour
         displayController.populationText.text = "Population : " + gameController.countryControllers[0].stateControllers[0].GetParameter("Population");
         displayController.activeCasesText.text = "Active Cases: " + gameController.countryControllers[0].stateControllers[0].GetParameter("ActiveCases");
         displayController.currentDayText.text = "Day: " + Time.GetInstance().GetDay();
+        
     }
     
     /*
@@ -57,5 +61,19 @@ public class Main : MonoBehaviour
             GameObject actionAsker = prefabs.InstantiatePrefab(Prefabs.Name.ActionAsker);
             actionAsker.GetComponentInChildren<Text>().text = actions.GetAction(Actions.Name.PropagandaToRaiseAwareness).description;
         }
+    }
+
+    public void OnClickState(string stateName)
+    {
+        GetStateController(stateName);
+    }
+
+    public StateController GetStateController(string stateName)
+    {
+        CountryController.Name currentState;
+        Enum.TryParse<CountryController.Name>(stateName, out currentState);
+        StateController stateController = countryControllers[0].GetState(currentState);
+        Debug.Log(stateController.GetPopulation());
+        return stateController;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -6,6 +7,15 @@ using UnityEngine;
 public class CountryController : MTPScriptableObject, ITimeDrivable
 {
     public List<StateController> stateControllers = new List<StateController>();
+
+    public Dictionary<Name, int> indexTable = new Dictionary<Name, int>();
+
+    public enum Name
+    {
+        Arizona,
+        California,
+        NewMexico
+    }
 
     [SerializeField]
     public int population;
@@ -26,9 +36,27 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
     // TODO: extends this for country models.
     public void SetDefaultEnvironment()
     {
+        CreateIndexTable();
         foreach (StateController state in stateControllers)
-        {
+        { 
             state.SetDefaultEnvironment();
+        }
+    }
+
+    public void CreateIndexTable()
+    {
+        for (int index = 0; index < stateControllers.Count; index++)
+        {
+            Name currentState;
+            if (Enum.TryParse<Name>(stateControllers[index].name, out currentState))
+            {
+                indexTable.Add(currentState, index);
+            }
+            else
+            {
+                Debug.Log("There is an inconsistency between stateName and Name enum list. " +
+                          stateControllers[index].name + " is tried to be reached");
+            }
         }
     }
 
@@ -57,6 +85,12 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
     public int GetActiveCases()
     {
         return activeCases;
+    }
+
+    public StateController GetState(Name stateName)
+    {
+        int index = indexTable[stateName];
+        return stateControllers[index];
     }
 }
 

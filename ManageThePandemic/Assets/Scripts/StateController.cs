@@ -6,7 +6,8 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "ManageThePandemic/State")]
 public class StateController : MTPScriptableObject, ITimeDrivable
-{ 
+{
+    public string name;
     // Total number of alive people.
     [SerializeField]
     private int population;
