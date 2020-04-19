@@ -24,7 +24,7 @@ public class Main : MonoBehaviour
     private GameController gameController;
     private DisplayController displayController;
     private Prefabs prefabs;
-    private Actions actions;
+    private Actions actions;    
 
     [SerializeField]
     private List<CountryController> countryControllers;
@@ -58,15 +58,30 @@ public class Main : MonoBehaviour
 
         if (Time.GetInstance().GetDay() == 3)
         { 
-            GameObject actionAsker = prefabs.InstantiatePrefab(Prefabs.Name.ActionAsker);
-            actionAsker.GetComponentInChildren<Text>().text = actions.GetAction(Actions.Name.PropagandaToRaiseAwareness).description;
+            GameObject actionAsker = prefabs.GetPrefab(Prefabs.Name.ActionAsker);
+            actionAsker.SetActive(true);
+            Action action = actions.GetAction(Actions.Name.PropagandaToRaiseAwareness);
+            actionAsker.GetComponentInChildren<Text>().text = action.description;
+            ActionHolder actionHolder = actionAsker.GetComponent<ActionHolder>();
+            actionHolder.action = action;
         }
+    }
+
+    public void OnClickYesToAction()
+    {
+        GameObject actionAsker = prefabs.GetPrefab(Prefabs.Name.ActionAsker);
+        actionAsker.SetActive(false);
+        ActionHolder actionHolder = actionAsker.GetComponent<ActionHolder>();
+        Action action = actionHolder.action;
+        gameController.AddActionToCalendar(action);
+
     }
 
     public void OnClickState(string stateName)
     {
-        GetStateController(stateName);
+        StateController stateController = GetStateController(stateName);
     }
+
 
     public StateController GetStateController(string stateName)
     {

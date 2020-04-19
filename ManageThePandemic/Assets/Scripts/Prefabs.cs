@@ -47,20 +47,4 @@ public class Prefabs : MonoBehaviour
         int index = indexTable[prefabName];
         return prefabs[index];
     }
-
-
-    /*
-     * Instantiates the desired prefab and returns the created instance.
-     */
-    public GameObject InstantiatePrefab(Name prefabName)
-    {
-        GameObject prefab= GetPrefab(prefabName);
-        GameObject instanceOfPrefab = Instantiate(prefab, 
-                                                  new Vector3(0, 0, 0),
-                                                  Quaternion.identity);
-
-        instanceOfPrefab.transform.SetParent(canvas.transform, false);
-
-        return instanceOfPrefab;
-    }
 }

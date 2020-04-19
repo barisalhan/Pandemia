@@ -14,7 +14,7 @@ using Object = System.Object;
  */
 public class GameController : MonoBehaviour, ITimeDrivable
 {
-    private Dictionary<int, List<Event>> calendar;
+    private Dictionary<int, List<MTPEvent>> calendar = new Dictionary<int, List<MTPEvent>>();
 
     public List<CountryController> countryControllers;
 
@@ -58,6 +58,28 @@ public class GameController : MonoBehaviour, ITimeDrivable
         throw new NotImplementedException();
     }
 
+    //TODO: anlik actionlari kontrol et.
+    public void AddActionToCalendar(Action action)
+    {
+        foreach (MTPEvent MTPevent in action.events)
+        {
+            AddEventToCalendar(MTPevent);
+        }
+    }
+
+    private void AddEventToCalendar(MTPEvent MTPevent)
+    {
+        int today = Time.GetInstance().GetDay();
+        int eventDay = today + MTPevent.delayTime;
+
+        if ( !calendar.ContainsKey(eventDay) )
+        {
+            calendar.Add(eventDay, new List<MTPEvent>());
+        }
+
+        calendar[eventDay].Add(MTPevent);
+    }
+
     private void ExecuteCurrentEvents()
     {
         throw new System.NotImplementedException();
@@ -68,9 +90,6 @@ public class GameController : MonoBehaviour, ITimeDrivable
         throw new System.NotImplementedException();
     }
 
-    private void AddEventsToCalendar(Action action)
-    {
-        throw new System.NotImplementedException();
-    }
+    
 }
 
