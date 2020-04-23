@@ -6,15 +6,18 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "ManageThePandemic/Country")]
 public class CountryController : MTPScriptableObject, ITimeDrivable
 {
-    public List<StateController> stateControllers = new List<StateController>();
+    public List<RegionController> regionControllers = new List<RegionController>();
 
     public Dictionary<Name, int> indexTable = new Dictionary<Name, int>();
 
     public enum Name
     {
-        Arizona,
-        California,
-        NewMexico
+        NorthEast,
+        SouthEast,
+        SouthWest,
+        MidWest,
+        NorthWest,
+        West
     }
 
     [SerializeField]
@@ -37,25 +40,25 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
     public void SetDefaultEnvironment()
     {
         CreateIndexTable();
-        foreach (StateController state in stateControllers)
+        foreach (RegionController region in regionControllers)
         { 
-            state.SetDefaultEnvironment();
+            region.SetDefaultEnvironment();
         }
     }
 
     public void CreateIndexTable()
     {
-        for (int index = 0; index < stateControllers.Count; index++)
+        for (int index = 0; index < regionControllers.Count; index++)
         {
-            Name currentState;
-            if (Enum.TryParse<Name>(stateControllers[index].name, out currentState))
+            Name currentRegion;
+            if (Enum.TryParse<Name>(regionControllers[index].name, out currentRegion))
             {
-                indexTable.Add(currentState, index);
+                indexTable.Add(currentRegion, index);
             }
             else
             {
-                Debug.Log("There is an inconsistency between stateName and Name enum list. " +
-                          stateControllers[index].name + " is tried to be reached");
+                Debug.Log("There is an inconsistency between regionName and Name enum list. " +
+                          regionControllers[index].name + " is tried to be reached");
             }
         }
     }
@@ -63,9 +66,9 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
 
     public void NextDay()
     {
-        foreach (StateController state in stateControllers)
+        foreach (RegionController region in regionControllers)
         {
-            state.NextDay();
+            region.NextDay();
         }
 
         UpdateFields();
@@ -87,10 +90,10 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
         return activeCases;
     }
 
-    public StateController GetState(Name stateName)
+    public RegionController GetRegion(Name regionName)
     {
-        int index = indexTable[stateName];
-        return stateControllers[index];
+        int index = indexTable[regionName];
+        return regionControllers[index];
     }
 }
 

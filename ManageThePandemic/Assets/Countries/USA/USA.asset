@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec37d6efed6af2844814a4ecef54d34c, type: 3}
   m_Name: USA
   m_EditorClassIdentifier: 
-  stateControllers:
-  - {fileID: 11400000, guid: 0fcbd213743160b4392eef92ca5c42a5, type: 2}
-  - {fileID: 11400000, guid: e92aa037ebe278e46a434f1bdb4cc455, type: 2}
-  - {fileID: 11400000, guid: 8ebecc1177ea4114cbfd8b22132cbdfb, type: 2}
+  regionControllers:
+  - {fileID: 11400000, guid: 36827ed8f40a9c3458f8667e8bc8a2ea, type: 2}
+  - {fileID: 11400000, guid: 51f23fc2f92bf644fb05de042ea4433c, type: 2}
+  - {fileID: 11400000, guid: 15f260469f5661a44a68b6946a522501, type: 2}
+  - {fileID: 11400000, guid: 27b59c6088afe134b97c0e4e58e47783, type: 2}
+  - {fileID: 11400000, guid: 9db29540f51e5574cb4b63c31db92e63, type: 2}
+  - {fileID: 11400000, guid: aec3cfa7482bcc44bb5ac6542bf75b0c, type: 2}
   population: 350
