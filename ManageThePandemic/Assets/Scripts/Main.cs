@@ -40,8 +40,8 @@ public class Main : MonoBehaviour
     void Start()
     {
         gameController.SetDefaultEnvironment();
-        displayController.populationText.text = "Population : " + gameController.countryControllers[0].stateControllers[0].GetParameter("Population");
-        displayController.activeCasesText.text = "Active Cases: " + gameController.countryControllers[0].stateControllers[0].GetParameter("ActiveCases");
+        displayController.populationText.text = "Population : " + gameController.countryControllers[0].GetRegion(CountryController.Name.West).GetParameter("Population");
+        displayController.activeCasesText.text = "Active Cases: " + gameController.countryControllers[0].GetRegion(CountryController.Name.West).GetParameter("ActiveCases");
         displayController.currentDayText.text = "Day: " + Time.GetInstance().GetDay();
         
     }
@@ -53,7 +53,7 @@ public class Main : MonoBehaviour
     public void NextDay()
     {
         gameController.NextDay();
-        displayController.activeCasesText.text = "Active Cases: " + gameController.countryControllers[0].stateControllers[0].GetParameter("ActiveCases");
+        displayController.activeCasesText.text = "Active Cases: " + gameController.countryControllers[0].GetRegion(CountryController.Name.West).GetParameter("ActiveCases");
         displayController.currentDayText.text = "Day: " + Time.GetInstance().GetDay();
 
         if (Time.GetInstance().GetDay() == 3)
@@ -77,18 +77,18 @@ public class Main : MonoBehaviour
 
     }
 
-    public void OnClickState(string stateName)
+    public void OnClickRegion(string regionName)
     {
-        StateController stateController = GetStateController(stateName);
+        RegionController regionController = GetRegionController(regionName);
     }
 
 
-    public StateController GetStateController(string stateName)
+    public RegionController GetRegionController(string regionName)
     {
-        CountryController.Name currentState;
-        Enum.TryParse<CountryController.Name>(stateName, out currentState);
-        StateController stateController = countryControllers[0].GetState(currentState);
-        Debug.Log(stateController.GetPopulation());
-        return stateController;
+        CountryController.Name currentRegion;
+        Enum.TryParse<CountryController.Name>(regionName, out currentRegion);
+        RegionController regionController = countryControllers[0].GetRegion(currentRegion);
+        Debug.Log(regionController.GetPopulation());
+        return regionController;
     }
 }
