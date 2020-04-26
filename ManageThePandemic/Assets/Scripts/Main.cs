@@ -89,5 +89,9 @@ public class Main : MonoBehaviour
         RegionController regionController = countryController.GetRegionController(regionName);
         panel.SetActive(true);
     }
-    
+
+    public void OnClickCloseRegionPanel()
+    {
+        panel.SetActive(false);
+    }
 }
