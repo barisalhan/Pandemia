@@ -31,9 +31,9 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
 
     private int quarantinedActiveCases;
 
-    private EconomyModel economyModel;
+    public int happiness;
 
-    private SocietyModel societyModel;
+    public SocietyModel societyModel;
 
 
     // TODO: extends this for country models.
@@ -44,6 +44,8 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
         { 
             region.SetDefaultEnvironment();
         }
+
+        happiness = societyModel.CalculateHappiness();
     }
 
     public void CreateIndexTable()
@@ -78,6 +80,7 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
     public void UpdateFields()
     {
         //TODO: implement here.
+        happiness = societyModel.CalculateHappiness();
     }
 
     public int GetPopulation()
