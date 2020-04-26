@@ -12,6 +12,8 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
     [SerializeField]
     private int population;
 
+    private int normalizedPopulation;
+
     // If true, there is at least one case in the state.
     private bool isInfected;
 
@@ -39,6 +41,7 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
     public void SetDefaultEnvironment()
     {
         dailyNewCaseNumber = 1;
+        normalizedPopulation = population / 5;
 
         virusModel.SetDefaultModel();
         healthSystemModel.SetDefaultModel();
@@ -53,7 +56,6 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
     // TODO: Extend this method for other models.
     public void NextDay()
     {
-
         virusModel.UpdateParameters(population, vulnerablePopulation);
 
         healthSystemModel.UpdateParameters();
@@ -62,8 +64,9 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
 
         healthSystemModel.UpdateAggregateDictionaries();
 
-        dailyNewCaseNumber = virusModel.CalculateDailyNewCase((population / 100) * 20,
+        dailyNewCaseNumber = virusModel.CalculateDailyNewCase(normalizedPopulation,
                                                               activeCases[Time.GetInstance().GetDay() - 1]);
+        Debug.Log("Daily New cases: " + dailyNewCaseNumber);
 
         UpdateFields();
     }
@@ -80,9 +83,12 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
 
     }
 
+    //TODO: Use effective population. Consider death and recoveries. 
     void UpdateVulnerablePopulation()
     {
-        vulnerablePopulation = population - activeCases[Time.GetInstance().GetDay()];
+        int today = Time.GetInstance().GetDay();
+        vulnerablePopulation = normalizedPopulation - activeCases[today] - healthSystemModel.aggregateDeathCases[today]
+                               - healthSystemModel.aggregateRecoveredCases[today];
     }
 
 

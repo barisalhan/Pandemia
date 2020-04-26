@@ -71,7 +71,7 @@ public class HealthSystemModel : MTPScriptableObject
 
     // [Dependent]
     // Aggregate Death Cases as a function of day, kept as a dictionary.
-    private Dictionary<int, int> aggregateDeathCases = new Dictionary<int, int>();
+    public Dictionary<int, int> aggregateDeathCases = new Dictionary<int, int>();
 
     // [Dependent]
     // Aggregate Recovered Cases as a function of day, kept as a dictionary.
@@ -96,6 +96,10 @@ public class HealthSystemModel : MTPScriptableObject
     // [Dependent]
     // Daily ICU Cases as a function of day, kept as a dictionary.
     private Dictionary<int, int> dailyICUCases = new Dictionary<int, int>();
+
+    // [Dependent]
+    // Daily ICU Cases as a function of day, kept as a dictionary.
+    private Dictionary<int, int> dailyNetICUCases = new Dictionary<int, int>();
 
 
     // [Independent]
@@ -132,6 +136,7 @@ public class HealthSystemModel : MTPScriptableObject
     public void SetDefaultModel()
     {
         dailyICUCases.Add(0, 0);
+        dailyNetICUCases.Add(0, 0);
         dailyACUCases.Add(0, 0);
         dailyDeathCases.Add(0, 0);
         dailyRecoveredCases.Add(0, 0);
@@ -252,32 +257,38 @@ public class HealthSystemModel : MTPScriptableObject
     public void UpdateDailyDictionaries(int dailyNewActiveCases)
     {
         int today = Time.GetInstance().GetDay();
+        // If nothing happened that day, it ensures keeping 0 at that index rather than None.
+        AddToDictionary(today, 0, dailyICUCases, 0);
+        AddToDictionary(today, 0, dailyNetICUCases, 0);
+        AddToDictionary(today, 0, dailyACUCases, 0);
+        AddToDictionary(today, 0, dailyRecoveredCases, 0);
+        AddToDictionary(today, 0, dailyDeathCases, 0);
 
         // Passes projected dailyNewICUCases to the corresponding date. 
         AddToDictionary(today, delayACU, dailyICUCases, dailyNewICUCases);
 
 
-        // Adds today's dailyNewActiveCases to aggregate dictionary.
+        // Adds today's dailyNewActiveCases to daily dictionary.
         AddToDictionary(today, 0, dailyACUCases, dailyNewActiveCases);
         // Substracts today's new cases from aggregateActiveCases (delayACU day later).
         // Because they will either ICU or recover.
         AddToDictionary(today, delayACU, dailyACUCases, -dailyNewActiveCases);
 
 
-        // Adds today's dailyNewICUCases to aggregate dictionary.
-        AddToDictionary(today, delayACU, dailyICUCases, dailyNewICUCases);
-        // Substracts today's new cases from aggregateICUCases (delayICU day later).
+        // Adds today's dailyNewICUCases to daily dictionary.
+        AddToDictionary(today, delayACU, dailyNetICUCases, dailyNewICUCases);
+        // Substracts today's new cases from  (delayICU day later).
         // Because they will either die or recover.
-        AddToDictionary(today, delayICU, dailyICUCases, -dailyICUCases[today]);
+        AddToDictionary(today, delayICU, dailyNetICUCases, -dailyICUCases[today]);
 
 
-        // Adds today's dailyNewRecoveredsFromACU to aggregate dictionary.
+        // Adds today's dailyNewRecoveredsFromACU to daily dictionary.
         AddToDictionary(today, delayACU, dailyRecoveredCases, dailyNewRecoveredsFromACU);
         // Adds today's dailyNewRecoveredsFromICU to aggregate dictionary.
         AddToDictionary(today, delayICU, dailyRecoveredCases, dailyNewRecoveredsFromICU);
 
 
-        // Adds today's dailyNewDeaths(projected to delayICU days later) to aggregate dictionary.
+        // Adds today's dailyNewDeaths(projected to delayICU days later) to daily dictionary.
         AddToDictionary(today, delayICU, dailyDeathCases, dailyNewDeaths);
     }
 

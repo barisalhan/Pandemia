@@ -61,8 +61,7 @@ public class Main : MonoBehaviour
         int today = Time.GetInstance().GetDay();
 
         displayController.recoveredText.text = "Recovered Cases: " + gameController.countryControllers[0]
-            .GetRegion(CountryController.Name.West).healthSystemModel
-            .aggregateRecoveredCases[today];
+            .GetRegion(CountryController.Name.West).healthSystemModel.aggregateRecoveredCases[today-1];
 
         if (Time.GetInstance().GetDay() == 3)
         { 

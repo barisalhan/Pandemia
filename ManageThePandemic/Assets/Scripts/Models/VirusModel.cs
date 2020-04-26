@@ -84,7 +84,7 @@ public class VirusModel : MTPScriptableObject
     {
         if (population != 0)
         {
-            vulnerabilityRatio = (double)vulnerablePopulation / (double)population;
+            vulnerabilityRatio = (double)vulnerablePopulation / ((double)population/5);
         }
         else
         {
@@ -100,8 +100,8 @@ public class VirusModel : MTPScriptableObject
      */
     public void UpdateGrowthRateParameter()
     {
-        growthRateParameter = 0.16;
-        //(averageNumberOfContactedPeople * vulnerabilityRatio) * probabilityOfTransmittingInfection;
+        //growthRateParameter = 0.16;
+        growthRateParameter = (averageNumberOfContactedPeople * vulnerabilityRatio) * probabilityOfTransmittingInfection;
     }
 
 

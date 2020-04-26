@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db2e85e1a533e4d419edc03fe4dfc609, type: 3}
   m_Name: VirusModelWest
   m_EditorClassIdentifier: 
-  averageNumberOfContactedPeople: 0
-  vulnerabilityRatio: 0.9999999767441861
-  probabilityOfTransmittingInfection: 0
-  growthRateParameter: 0.16
+  averageNumberOfContactedPeople: 1
+  vulnerabilityRatio: 0.2026879069767442
+  probabilityOfTransmittingInfection: 0.16
+  growthRateParameter: 0.03243006511627907
