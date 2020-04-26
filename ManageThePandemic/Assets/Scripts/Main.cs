@@ -49,6 +49,9 @@ public class Main : MonoBehaviour
     /*
      * The data is displayed on the screen in the end of the day. Active case number is the number reached by the end of the day.
      * Growth rate parameter and vulnerability ratio are the values which was valid during that day.
+     * e.g. For day 4, the active case number gives the num of people who woke up as corona infected. Meanwhile, parameters kept
+     * are the ones calculated according to previous day's active case numbers and other factors. Hence, they need to be 
+     * updated before calculating new active case number.
      */
     public void NextDay()
     {

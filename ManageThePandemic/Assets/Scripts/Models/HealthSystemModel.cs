@@ -63,6 +63,33 @@ public class HealthSystemModel : MTPScriptableObject
     // By using dailyNewACUCases, this number is projected to DelayACU days later.
     private int dailyNewRecoveredsFromACU;
 
+    // [Dependent]
+    // Aggregate Active Cases as a function of day, kept as a dictionary.
+    private Dictionary<int, int> aggregateACUCases = new Dictionary<int, int>();
+
+    // [Dependent]
+    // Aggregate Death Cases as a function of day, kept as a dictionary.
+    private Dictionary<int, int> aggregateDeathCases = new Dictionary<int, int>();
+
+    // [Dependent]
+    // Aggregate Recovered Cases as a function of day, kept as a dictionary.
+    private Dictionary<int, int> aggregateRecoveredCases = new Dictionary<int, int>();
+
+    // [Dependent]
+    // Number of current ICU cases as a function of days. Given as a dictionary. 
+    private Dictionary<int, int> aggregateICUCases = new Dictionary<int, int>();
+
+    // [Dependent]
+    // Daily ICU Cases as a function of day, kept as a dictionary.
+    private Dictionary<int, int> dailyACUCases = new Dictionary<int, int>();
+
+    // [Dependent]
+    // Daily ICU Cases as a function of day, kept as a dictionary.
+    private Dictionary<int, int> dailyDeathCases = new Dictionary<int, int>();
+
+    // [Dependent]
+    // Daily RecoveredCases as a function of day, kept as a dictionary.
+    private Dictionary<int, int> dailyRecoveredCases = new Dictionary<int, int>();
 
     // [Dependent]
     // Daily ICU Cases as a function of day, kept as a dictionary.
@@ -100,56 +127,51 @@ public class HealthSystemModel : MTPScriptableObject
      */
     public void SetDefaultModel()
     {
-       dailyICUCases.Add(0, 0);
+        dailyICUCases.Add(0, 0);
+        dailyACUCases.Add(0, 0);
+        dailyDeathCases.Add(0, 0);
+        dailyRecoveredCases.Add(0, 0);
+    
+        aggregateDeathCases.Add(0, 0);
+        aggregateACUCases.Add(0, 0);
+        aggregateICUCases.Add(0, 0);
+        aggregateRecoveredCases.Add(0, 0);
+    }
+
+    public int GetNewRecoveredCases(int day)
+    {
+        return dailyRecoveredCases[day];
+    }
+
+    public int GetNewDeathCases(int day)
+    {
+        return dailyDeathCases[day];
     }
 
     /*
      * Updates dependent model parameters.
-     */ 
-     public void UpdateParameters(Dictionary<int, int> aggregateActiveCases, Dictionary<int, int> aggregateICUCases)
+     */
+    public void UpdateParameters()
     {
-        UpdateRecoveryRatioUnderACU(aggregateActiveCases);
-        UpdateRecoveryRatioUnderICU(aggregateICUCases);
+        UpdateRecoveryRatioUnderACU();
+        UpdateRecoveryRatioUnderICU();
     }
 
     /*
-     * Calculate new deaths, recoveries, ICU cases and updates related fields(dictionaries).
+     * Calculate new deaths, recoveries, ICU cases and updates daily dictionaries.
      * TODO: Consider splitting this function into two as calculation and update fields.
      */
-    public void CalculateNewDeathsRecoveriesAndUpdateFields(int dailyNewActiveCases,
-        Dictionary<int, int> aggregateActiveCases,
-        Dictionary<int, int> aggregateICUCases,
-        Dictionary<int, int> aggregateRecoveredCases,
-        Dictionary<int, int> aggregateDeaths)
+    public void CalculateAndUpdateDailyDictionaries(int dailyNewActiveCases)
     {
         CalculateDailyNewICUCases(dailyNewActiveCases);
         CalculateDailyNewDeaths();
         CalculateDailyNewRecoveredsFromACU(dailyNewActiveCases);
         CalculateDailyNewRecoveredsFromICU();
 
-        UpdateCaseAndDeathLists(dailyNewActiveCases,
-        aggregateActiveCases,
-        aggregateICUCases,
-        aggregateRecoveredCases,
-        aggregateDeaths);
+        UpdateDailyDictionaries(dailyNewActiveCases);
     }
 
-
-
-
-
-
-
-
-
-
-
-    /*
-     *
-     * 
-     */ 
-
-    public void UpdateRecoveryRatioUnderICU(Dictionary<int, int> aggregateICUCases)
+    public void UpdateRecoveryRatioUnderICU()
     {
         int today = Time.GetInstance().GetDay();
 
@@ -158,11 +180,11 @@ public class HealthSystemModel : MTPScriptableObject
         recoveryRatioUnderICU = (ratioHasAccessToICU) * (medicineEffectICU);
     }
 
-    public void UpdateRecoveryRatioUnderACU(Dictionary<int, int> aggregateActiveCases)
+    public void UpdateRecoveryRatioUnderACU()
     {
         int today = Time.GetInstance().GetDay();
 
-        double ratioHasAccessToACU = Math.Min(activeCaseUnitCapacity / (double)aggregateActiveCases[today], 1.0);
+        double ratioHasAccessToACU = Math.Min(activeCaseUnitCapacity / (double)aggregateACUCases[today], 1.0);
 
         recoveryRatioUnderACU = (ratioHasAccessToACU) * (medicineEffectACU);
     }
@@ -172,17 +194,18 @@ public class HealthSystemModel : MTPScriptableObject
     {
         dailyNewICUCases = (int)((1 - recoveryRatioUnderACU) * (dailyNewActiveCases));
     }
-    // This is projected to DelayACU days later.  
-    public void CalculateDailyNewDeaths()
-    {
-        int today = Time.GetInstance().GetDay();
-        dailyNewDeaths = (int)((1 - recoveryRatioUnderICU) * dailyICUCases[today - 1]);
-    }
 
     // This is projected to DelayACU days later.  
     public void CalculateDailyNewRecoveredsFromACU(int dailyNewActiveCases)
     {
         dailyNewRecoveredsFromACU = (int)(recoveryRatioUnderACU * dailyNewActiveCases);
+    }
+
+    // This is projected to DelayACU days later.  
+    public void CalculateDailyNewDeaths()
+    {
+        int today = Time.GetInstance().GetDay();
+        dailyNewDeaths = (int)((1 - recoveryRatioUnderICU) * dailyICUCases[today - 1]);
     }
 
     // This is projected to DelayICU days later.  
@@ -207,11 +230,7 @@ public class HealthSystemModel : MTPScriptableObject
         }
     }
 
-    public void UpdateCaseAndDeathLists(int dailyNewActiveCases, 
-        Dictionary<int,int> aggregateActiveCases,
-        Dictionary<int, int> aggregateICUCases,
-        Dictionary<int, int> aggregateRecoveredCases,
-        Dictionary<int, int> aggregateDeaths)
+    public void UpdateDailyDictionaries(int dailyNewActiveCases)
     {
         int today = Time.GetInstance().GetDay();
 
@@ -219,37 +238,51 @@ public class HealthSystemModel : MTPScriptableObject
         AddToDictionary(today, delayACU, dailyICUCases, dailyNewICUCases); 
 
 
-        // Passes yesterday's aggregate value to today.
-        AddToDictionary(today, 0, aggregateActiveCases, aggregateActiveCases[today - 1]);
         // Adds today's dailyNewActiveCases to aggregate dictionary.
-        AddToDictionary(today, 0, aggregateActiveCases, dailyNewActiveCases);
+        AddToDictionary(today, 0, dailyACUCases, dailyNewActiveCases);
         // Substracts today's new cases from aggregateActiveCases (delayACU day later).
         // Because they will either ICU or recover.
-        AddToDictionary(today, delayACU, aggregateActiveCases, -dailyNewActiveCases);
+        AddToDictionary(today, delayACU, dailyACUCases, -dailyNewActiveCases);
 
 
-        // Passes yesterday's aggregate value to today.
-        AddToDictionary(today, 0, aggregateICUCases, aggregateICUCases[today - 1]);
         // Adds today's dailyNewICUCases to aggregate dictionary.
-        AddToDictionary(today, delayACU, aggregateICUCases, dailyNewICUCases);
+        AddToDictionary(today, delayACU, dailyICUCases, dailyNewICUCases);
         // Substracts today's new cases from aggregateICUCases (delayICU day later).
         // Because they will either die or recover.
-        AddToDictionary(today, delayICU, aggregateICUCases, -dailyICUCases[today]);
+        AddToDictionary(today, delayICU, dailyICUCases, -dailyICUCases[today]);
 
 
-        // Passes yesterday's aggregate value to today.
-        AddToDictionary(today, 0, aggregateRecoveredCases, aggregateRecoveredCases[today - 1]);
         // Adds today's dailyNewRecoveredsFromACU to aggregate dictionary.
-        AddToDictionary(today, delayACU, aggregateRecoveredCases, dailyNewRecoveredsFromACU);
+        AddToDictionary(today, delayACU, dailyRecoveredCases, dailyNewRecoveredsFromACU);
         // Adds today's dailyNewRecoveredsFromICU to aggregate dictionary.
-        AddToDictionary(today, delayICU, aggregateRecoveredCases, dailyNewRecoveredsFromICU);
+        AddToDictionary(today, delayICU, dailyRecoveredCases, dailyNewRecoveredsFromICU);
 
 
-        // Passes yesterday's aggregate value to today.
-        AddToDictionary(today, 0, aggregateDeaths, aggregateDeaths[today - 1]);
         // Adds today's dailyNewDeaths(projected to delayICU days later) to aggregate dictionary.
-        AddToDictionary(today, delayICU, aggregateDeaths, dailyNewDeaths);      
+        AddToDictionary(today, delayICU, dailyDeathCases, dailyNewDeaths);      
+    }
+
+    /*
+     * Takes the daily change info from daily dictionaries and applies to aggregate ones.
+     */
+    public void UpdateAggregateDictionaries()
+    {
+        int today = Time.GetInstance().GetDay();
+
+        AddToDictionary(today, 0, aggregateICUCases, dailyICUCases[today]);
+        AddToDictionary(today, 0, aggregateICUCases, aggregateICUCases[today - 1]);
+
+        AddToDictionary(today, 0, aggregateACUCases, dailyACUCases[today]);
+        AddToDictionary(today, 0, aggregateACUCases, aggregateACUCases[today - 1]);
+
+        AddToDictionary(today, 0, aggregateRecoveredCases, dailyRecoveredCases[today]);
+        AddToDictionary(today, 0, aggregateRecoveredCases, aggregateRecoveredCases[today - 1]);
+
+        AddToDictionary(today, 0, aggregateDeathCases, dailyDeathCases[today]);
+        AddToDictionary(today, 0, aggregateDeathCases, aggregateDeathCases[today - 1]);
+
     }
 
 }
 
+    
