@@ -95,5 +95,14 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
         int index = indexTable[regionName];
         return regionControllers[index];
     }
+
+    public RegionController GetRegionController(string regionName)
+    {
+        CountryController.Name currentRegion;
+        Enum.TryParse<CountryController.Name>(regionName, out currentRegion);
+        RegionController regionController = GetRegion(currentRegion);
+        Debug.Log(regionController.GetPopulation());
+        return regionController;
+    }
 }
 
