@@ -4,7 +4,7 @@ using System.Data;
 using TMPro;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ManageThePandemic/Region")]
+[CreateAssetMenu(menuName = "ManageThePandemic/State")]
 public class RegionController : MTPScriptableObject, ITimeDrivable
 {
     public string name;
@@ -22,10 +22,6 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
     // If true, state is under quarantine.
     private bool isQuarantined;
 
-    // TODO: think about converting this to daily number.
-    // Number of total people who died because of infection up to that day.
-    private Dictionary<int, int> aggreagateDeathCases = new Dictionary<int, int>();
-
     // [Day, Aggregate active case number]
     public Dictionary<int, int> activeCases = new Dictionary<int, int>();
 
@@ -42,7 +38,11 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
     // TODO: extend here for all models.
     public void SetDefaultEnvironment()
     {
+        dailyNewCaseNumber = 1;
+
         virusModel.SetDefaultModel();
+        healthSystemModel.SetDefaultModel();
+        healthSystemModel.UpdateParameters();
 
         activeCases.Add(0, 1);
         vulnerablePopulation = population - 1;
@@ -53,9 +53,16 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
     // TODO: Extend this method for other models.
     public void NextDay()
     {
-        
+
         virusModel.UpdateParameters(population, vulnerablePopulation);
-        dailyNewCaseNumber = virusModel.CalculateDailyNewCase((population/100)*20,
+
+        healthSystemModel.UpdateParameters();
+
+        healthSystemModel.CalculateAndUpdateDailyDictionaries(dailyNewCaseNumber);
+
+        healthSystemModel.UpdateAggregateDictionaries();
+
+        dailyNewCaseNumber = virusModel.CalculateDailyNewCase((population / 100) * 20,
                                                               activeCases[Time.GetInstance().GetDay() - 1]);
 
         UpdateFields();
@@ -63,7 +70,7 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
 
 
     public void UpdateFields()
-    { 
+    {
         CalculateActiveCaseNumber();
         UpdateVulnerablePopulation();
     }
@@ -86,8 +93,8 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
     public void CalculateActiveCaseNumber()
     {
         int today = Time.GetInstance().GetDay();
-        //TODO: add recovered and death people
         activeCases[today] = activeCases[today - 1] + dailyNewCaseNumber;
+        activeCases[today] -= (healthSystemModel.GetNewRecoveredCases(today) + healthSystemModel.GetNewDeathCases(today));
     }
 
 
@@ -96,7 +103,6 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
     {
         return activeCases[Time.GetInstance().GetDay() - 1];
     }
-
 
     /* Returns the population number of yesterday. */
     public int GetPopulation()

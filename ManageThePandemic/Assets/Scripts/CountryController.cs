@@ -96,6 +96,7 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
         return regionControllers[index];
     }
 
+    //TODO: remove
     public RegionController GetRegionController(string regionName)
     {
         CountryController.Name currentRegion;

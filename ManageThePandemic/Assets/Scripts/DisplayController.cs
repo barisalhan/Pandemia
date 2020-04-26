@@ -7,7 +7,8 @@ public class DisplayController : MonoBehaviour
 {
     public Text populationText, 
                 activeCasesText,
-                currentDayText;
+                currentDayText,
+                recoveredText;
 
     // Start is called before the first frame update
     void Start()

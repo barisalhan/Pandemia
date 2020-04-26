@@ -15,5 +15,5 @@ MonoBehaviour:
   name: West
   population: 43000000
   outbreakProbability: 0
-  healthSystemModel: {fileID: 0}
+  healthSystemModel: {fileID: 11400000, guid: ebe8d7aa1b4a7104899e59823cb2fc65, type: 2}
   virusModel: {fileID: 11400000, guid: 220e052bc382e1b449d7606850177502, type: 2}

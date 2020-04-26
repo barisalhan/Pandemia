@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: VirusModelWest
   m_EditorClassIdentifier: 
   averageNumberOfContactedPeople: 0
-  vulnerabilityRatio: 0
+  vulnerabilityRatio: 0.9999999767441861
   probabilityOfTransmittingInfection: 0
-  growthRateParameter: 0
+  growthRateParameter: 0.16
