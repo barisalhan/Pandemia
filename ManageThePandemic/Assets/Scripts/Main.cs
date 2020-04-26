@@ -27,7 +27,9 @@ public class Main : MonoBehaviour
     private Actions actions;    
 
     [SerializeField]
-    private List<CountryController> countryControllers;
+    private CountryController countryController;
+
+    public GameObject panel;
 
     void Awake()
     {
@@ -76,19 +78,11 @@ public class Main : MonoBehaviour
         gameController.AddActionToCalendar(action);
 
     }
-
+    
     public void OnClickRegion(string regionName)
     {
-        RegionController regionController = GetRegionController(regionName);
+        RegionController regionController = countryController.GetRegionController(regionName);
+        panel.SetActive(true);
     }
-
-
-    public RegionController GetRegionController(string regionName)
-    {
-        CountryController.Name currentRegion;
-        Enum.TryParse<CountryController.Name>(regionName, out currentRegion);
-        RegionController regionController = countryControllers[0].GetRegion(currentRegion);
-        Debug.Log(regionController.GetPopulation());
-        return regionController;
-    }
+    
 }
