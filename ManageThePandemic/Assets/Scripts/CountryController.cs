@@ -31,14 +31,18 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
 
     private int quarantinedActiveCases;
 
+
     public int happiness;
+
+    [SerializeField]
+    private int totalBudget;
 
     public SocietyModel societyModel;
 
 
     // TODO: extends this for country models.
     public void SetDefaultEnvironment()
-    {
+    { 
         CreateIndexTable();
         foreach (RegionController region in regionControllers)
         { 
@@ -71,6 +75,7 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
         foreach (RegionController region in regionControllers)
         {
             region.NextDay();
+            totalBudget += region.dailyTax;
         }
 
         UpdateFields();

@@ -14,6 +14,9 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
 
     private int normalizedPopulation;
 
+    [SerializeField]
+    public int dailyTax;
+
     // If true, there is at least one case in the state.
     private bool isInfected;
 
@@ -35,6 +38,8 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
     public HealthSystemModel healthSystemModel;
 
     public VirusModel virusModel;
+
+    public EconomyModel economyModel;
 
 
     // TODO: extend here for all models.
@@ -67,6 +72,8 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
         dailyNewCaseNumber = virusModel.CalculateDailyNewCase(normalizedPopulation,
                                                               activeCases[Time.GetInstance().GetDay() - 1]);
         Debug.Log("Daily New cases: " + dailyNewCaseNumber);
+
+        dailyTax = economyModel.CalculateTax(population, isQuarantined);
 
         UpdateFields();
     }
