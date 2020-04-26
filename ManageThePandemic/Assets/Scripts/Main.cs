@@ -58,6 +58,12 @@ public class Main : MonoBehaviour
         displayController.activeCasesText.text = "Active Cases: " + gameController.countryControllers[0].GetRegion(CountryController.Name.West).GetParameter("ActiveCases");
         displayController.currentDayText.text = "Day: " + Time.GetInstance().GetDay();
 
+        int today = Time.GetInstance().GetDay();
+
+        displayController.recoveredText.text = "Recovered Cases: " + gameController.countryControllers[0]
+            .GetRegion(CountryController.Name.West).healthSystemModel
+            .aggregateRecoveredCases[today];
+
         if (Time.GetInstance().GetDay() == 3)
         { 
             GameObject actionAsker = prefabs.GetPrefab(Prefabs.Name.ActionAsker);
