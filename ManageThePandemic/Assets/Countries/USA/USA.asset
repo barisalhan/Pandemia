@@ -15,3 +15,5 @@ MonoBehaviour:
   regionControllers:
   - {fileID: 11400000, guid: aec3cfa7482bcc44bb5ac6542bf75b0c, type: 2}
   population: 350
+  happiness: 100
+  societyModel: {fileID: 11400000, guid: 593a5d54131f12044b979021f985e17f, type: 2}

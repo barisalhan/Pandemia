@@ -2,17 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SocietyModel : MonoBehaviour
+[CreateAssetMenu(menuName = "ManageThePandemic/SocietyModel")]
+public class SocietyModel : MTPScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    // All parameters are in scale of 0-25, 25 is the best.
 
-    // Update is called once per frame
-    void Update()
+    public int economicWellBeing = 25;
+
+    // Measure of people's trust on government's politics
+    public int faithInGovernment = 25;
+
+    public int virusSituation = 25;
+
+    // Measure of people's social and recreational activities
+    public int personalWellBeing = 25;
+
+    public int CalculateHappiness()
     {
-        
+        int happiness = economicWellBeing + faithInGovernment + virusSituation + personalWellBeing;
+        return happiness;
     }
 }
