@@ -77,7 +77,7 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
             region.NextDay();
             totalBudget += region.dailyTax;
         }
-
+        Debug.Log("total budget: "+totalBudget);
         UpdateFields();
     }
 
