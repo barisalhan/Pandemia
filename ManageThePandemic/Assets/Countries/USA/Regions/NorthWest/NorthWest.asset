@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: NorthWest
   m_EditorClassIdentifier: 
   name: NorthWest
-  population: 0
+  population: 15000000
+  dailyTax: 19
   outbreakProbability: 0
-  healthSystemModel: {fileID: 0}
+  healthSystemModel: {fileID: 11400000, guid: 98d114f345995ed42b2ac008d7b4c26e, type: 2}
   virusModel: {fileID: 11400000, guid: 48f1158c231ea04408894772d0b44ce5, type: 2}
+  economyModel: {fileID: 11400000, guid: 81f66db708f280340a3cb0010f1b0c68, type: 2}

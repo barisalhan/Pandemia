@@ -25,7 +25,7 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
     public double outbreakProbability;
 
     // If true, state is under quarantine.
-    private bool isQuarantined;
+    public bool isQuarantined;
 
     // [Day, Aggregate active case number]
     public Dictionary<int, int> activeCases = new Dictionary<int, int>();

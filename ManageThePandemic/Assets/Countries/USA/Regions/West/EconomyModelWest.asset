@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b7227a4383bea741bc4437d56193e86, type: 3}
   m_Name: EconomyModelWest
   m_EditorClassIdentifier: 
-  economicDevelopmentParameter: 0
-  quarantineEffect: 0
+  economicDevelopmentParameter: 1.5
+  quarantineEffect: 0.2

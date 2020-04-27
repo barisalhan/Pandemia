@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: West
   m_EditorClassIdentifier: 
   name: West
-  population: 43000000
-  dailyTax: 0
+  population: 42500000
+  dailyTax: 63
   outbreakProbability: 0
   healthSystemModel: {fileID: 11400000, guid: ebe8d7aa1b4a7104899e59823cb2fc65, type: 2}
   virusModel: {fileID: 11400000, guid: 220e052bc382e1b449d7606850177502, type: 2}

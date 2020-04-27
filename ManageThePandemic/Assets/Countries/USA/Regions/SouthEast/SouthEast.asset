@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: SouthEast
   m_EditorClassIdentifier: 
   name: SouthEast
-  population: 0
+  population: 70500000
+  dailyTax: 70
   outbreakProbability: 0
-  healthSystemModel: {fileID: 0}
+  healthSystemModel: {fileID: 11400000, guid: 74836df05c3ee0540a2ae4a0f7389a2b, type: 2}
   virusModel: {fileID: 11400000, guid: 0f1d3c64da9e3ac4a827cc77746cea8d, type: 2}
+  economyModel: {fileID: 11400000, guid: c7b16f8db74a3294ebea75a159ea7214, type: 2}
