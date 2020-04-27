@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 
 [CreateAssetMenu(menuName = "ManageThePandemic/Country")]
@@ -9,6 +10,7 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
     public List<RegionController> regionControllers = new List<RegionController>();
 
     public Dictionary<Name, int> indexTable = new Dictionary<Name, int>();
+
 
     public enum Name
     {
@@ -46,6 +48,10 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
         unquarantinedActiveCases = 0;
         activeCases = 0;
 
+        //TODO: Find an error prone method.
+        Random rnd = new Random();
+        int regionIndex = rnd.Next(0, 3);
+
         CreateIndexTable();
         foreach (RegionController region in regionControllers)
         { 
@@ -55,7 +61,8 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
             activeCases += region.GetActiveCases();
         }
 
-        happiness = societyModel.CalculateHappiness();
+        regionControllers[regionIndex].activeCases[0] += 1;
+        
     }
 
     public void CreateIndexTable()
@@ -76,6 +83,8 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
     }
 
 
+
+
     public void NextDay()
     {
         unquarantinedActiveCases = 0;
@@ -89,6 +98,14 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
             if (!region.isQuarantined)
             {
                 unquarantinedActiveCases += region.GetActiveCases();
+            }
+        }
+
+        foreach (RegionController region in regionControllers)
+        {
+            if (!region.isInfected)
+            {
+                region.getInfected(unquarantinedActiveCases);
             }
         }
         UpdateFields();

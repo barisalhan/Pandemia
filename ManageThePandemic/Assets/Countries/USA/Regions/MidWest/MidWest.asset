@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: MidWest
   population: 72800000
+  travelFlowCoeff: 0.035
   dailyTax: 94
-  outbreakProbability: 0
+  isInfected: 1
+  isQuarantined: 0
   healthSystemModel: {fileID: 11400000, guid: c08fc3540227a91449af61e5abe7151c, type: 2}
   virusModel: {fileID: 11400000, guid: 65f4c50a5bdca5a4183dd1978a57110a, type: 2}
   economyModel: {fileID: 11400000, guid: 3a7a2efb1f1e1df448d82da2326a652d, type: 2}
