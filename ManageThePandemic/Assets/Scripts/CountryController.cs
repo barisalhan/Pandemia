@@ -20,7 +20,6 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
         West
     }
 
-    [SerializeField]
     public int population;
 
     private int vulnerablePopulation;
@@ -29,7 +28,7 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
 
     private int activeCases;
 
-    private int quarantinedActiveCases;
+    private int unquarantinedActiveCases;
 
 
     public int happiness;
@@ -42,11 +41,18 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
 
     // TODO: extends this for country models.
     public void SetDefaultEnvironment()
-    { 
+    {
+        population = 0;
+        unquarantinedActiveCases = 0;
+        activeCases = 0;
+
         CreateIndexTable();
         foreach (RegionController region in regionControllers)
         { 
             region.SetDefaultEnvironment();
+            population += region.GetPopulation();
+            unquarantinedActiveCases += region.GetActiveCases();
+            activeCases += region.GetActiveCases();
         }
 
         happiness = societyModel.CalculateHappiness();
@@ -72,12 +78,19 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
 
     public void NextDay()
     {
+        unquarantinedActiveCases = 0;
+        activeCases = 0;
         foreach (RegionController region in regionControllers)
         {
             region.NextDay();
             totalBudget += region.dailyTax;
+            activeCases += region.GetActiveCases();
+
+            if (!region.isQuarantined)
+            {
+                unquarantinedActiveCases += region.GetActiveCases();
+            }
         }
-        Debug.Log("total budget: "+totalBudget);
         UpdateFields();
     }
 
