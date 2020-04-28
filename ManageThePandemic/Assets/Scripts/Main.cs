@@ -63,6 +63,7 @@ public class Main : MonoBehaviour
         displayController.recoveredText.text = "Recovered Cases: " + gameController.countryControllers[0]
             .GetRegion(CountryController.Name.West).healthSystemModel.aggregateRecoveredCases[today-1];
 
+        /*
         if (Time.GetInstance().GetDay() == 3)
         { 
             GameObject actionAsker = prefabs.GetPrefab(Prefabs.Name.ActionAsker);
@@ -72,6 +73,7 @@ public class Main : MonoBehaviour
             ActionHolder actionHolder = actionAsker.GetComponent<ActionHolder>();
             actionHolder.action = action;
         }
+        */
     }
 
     public void OnClickYesToAction()
@@ -87,6 +89,14 @@ public class Main : MonoBehaviour
     public void OnClickRegion(string regionName)
     {
         RegionController regionController = countryController.GetRegionController(regionName);
+        Text[] texts = panel.GetComponentsInChildren<Text>();
+
+        int today = Time.GetInstance().GetDay();
+
+        texts[1].text = regionController.activeCases[today-1].ToString();
+        texts[3].text = regionController.healthSystemModel.aggregateDeathCases[today-1].ToString();
+        texts[6].text = regionController.healthSystemModel.aggregateRecoveredCases[today-1].ToString();
+
         panel.SetActive(true);
     }
 
