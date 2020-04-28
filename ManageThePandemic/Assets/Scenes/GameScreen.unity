@@ -434,6 +434,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -4.56
       objectReference: {fileID: 0}
+    - target: {fileID: 8043987908094416547, guid: 37fedb81d496fb248b61498e785280e9,
+        type: 3}
+      propertyPath: m_Name
+      value: MidWest
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37fedb81d496fb248b61498e785280e9, type: 3}
 --- !u!224 &211369520 stripped
@@ -583,7 +588,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &355563780
 RectTransform:
   m_ObjectHideFlags: 0
@@ -891,6 +896,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 1.751
+      objectReference: {fileID: 0}
+    - target: {fileID: 8043987908094416547, guid: 37fedb81d496fb248b61498e785280e9,
+        type: 3}
+      propertyPath: m_Name
+      value: NorthEast
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37fedb81d496fb248b61498e785280e9, type: 3}
@@ -1731,6 +1741,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -12.64
       objectReference: {fileID: 0}
+    - target: {fileID: 8043987908094416547, guid: 37fedb81d496fb248b61498e785280e9,
+        type: 3}
+      propertyPath: m_Name
+      value: NorthWest
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37fedb81d496fb248b61498e785280e9, type: 3}
 --- !u!224 &554462443 stripped
@@ -2031,6 +2046,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   countryController: {fileID: 11400000, guid: 86ec1bbcd6d0cbe4b90e70188712c69a, type: 2}
+  UIGameObject: {fileID: 1762848654}
   panel: {fileID: 355563779}
 --- !u!114 &587081220
 MonoBehaviour:
@@ -2268,6 +2284,12 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!212 &650759464 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1829541088540666924, guid: 37fedb81d496fb248b61498e785280e9,
+    type: 3}
+  m_PrefabInstance: {fileID: 211369519}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &701102864
 GameObject:
   m_ObjectHideFlags: 0
@@ -2693,6 +2715,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 792721208}
   m_CullTransparentMesh: 0
+--- !u!212 &812812067 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1829541088540666924, guid: 37fedb81d496fb248b61498e785280e9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1310142725}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &828116923
 GameObject:
   m_ObjectHideFlags: 0
@@ -2770,6 +2798,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 828116923}
   m_CullTransparentMesh: 0
+--- !u!212 &856477369 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1829541088540666924, guid: 37fedb81d496fb248b61498e785280e9,
+    type: 3}
+  m_PrefabInstance: {fileID: 554462442}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &865540184
 GameObject:
   m_ObjectHideFlags: 0
@@ -3155,6 +3189,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 946291351}
   m_CullTransparentMesh: 0
+--- !u!212 &960942645 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1829541088540666924, guid: 37fedb81d496fb248b61498e785280e9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1487558296}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &993782578
 GameObject:
   m_ObjectHideFlags: 0
@@ -3386,6 +3426,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1111079151}
   m_CullTransparentMesh: 0
+--- !u!212 &1135475446 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1829541088540666924, guid: 37fedb81d496fb248b61498e785280e9,
+    type: 3}
+  m_PrefabInstance: {fileID: 418755842}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1141371608
 GameObject:
   m_ObjectHideFlags: 0
@@ -4115,6 +4161,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 2.47
       objectReference: {fileID: 0}
+    - target: {fileID: 8043987908094416547, guid: 37fedb81d496fb248b61498e785280e9,
+        type: 3}
+      propertyPath: m_Name
+      value: West
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37fedb81d496fb248b61498e785280e9, type: 3}
 --- !u!224 &1310142726 stripped
@@ -4484,6 +4535,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -0.23
+      objectReference: {fileID: 0}
+    - target: {fileID: 8043987908094416547, guid: 37fedb81d496fb248b61498e785280e9,
+        type: 3}
+      propertyPath: m_Name
+      value: SouthWest
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37fedb81d496fb248b61498e785280e9, type: 3}
@@ -5232,6 +5288,70 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1721448426}
   m_CullTransparentMesh: 0
+--- !u!1 &1762848654
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1762848657}
+  - component: {fileID: 1762848656}
+  - component: {fileID: 1762848655}
+  m_Layer: 0
+  m_Name: UIGameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1762848655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762848654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d25bf6a472a22f04aacdd889a3469cd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regionSprites:
+  - {fileID: 650759464}
+  - {fileID: 1135475446}
+  - {fileID: 856477369}
+  - {fileID: 2068152119}
+  - {fileID: 960942645}
+  - {fileID: 812812067}
+--- !u!114 &1762848656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762848654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8cb10169ac38bd4e904668001d08da0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regionSprites: {fileID: 0}
+--- !u!4 &1762848657
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762848654}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.359948, y: -0.75461125, z: -3.1035156}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1794726657
 GameObject:
   m_ObjectHideFlags: 0
@@ -5597,6 +5717,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -1.43
+      objectReference: {fileID: 0}
+    - target: {fileID: 8043987908094416547, guid: 37fedb81d496fb248b61498e785280e9,
+        type: 3}
+      propertyPath: m_Name
+      value: SouthEast
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37fedb81d496fb248b61498e785280e9, type: 3}
@@ -6198,6 +6323,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2066604074}
   m_CullTransparentMesh: 0
+--- !u!212 &2068152119 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1829541088540666924, guid: 37fedb81d496fb248b61498e785280e9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1807381156}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2073810087
 GameObject:
   m_ObjectHideFlags: 0
