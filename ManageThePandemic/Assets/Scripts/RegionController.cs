@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using TMPro;
@@ -14,15 +15,15 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
 
     private int normalizedPopulation;
 
+    // When multiplied with free active cases it gives probability of outbreak
+    [SerializeField] 
+    private double travelFlowCoeff; 
+
     [SerializeField]
     public int dailyTax;
 
     // If true, there is at least one case in the state.
-    private bool isInfected;
-
-    // The probability for virus to emerge in the state, \
-    // if the state is not infected.
-    public double outbreakProbability;
+    public bool isInfected;
 
     // If true, state is under quarantine.
     public bool isQuarantined;
@@ -45,14 +46,16 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
     // TODO: extend here for all models.
     public void SetDefaultEnvironment()
     {
-        dailyNewCaseNumber = 1;
+        dailyNewCaseNumber = 0;
         normalizedPopulation = population / 5;
+        isInfected = false;
+        isQuarantined = false;
 
         virusModel.SetDefaultModel();
         healthSystemModel.SetDefaultModel();
         healthSystemModel.UpdateParameters();
 
-        activeCases.Add(0, 1);
+        activeCases.Add(0, 0);
         vulnerablePopulation = population - 1;
         virusModel.UpdateParameters(population, vulnerablePopulation);
     }
@@ -71,11 +74,11 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
 
         dailyNewCaseNumber = virusModel.CalculateDailyNewCase(normalizedPopulation,
                                                               activeCases[Time.GetInstance().GetDay() - 1]);
-        Debug.Log("Daily New cases: " + dailyNewCaseNumber);
-
         dailyTax = economyModel.CalculateTax(population, isQuarantined);
 
         UpdateFields();
+        //Debug.Log(name + " " + activeCases[Time.GetInstance().GetDay()-1]);
+        Debug.Log(name + " " + isInfected + " Total cases: " + activeCases[Time.GetInstance().GetDay()] );
     }
 
 
@@ -83,6 +86,11 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
     {
         CalculateActiveCaseNumber();
         UpdateVulnerablePopulation();
+        
+        if (activeCases[Time.GetInstance().GetDay()] > 0)
+        {
+            isInfected = true;
+        }
     }
 
     public void ExecuteEvents()
@@ -108,6 +116,26 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
         int today = Time.GetInstance().GetDay();
         activeCases[today] = activeCases[today - 1] + dailyNewCaseNumber;
         activeCases[today] -= (healthSystemModel.GetNewRecoveredCases(today) + healthSystemModel.GetNewDeathCases(today));
+    }
+
+    /*
+     * If region is not infected, this function is called for deciding outbreak in this region.
+     */
+    public void getInfected(int unquarantinedActiveCases)
+    {
+        double outbreakProbability = travelFlowCoeff * unquarantinedActiveCases;
+        int today = Time.GetInstance().GetDay();
+
+        //TODO: Create global static random number generator class like Time.
+        System.Random rnd = new System.Random();
+        bool result = rnd.NextDouble() <= outbreakProbability ? true : false;
+
+        if (result)
+        {
+            isInfected = true;
+            activeCases[today] = 1;
+        }
+        
     }
 
 

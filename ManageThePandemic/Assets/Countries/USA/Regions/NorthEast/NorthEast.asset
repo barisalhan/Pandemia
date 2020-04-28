@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: NorthEast
   population: 74100000
+  travelFlowCoeff: 0.04
   dailyTax: 111
-  outbreakProbability: 0
+  isInfected: 1
+  isQuarantined: 0
   healthSystemModel: {fileID: 11400000, guid: 83481f7790752384da3aee2bbdc42b1e, type: 2}
   virusModel: {fileID: 11400000, guid: 45cb36adf7eee3441b24ff3be61f42ab, type: 2}
   economyModel: {fileID: 11400000, guid: 2ef482a9a98efb74f9e55d689a5ee200, type: 2}
