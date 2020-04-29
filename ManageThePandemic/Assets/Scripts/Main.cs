@@ -24,19 +24,10 @@ public class Main : MonoBehaviour
     private GameController gameController;
     private DisplayController displayController;
     private Prefabs prefabs;
-    private Actions actions;    
-
-    [SerializeField]
-    private CountryController countryController;
+    private Actions actions;
 
     [SerializeField] 
-    private GameObject UIGameObject;
-
-    private UI UI;
-
-    public GameObject panel;
-
-    private SpriteRenderer currentlyOpenRegionInPanel = null;
+    public CountryController countryController;
 
     void Awake()
     {
@@ -44,7 +35,7 @@ public class Main : MonoBehaviour
         displayController = GetComponent<DisplayController>();
         prefabs = GetComponent<Prefabs>();
         actions = GetComponent<Actions>();
-        UI = UIGameObject.GetComponent<UI>();
+       //                UI = UIGameObject.GetComponent<UI>();
     }
 
     void Start()
@@ -94,31 +85,5 @@ public class Main : MonoBehaviour
 
     }
     
-    public void OnClickRegion(string regionName)
-    {
-        RegionController regionController = countryController.GetRegionController(regionName);
-
-        SpriteRenderer regionSpriteRenderer = UI.regionSprites.GetRegionSprite(regionName);
-
-        currentlyOpenRegionInPanel = regionSpriteRenderer;
-
-        regionSpriteRenderer.color = new Color32(60, 116, 116, 255);
-
-        Text[] texts = panel.GetComponentsInChildren<Text>();
-
-        int today = Time.GetInstance().GetDay();
-
-        texts[1].text = regionController.activeCases[today-1].ToString();
-        texts[3].text = regionController.healthSystemModel.aggregateDeathCases[today-1].ToString();
-        texts[6].text = regionController.healthSystemModel.aggregateRecoveredCases[today-1].ToString();
-
-        panel.SetActive(true);
-    }
-
-    public void OnClickCloseRegionPanel()
-    {
-        currentlyOpenRegionInPanel.color = new Color32(35, 59, 59, 255);
-        currentlyOpenRegionInPanel = null;
-        panel.SetActive(false);
-    }
+    
 }
