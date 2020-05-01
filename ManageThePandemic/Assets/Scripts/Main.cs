@@ -24,18 +24,16 @@ public class Main : MonoBehaviour
     private GameController gameController;
     private DisplayController displayController;
     private Prefabs prefabs;
-    private Actions actions;
 
     [SerializeField] 
     public CountryController countryController;
-
+    
     void Awake()
     {
         gameController = GetComponent<GameController>();
         displayController = GetComponent<DisplayController>();
         prefabs = GetComponent<Prefabs>();
-        actions = GetComponent<Actions>();
-       //                UI = UIGameObject.GetComponent<UI>();
+        //                UI = UIGameObject.GetComponent<UI>();
     }
 
     void Start()
@@ -75,6 +73,7 @@ public class Main : MonoBehaviour
         */
     }
 
+    /*
     public void OnClickYesToAction()
     {
         GameObject actionAsker = prefabs.GetPrefab(Prefabs.Name.ActionAsker);
@@ -83,7 +82,7 @@ public class Main : MonoBehaviour
         Action action = actionHolder.action;
         gameController.AddActionToCalendar(action);
 
-    }
+    }*/
     
     
 }

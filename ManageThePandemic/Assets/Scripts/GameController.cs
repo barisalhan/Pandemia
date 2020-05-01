@@ -59,9 +59,9 @@ public class GameController : MonoBehaviour, ITimeDrivable
     }
 
     //TODO: anlik actionlari kontrol et.
-    public void AddActionToCalendar(Action action)
+    public void AddActionToCalendar(ActionData actionData)
     {
-        foreach (MTPEvent MTPevent in action.events)
+        foreach (MTPEvent MTPevent in actionData.events)
         {
             AddEventToCalendar(MTPevent);
         }
