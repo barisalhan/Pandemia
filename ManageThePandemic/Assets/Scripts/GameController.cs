@@ -8,60 +8,72 @@ using Object = System.Object;
 
 /*
  * Manages the time of the game.
+ *
  * Handles the actions and records the required events to the calendar.
  * Executes the events.
- * Manages the country controllers.
  */
 public class GameController : MonoBehaviour, ITimeDrivable
 {
     private Dictionary<int, List<MTPEvent>> calendar = new Dictionary<int, List<MTPEvent>>();
 
-    public List<CountryController> countryControllers;
+    [SerializeField]
+    public CountryController countryController;
 
+    public ActionsController actionsController;
 
-    // TODO: extend this for other models.
-    /*
-     * Creates the time.
-     * Fills 0th day values.
-     * Sets models to default.
-     *
-     * It is called in the very beginning of the game from Main.Start().
-     *
-     * We need values of 0th day to start the  game, because in each day,
-     * we use numbers of yesterday and parameters of today. 
-     */
+    public void Awake()
+    {
+        actionsController = GetComponent<ActionsController>();
+    }
+
+    public void Start()
+    {
+        SetDefaultEnvironment();
+    }
+
     public void SetDefaultEnvironment()
     {
         // Global time of the game is created.
         Time.CreateTime();
+        
+        countryController.SetDefaultEnvironment();
 
-        foreach (CountryController country in countryControllers)
-        {
-            country.SetDefaultEnvironment();
-        }
+        SubscribeToActions();
     }
 
-
-    // TODO: Make models tunable.
-    // Update is called once per frame
     public void NextDay()
     {
-        foreach (CountryController country in countryControllers)
-        {
-            country.NextDay();
-        }
+        countryController.NextDay();
         Time.NextDay();
     }
+
+
+    private void SubscribeToActions()
+    {
+        foreach (var action in actionsController.actions)
+        {
+            action.GetComponent<SubscriberPublisher>().ButtonClicked += OnActionTaken;
+        }
+    }
+
+    //TODO: You left in here. Bundan sonra yapialcak sey, buradan gelen dataya gore
+    //budget ve calendar uzerinde islemler yaparak aksiyonu gerceklestirmek.
+    public void OnActionTaken(object source, ActionDataArgs actionDataArgs)
+    {
+        Debug.Log("Greetings from GameController.");
+    }
+
 
     public void UpdateFields()
     {
         throw new NotImplementedException();
     }
 
+ 
     //TODO: anlik actionlari kontrol et.
-    public void AddActionToCalendar(Action action)
+    public void AddActionToCalendar(ActionData actionData)
     {
-        foreach (MTPEvent MTPevent in action.events)
+        foreach (MTPEvent MTPevent in actionData.events)
         {
             AddEventToCalendar(MTPevent);
         }
@@ -84,12 +96,22 @@ public class GameController : MonoBehaviour, ITimeDrivable
     {
         throw new System.NotImplementedException();
     }
-
-    private void AddNewAction(Action action)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    
 }
 
+/*
+ * TODO: move this comment!
+ * The data is displayed on the screen in the end of the day.
+ * Active case number is the number reached by the end of the day.
+ * Growth rate parameter and vulnerability ratio are the values,
+ * which was valid during the day.
+ */
+
+/*
+ * TODO: write code-style document
+ *        [SerializeField]
+ *        [Dependent] [independent]
+ *        [HideInInspector]
+ * TODO: activate event system
+ * TODO: add probability system.
+ * TODO: add delay
+ */

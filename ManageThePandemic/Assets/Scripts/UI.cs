@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UI : MonoBehaviour
 {
     public GameObject mainGameObject;
-    private Main main;
+    private GameController gameController;
 
     [HideInInspector]
     public RegionSprites regionSprites;
@@ -17,14 +17,14 @@ public class UI : MonoBehaviour
 
     public void Awake()
     {
-        main = mainGameObject.GetComponent<Main>();
+        gameController = mainGameObject.GetComponent<GameController>();
         regionSprites = GetComponent<RegionSprites>();
     }
     
     
     public void OnClickRegion(string regionName)
     {
-        RegionController regionController = main.countryController.GetRegionController(regionName);
+        RegionController regionController = gameController.countryController.GetRegionByString(regionName);
 
         SpriteRenderer regionSpriteRenderer = regionSprites.GetRegionSprite(regionName);
 
@@ -42,9 +42,10 @@ public class UI : MonoBehaviour
 
         int today = Time.GetInstance().GetDay();
 
+        //TODO: create names!
         texts[1].text = regionController.activeCases[today - 1].ToString();
         texts[3].text = regionController.healthSystemModel.aggregateDeathCases[today - 1].ToString();
-        texts[6].text = regionController.healthSystemModel.aggregateRecoveredCases[today - 1].ToString();
+        texts[5].text = regionController.healthSystemModel.aggregateRecoveredCases[today - 1].ToString();
 
         InfoPanel.SetActive(true);
     }
