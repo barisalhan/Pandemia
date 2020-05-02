@@ -17,11 +17,11 @@ public class RegionSprites : MonoBehaviour
         NorthEast,
         NorthWest,
         SouthEast,
-        SouthWest,
+        SouthWest,  
         West
     }
 
-    public void Start()
+    public void Awake()
     {
         CreateIndexTable();
     }

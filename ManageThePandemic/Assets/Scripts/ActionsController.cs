@@ -13,20 +13,25 @@ public class ActionsController : MonoBehaviour
     [SerializeField]
     public List<GameObject> actions;
 
-    private List<ActionYesButtonHandler> actionYesButtonHandlers = new List<ActionYesButtonHandler>();
+    private GameController gameController;
+
+    private List<SubscriberPublisher> actionYesButtonHandlers = new List<SubscriberPublisher>();
 
     public void Awake()
     {
-        GetButtonHandlersFromActions();
+        gameController = GetComponent<GameController>();
+
+        GetYesButtonHandlersFromActions();
         SubscribeButtonHandlersToPublishers();
+        SubsribeActionsToBudget();
     }
 
 
-    private void GetButtonHandlersFromActions()
+    private void GetYesButtonHandlersFromActions()
     {
         foreach (var action in actions)
         {
-            actionYesButtonHandlers.Add(action.GetComponent<ActionYesButtonHandler>());
+            actionYesButtonHandlers.Add(action.GetComponent<SubscriberPublisher>());
         }
     }
 
@@ -38,17 +43,27 @@ public class ActionsController : MonoBehaviour
             foreach (var dependentAction in actionButtonHandler.dependentActions)
             {
                 // TODO: Check here if the loading time is too much.
-                ActionYesButtonHandler dependentYesButtonHandler = dependentAction.GetComponent<ActionYesButtonHandler>();
+                //TODO: rename here!
+                SubscriberPublisher dependentYesButtonHandler = dependentAction.GetComponent<SubscriberPublisher>();
                 actionButtonHandler.ButtonClicked += dependentYesButtonHandler.OnOtherButtonClicked;
             }
         }
     }
 
+
     private void SubsribeActionsToBudget()
     {
+        foreach (var action in actions)
+        {
+            ActionDataHolder actionDataHolder = action.GetComponent<ActionDataHolder>();
+            SubscriberPublisher subscriber = action.GetComponent<SubscriberPublisher>();
 
+            if (actionDataHolder.actionData.cost > 0)
+            {
+                gameController.countryController.BudgetChanged += subscriber.OnBudgetChanged;
+            }
+        }
     }
-
 
 
 

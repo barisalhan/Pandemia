@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UI : MonoBehaviour
 {
     public GameObject mainGameObject;
-    private Main main;
+    private GameController gameController;
 
     [HideInInspector]
     public RegionSprites regionSprites;
@@ -17,14 +17,14 @@ public class UI : MonoBehaviour
 
     public void Awake()
     {
-        main = mainGameObject.GetComponent<Main>();
+        gameController = mainGameObject.GetComponent<GameController>();
         regionSprites = GetComponent<RegionSprites>();
     }
     
     
     public void OnClickRegion(string regionName)
     {
-        RegionController regionController = main.gameController.countryController.GetRegionByString(regionName);
+        RegionController regionController = gameController.countryController.GetRegionByString(regionName);
 
         SpriteRenderer regionSpriteRenderer = regionSprites.GetRegionSprite(regionName);
 

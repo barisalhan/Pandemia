@@ -36,7 +36,7 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
     [SerializeField]
     private int totalBudget;
 
-    public EventHandler BudgetChanged;
+    public EventHandler<BudgetArgs> BudgetChanged;
 
     protected virtual void OnBudgetChanged()
     {

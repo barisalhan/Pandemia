@@ -13,5 +13,7 @@ public class ActionData : ScriptableObject
     [TextArea]
     public string description;
 
+    public int cost;
+
     public List<MTPEvent> events;
 }

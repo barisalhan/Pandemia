@@ -19,6 +19,17 @@ public class GameController : MonoBehaviour, ITimeDrivable
     [SerializeField]
     public CountryController countryController;
 
+    public ActionsController actionsController;
+
+    public void Awake()
+    {
+        actionsController = GetComponent<ActionsController>();
+    }
+
+    public void Start()
+    {
+        SetDefaultEnvironment();
+    }
 
     public void SetDefaultEnvironment()
     {
@@ -26,8 +37,9 @@ public class GameController : MonoBehaviour, ITimeDrivable
         Time.CreateTime();
         
         countryController.SetDefaultEnvironment();
-    }
 
+        SubscribeToActions();
+    }
 
     public void NextDay()
     {
@@ -35,11 +47,29 @@ public class GameController : MonoBehaviour, ITimeDrivable
         Time.NextDay();
     }
 
+
+    private void SubscribeToActions()
+    {
+        foreach (var action in actionsController.actions)
+        {
+            action.GetComponent<SubscriberPublisher>().ButtonClicked += OnActionTaken;
+        }
+    }
+
+    //TODO: You left in here. Bundan sonra yapialcak sey, buradan gelen dataya gore
+    //budget ve calendar uzerinde islemler yaparak aksiyonu gerceklestirmek.
+    public void OnActionTaken(object source, ActionDataArgs actionDataArgs)
+    {
+        Debug.Log("Greetings from GameController.");
+    }
+
+
     public void UpdateFields()
     {
         throw new NotImplementedException();
     }
 
+ 
     //TODO: anlik actionlari kontrol et.
     public void AddActionToCalendar(ActionData actionData)
     {
@@ -68,3 +98,20 @@ public class GameController : MonoBehaviour, ITimeDrivable
     }
 }
 
+/*
+ * TODO: move this comment!
+ * The data is displayed on the screen in the end of the day.
+ * Active case number is the number reached by the end of the day.
+ * Growth rate parameter and vulnerability ratio are the values,
+ * which was valid during the day.
+ */
+
+/*
+ * TODO: write code-style document
+ *        [SerializeField]
+ *        [Dependent] [independent]
+ *        [HideInInspector]
+ * TODO: activate event system
+ * TODO: add probability system.
+ * TODO: add delay
+ */

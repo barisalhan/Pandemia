@@ -480,6 +480,12 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 34.3
       objectReference: {fileID: 0}
+    - target: {fileID: 5135906134919505273, guid: 8496046a075bfb549a4a40259b58e865,
+        type: 3}
+      propertyPath: actionData
+      value: 
+      objectReference: {fileID: 11400000, guid: 3f6ed0f8ab5e2ba44aec28a3c78dc97d,
+        type: 2}
     - target: {fileID: 5135906134919505277, guid: 8496046a075bfb549a4a40259b58e865,
         type: 3}
       propertyPath: m_Name
@@ -2127,8 +2133,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 587081218}
-  - component: {fileID: 587081219}
   - component: {fileID: 587081217}
+  - component: {fileID: 587081216}
   m_Layer: 0
   m_Name: MainGameObject
   m_TagString: Untagged
@@ -2136,6 +2142,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &587081216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587081215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5798167d321f1468fb49831bc0c6ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions:
+  - {fileID: 1457510786}
+  - {fileID: 215544554}
 --- !u!114 &587081217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2149,6 +2170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   countryController: {fileID: 11400000, guid: 86ec1bbcd6d0cbe4b90e70188712c69a, type: 2}
+  actionsController: {fileID: 0}
 --- !u!224 &587081218
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2168,19 +2190,6 @@ RectTransform:
   m_AnchoredPosition: {x: 382.49997, y: 214.99997}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &587081219
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 587081215}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2195894bee2306747b1e00e4646600e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameController: {fileID: 0}
 --- !u!1 &602412677
 GameObject:
   m_ObjectHideFlags: 0
@@ -4129,35 +4138,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 355563780}
     m_Modifications:
-    - target: {fileID: 5135906134498754855, guid: 8496046a075bfb549a4a40259b58e865,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -54.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5135906134498754855, guid: 8496046a075bfb549a4a40259b58e865,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 58.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5135906134498754855, guid: 8496046a075bfb549a4a40259b58e865,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -168.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5135906134498754855, guid: 8496046a075bfb549a4a40259b58e865,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 36.5
-      objectReference: {fileID: 0}
     - target: {fileID: 5135906134919505277, guid: 8496046a075bfb549a4a40259b58e865,
         type: 3}
       propertyPath: m_Name
       value: AAction
-      objectReference: {fileID: 0}
-    - target: {fileID: 5135906134919505277, guid: 8496046a075bfb549a4a40259b58e865,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5135906134919505278, guid: 8496046a075bfb549a4a40259b58e865,
         type: 3}
@@ -4274,11 +4258,6 @@ PrefabInstance:
       propertyPath: dependentActions.Array.data[0]
       value: 
       objectReference: {fileID: 215544554}
-    - target: {fileID: 5135906135499151437, guid: 8496046a075bfb549a4a40259b58e865,
-        type: 3}
-      propertyPath: m_Text
-      value: A
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8496046a075bfb549a4a40259b58e865, type: 3}
 --- !u!224 &1364189106 stripped
@@ -4917,7 +4896,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 587081219}
+      - m_Target: {fileID: 587081217}
         m_MethodName: NextDay
         m_Mode: 1
         m_Arguments:
@@ -5380,7 +5359,6 @@ GameObject:
   - component: {fileID: 1762848657}
   - component: {fileID: 1762848656}
   - component: {fileID: 1762848655}
-  - component: {fileID: 1762848658}
   m_Layer: 0
   m_Name: UIGameObject
   m_TagString: Untagged
@@ -5436,21 +5414,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1762848658
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1762848654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a5798167d321f1468fb49831bc0c6ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actions:
-  - {fileID: 1457510786}
-  - {fileID: 215544554}
 --- !u!1 &1797864084
 GameObject:
   m_ObjectHideFlags: 0

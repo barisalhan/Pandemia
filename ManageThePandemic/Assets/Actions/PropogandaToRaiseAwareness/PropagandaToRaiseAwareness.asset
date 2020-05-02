@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionName: PropagandaToRaiseAwareness
   description: Raise awareness of the public by publishing advertisments on the TVs.
+  cost: 1000
   events:
   - {fileID: 11400000, guid: b77c42dc2fe88b24eb460811893e5022, type: 2}
