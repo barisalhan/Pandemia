@@ -43,7 +43,13 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
     public EconomyModel economyModel;
 
 
-    // TODO: extend here for all models.
+    /*
+     * Sets models to default.
+     * Fills 0th day values.
+     *
+     * We need values of 0th day to start the  game, because in each day,
+     * we use numbers of yesterday and parameters of today. 
+     */
     public void SetDefaultEnvironment()
     {
         dailyNewCaseNumber = 0;
@@ -121,7 +127,7 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
     /*
      * If region is not infected, this function is called for deciding outbreak in this region.
      */
-    public void getInfected(int unquarantinedActiveCases)
+    public void InfectRegion(int unquarantinedActiveCases)
     {
         double outbreakProbability = travelFlowCoeff * unquarantinedActiveCases;
         int today = Time.GetInstance().GetDay();

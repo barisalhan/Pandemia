@@ -44,6 +44,11 @@ public class ActionsController : MonoBehaviour
         }
     }
 
+    private void SubsribeActionsToBudget()
+    {
+
+    }
+
 
 
 

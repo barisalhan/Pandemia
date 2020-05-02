@@ -7,10 +7,10 @@ using Random = System.Random;
 [CreateAssetMenu(menuName = "ManageThePandemic/Country")]
 public class CountryController : MTPScriptableObject, ITimeDrivable
 {
+    [SerializeField]
     public List<RegionController> regionControllers = new List<RegionController>();
 
     public Dictionary<Name, int> indexTable = new Dictionary<Name, int>();
-
 
     public enum Name
     {
@@ -22,48 +22,80 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
         West
     }
 
-    public int population;
+    private int population = 0;
 
-    private int vulnerablePopulation;
+    private int activeCases = 0;
 
-    private int quarantinedPopulation;
+    private int unquarantinedActiveCases = 0;
 
-    private int activeCases;
+    [SerializeField]
+    public SocietyModel societyModel;
 
-    private int unquarantinedActiveCases;
-
-
-    public int happiness;
+    private int happiness;
 
     [SerializeField]
     private int totalBudget;
 
-    public SocietyModel societyModel;
+    public EventHandler BudgetChanged;
 
+    protected virtual void OnBudgetChanged()
+    {
+        Debug.Log("cagirildi.");
+        if (BudgetChanged != null)
+        {
+            //WARNING: PERFORMANCE COULD BE IMPROVED!
+            BudgetChanged(this, new BudgetArgs(totalBudget));
+        }
+    }
 
-    // TODO: extends this for country models.
     public void SetDefaultEnvironment()
     {
-        population = 0;
-        unquarantinedActiveCases = 0;
-        activeCases = 0;
-
-        //TODO: Find an error prone method.
-        Random rnd = new Random();
-        int regionIndex = rnd.Next(0, 3);
-
         CreateIndexTable();
+
         foreach (RegionController region in regionControllers)
         { 
             region.SetDefaultEnvironment();
+
             population += region.GetPopulation();
             unquarantinedActiveCases += region.GetActiveCases();
             activeCases += region.GetActiveCases();
         }
 
-        regionControllers[regionIndex].activeCases[0] += 1;
-        
+        CreateFirstOutbreak();
     }
+
+    public void NextDay()
+    {
+        unquarantinedActiveCases = 0;
+        activeCases = 0;
+
+        foreach (RegionController region in regionControllers)
+        {
+            region.NextDay();
+
+            totalBudget += region.dailyTax;
+            activeCases += region.GetActiveCases();
+
+            if (!region.isQuarantined)
+            {
+                unquarantinedActiveCases += region.GetActiveCases();
+            }
+        }
+
+        OnBudgetChanged();
+
+        // Precondition: Total unquarantined active cases must be calculated.
+        foreach (RegionController region in regionControllers)
+        {
+            if (!region.isInfected)
+            {
+                region.InfectRegion(unquarantinedActiveCases);
+            }
+        }
+       
+        happiness = societyModel.CalculateHappiness();
+    }
+
 
     public void CreateIndexTable()
     {
@@ -83,39 +115,35 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
     }
 
 
-
-
-    public void NextDay()
+    private void CreateFirstOutbreak()
     {
-        unquarantinedActiveCases = 0;
-        activeCases = 0;
-        foreach (RegionController region in regionControllers)
-        {
-            region.NextDay();
-            totalBudget += region.dailyTax;
-            activeCases += region.GetActiveCases();
+        //TODO: Find an error prone method.
+        Random rnd = new Random();
 
-            if (!region.isQuarantined)
-            {
-                unquarantinedActiveCases += region.GetActiveCases();
-            }
-        }
+        // The first three region is the most populated ones.
+        // Therefore, virus firstly outbreaks only in these regions.
+        int regionIndex = rnd.Next(0, 3);
 
-        foreach (RegionController region in regionControllers)
-        {
-            if (!region.isInfected)
-            {
-                region.getInfected(unquarantinedActiveCases);
-            }
-        }
-        UpdateFields();
+        regionControllers[regionIndex].activeCases[0] += 1;
     }
 
 
     public void UpdateFields()
+    { 
+        
+    }
+
+    public RegionController GetRegionByString(string regionName)
     {
-        //TODO: implement here.
-        happiness = societyModel.CalculateHappiness();
+        CountryController.Name currentRegion;
+        Enum.TryParse<CountryController.Name>(regionName, out currentRegion);
+        RegionController regionController = GetRegionByName(currentRegion);
+        return regionController;
+    }
+    public RegionController GetRegionByName(Name regionName)
+    {
+        int index = indexTable[regionName];
+        return regionControllers[index];
     }
 
     public int GetPopulation()
@@ -127,21 +155,15 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
     {
         return activeCases;
     }
-
-    public RegionController GetRegion(Name regionName)
-    {
-        int index = indexTable[regionName];
-        return regionControllers[index];
-    }
-
-    //TODO: remove
-    public RegionController GetRegionController(string regionName)
-    {
-        CountryController.Name currentRegion;
-        Enum.TryParse<CountryController.Name>(regionName, out currentRegion);
-        RegionController regionController = GetRegion(currentRegion);
-        Debug.Log(regionController.GetPopulation());
-        return regionController;
-    }
 }
 
+
+public class BudgetArgs : EventArgs
+{
+    public int budget { get; set; }
+
+    public BudgetArgs(int budget)
+    {
+        this.budget = budget;
+    }
+}
