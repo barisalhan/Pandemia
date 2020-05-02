@@ -13,7 +13,7 @@ public class ActionsController : MonoBehaviour
     [SerializeField]
     public List<GameObject> actions;
 
-    private List<ActionButtonHandler> actionButtonHandlers = new List<ActionButtonHandler>();
+    private List<ActionYesButtonHandler> actionYesButtonHandlers = new List<ActionYesButtonHandler>();
 
     public void Awake()
     {
@@ -26,20 +26,20 @@ public class ActionsController : MonoBehaviour
     {
         foreach (var action in actions)
         {
-            actionButtonHandlers.Add(action.GetComponent<ActionButtonHandler>());
+            actionYesButtonHandlers.Add(action.GetComponent<ActionYesButtonHandler>());
         }
     }
 
 
     private void SubscribeButtonHandlersToPublishers()
     {
-        foreach (var actionButtonHandler in actionButtonHandlers)
+        foreach (var actionButtonHandler in actionYesButtonHandlers)
         {
             foreach (var dependentAction in actionButtonHandler.dependentActions)
             {
                 // TODO: Check here if the loading time is too much.
-                ActionButtonHandler dependentButtonHandler = dependentAction.GetComponent<ActionButtonHandler>();
-                actionButtonHandler.ButtonClicked += dependentButtonHandler.OnOtherButtonClicked;
+                ActionYesButtonHandler dependentYesButtonHandler = dependentAction.GetComponent<ActionYesButtonHandler>();
+                actionButtonHandler.ButtonClicked += dependentYesButtonHandler.OnOtherButtonClicked;
             }
         }
     }
