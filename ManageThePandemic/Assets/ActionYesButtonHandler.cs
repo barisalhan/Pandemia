@@ -49,5 +49,6 @@ public class ActionYesButtonHandler : MonoBehaviour
     public virtual void OnOtherButtonClicked(object source, EventArgs eventArgs)
     {
         Debug.Log("Greetings from Greece." + this.name);
+        gameObject.SetActive(true);
     }
 }
