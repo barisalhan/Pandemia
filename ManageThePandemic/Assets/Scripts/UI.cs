@@ -15,6 +15,9 @@ public class UI : MonoBehaviour
     [SerializeField]
     private GameObject InfoPanel;
 
+    [SerializeField]
+    private GameObject ActionTreePanel;
+
     public void Awake()
     {
         gameController = mainGameObject.GetComponent<GameController>();
@@ -59,5 +62,15 @@ public class UI : MonoBehaviour
         }
 
         InfoPanel.SetActive(false);
+    }
+
+    public void OnClickCloseActionTreePanel()
+    {
+        ActionTreePanel.SetActive(false);
+    }
+
+    public void OnClickOpenActionTreePanel()
+    {
+        ActionTreePanel.SetActive(true);
     }
 }

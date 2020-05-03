@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour, ITimeDrivable
     [SerializeField]
     public CountryController countryController;
 
-    public ActionsController actionsController;
+    private ActionsController actionsController;
 
     public void Awake()
     {

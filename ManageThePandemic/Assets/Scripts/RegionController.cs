@@ -9,6 +9,7 @@ using UnityEngine;
 public class RegionController : MTPScriptableObject, ITimeDrivable
 {
     public string name;
+
     // Total number of alive people.
     [SerializeField]
     private int population;
