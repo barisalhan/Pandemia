@@ -61,6 +61,14 @@ public class GameController : MonoBehaviour, ITimeDrivable
     public void OnActionTaken(object source, ActionDataArgs actionDataArgs)
     {
         Debug.Log("Greetings from GameController.");
+        ActionData actionData = actionDataArgs.actionData;
+
+        if (actionData.cost > 0)
+        {
+            countryController.ChangeBudget(actionData.cost);
+        }
+        AddActionToCalendar(actionData);
+
     }
 
 
