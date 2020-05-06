@@ -15,4 +15,5 @@ MonoBehaviour:
   actionName: 
   description: 
   cost: 100
+  timeToComplete: 3
   events: []
