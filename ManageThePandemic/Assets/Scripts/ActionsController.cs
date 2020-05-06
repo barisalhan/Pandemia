@@ -5,9 +5,20 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+ * TODO: 1- Takviem vermek icin event
+ * 
+ */
+
 
 /*
- * Controls the relationships between Action Buttons.
+ * Controls the relationships between Actions and GameController.
+ *
+ * An action consists of:
+ *  ActionData
+ *  SubscriberPublisher
+ *  ActionInfoViewer
+ *
  */
 public class ActionsController : MonoBehaviour
 {
@@ -16,17 +27,16 @@ public class ActionsController : MonoBehaviour
 
     private GameController gameController;
 
-    private List<SubscriberPublisher> actionYesButtonHandlers = new List<SubscriberPublisher>();
-
     public void Awake()
     {
         gameController = GetComponent<GameController>();
 
         GetActionsInTheGame();
-        GetYesButtonHandlersFromActions();
-        SubscribeButtonHandlersToPublishers();
-        SubsribeActionsToBudget();
+
+        SubscribeActionsToOtherActions();
+        SubscribeActionsToBudget();
     }
+
 
     private void GetActionsInTheGame()
     {
@@ -34,32 +44,23 @@ public class ActionsController : MonoBehaviour
     }
 
 
-    private void GetYesButtonHandlersFromActions()
+    private void SubscribeActionsToOtherActions()
     {
         foreach (var action in actions)
         {
-            actionYesButtonHandlers.Add(action.GetComponent<SubscriberPublisher>());
-            
-        }
-    }
-
-
-    private void SubscribeButtonHandlersToPublishers()
-    {
-        foreach (var actionButtonHandler in actionYesButtonHandlers)
-        {
-            foreach (var dependentAction in actionButtonHandler.dependentActions)
+            var publisher = action.GetComponent<SubscriberPublisher>();
+          
+            foreach (var dependentAction in publisher.dependentActions)
             {
                 // TODO: Check here if the loading time is too much.
-                //TODO: rename here!
-                SubscriberPublisher dependentYesButtonHandler = dependentAction.GetComponent<SubscriberPublisher>();
-                actionButtonHandler.ButtonClicked += dependentYesButtonHandler.OnOtherButtonClicked;
+                SubscriberPublisher subscriber = dependentAction.GetComponent<SubscriberPublisher>();
+                publisher.ButtonClicked += subscriber.OnOtherButtonClicked;
             }
         }
     }
 
 
-    private void SubsribeActionsToBudget()
+    private void SubscribeActionsToBudget()
     {
         foreach (var action in actions)
         {
