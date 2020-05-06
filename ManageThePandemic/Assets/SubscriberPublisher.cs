@@ -34,7 +34,7 @@ public class SubscriberPublisher : MonoBehaviour
     }
     public void OnClick()
     {
-        Debug.Log("Clicked A.");
+        Debug.Log("Clicked."+this.name);
         OnButtonClicked();
     }
 

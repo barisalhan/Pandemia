@@ -32,6 +32,7 @@ public class ActionsController : MonoBehaviour
         foreach (var action in actions)
         {
             actionYesButtonHandlers.Add(action.GetComponent<SubscriberPublisher>());
+            
         }
     }
 

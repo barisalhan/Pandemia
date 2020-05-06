@@ -133,6 +133,18 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
         
     }
 
+    public int GetBudget()
+    {
+        return totalBudget;
+    }
+
+    
+    public void ChangeBudget(int cost)
+    {
+        totalBudget -= cost;
+        OnBudgetChanged();
+    }
+
     public RegionController GetRegionByString(string regionName)
     {
         CountryController.Name currentRegion;
@@ -155,6 +167,7 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
     {
         return activeCases;
     }
+
 }
 
 

@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour, ITimeDrivable
     [SerializeField]
     public CountryController countryController;
 
-    public ActionsController actionsController;
+    private ActionsController actionsController;
 
     public void Awake()
     {
@@ -61,6 +61,14 @@ public class GameController : MonoBehaviour, ITimeDrivable
     public void OnActionTaken(object source, ActionDataArgs actionDataArgs)
     {
         Debug.Log("Greetings from GameController.");
+        ActionData actionData = actionDataArgs.actionData;
+
+        if (actionData.cost > 0)
+        {
+            countryController.ChangeBudget(actionData.cost);
+        }
+        AddActionToCalendar(actionData);
+
     }
 
 
