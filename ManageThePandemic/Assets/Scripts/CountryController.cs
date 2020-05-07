@@ -31,7 +31,7 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
     [SerializeField]
     public SocietyModel societyModel;
 
-    private int happiness;
+    private double happiness;
 
     [SerializeField]
     private int totalBudget;

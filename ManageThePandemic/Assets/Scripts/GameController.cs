@@ -49,6 +49,7 @@ public class GameController : MonoBehaviour, ITimeDrivable
         Time.NextDay();
 
         ExecuteActionCalendar();
+        ExecuteEventCalendar();
     }
 
     private void ExecuteActionCalendar()
@@ -60,6 +61,65 @@ public class GameController : MonoBehaviour, ITimeDrivable
             {
                 publisher.OnActionCompleted();
             }
+        }
+    }
+
+
+    private void ExecuteEventCalendar()
+    {
+        int today = Time.GetInstance().GetDay();
+        if (eventCalendar.ContainsKey(today))
+        {
+            foreach (var mtpEvent in eventCalendar[today])
+            {
+                ExecuteEvent(mtpEvent);
+            }
+            eventCalendar[today].Clear();
+        }
+
+    }
+
+
+    // TODO: refactor this method.
+    private void ExecuteEvent(MTPEvent mtpEvent)
+    {
+        if (mtpEvent.targetModelName == "virus")
+        {
+            foreach (var regionController in countryController.regionControllers)
+            {
+                regionController.virusModel.ExecuteEvent(mtpEvent.targetParameter,
+                                                         mtpEvent.effectType,
+                                                         mtpEvent.effectValue);
+            }
+        }
+        else if (mtpEvent.targetModelName == "society")
+        {
+
+            countryController.societyModel.ExecuteEvent(mtpEvent.targetParameter,
+                                                        mtpEvent.effectType,
+                                                        mtpEvent.effectValue);
+        }
+        else if (mtpEvent.targetModelName == "health")
+        {
+            foreach (var regionController in countryController.regionControllers)
+            {
+                regionController.healthSystemModel.ExecuteEvent(mtpEvent.targetParameter,
+                                                                mtpEvent.effectType,
+                                                                mtpEvent.effectValue);
+            }
+        }
+        else if (mtpEvent.targetModelName == "economy")
+        {
+            foreach (var regionController in countryController.regionControllers)
+            {
+                regionController.economyModel.ExecuteEvent(mtpEvent.targetParameter,
+                                                           mtpEvent.effectType,
+                                                           mtpEvent.effectValue);
+            }
+        }
+        else
+        {
+            Debug.Log("Unknown model type is entered.");
         }
     }
 
@@ -133,6 +193,7 @@ public class GameController : MonoBehaviour, ITimeDrivable
         {
             AddEventToCalendar(MTPevent);
         }
+        ExecuteEventCalendar();
     }
 
     private void AddEventToCalendar(MTPEvent MTPevent)

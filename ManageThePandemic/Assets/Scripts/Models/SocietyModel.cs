@@ -1,25 +1,84 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "ManageThePandemic/SocietyModel")]
 public class SocietyModel : MTPScriptableObject
 {
-    // All parameters are in scale of 0-25, 25 is the best.
+    public double economicWellBeing = 1;
 
-    public int economicWellBeing = 25;
-
-    // Measure of people's trust on government's politics
-    public int faithInGovernment = 25;
-
-    public int virusSituation = 25;
+    public double virusSituation = 1;
 
     // Measure of people's social and recreational activities
-    public int personalWellBeing = 25;
+    public double personalWellBeing = 1;
 
-    public int CalculateHappiness()
+    //[Dependent]
+    public double happiness;
+
+    public double CalculateHappiness()
     {
-        int happiness = economicWellBeing + faithInGovernment + virusSituation + personalWellBeing;
+        happiness = Math.Min(Math.Min(economicWellBeing, virusSituation), personalWellBeing);
         return happiness;
+    }
+
+    public void ExecuteEvent(string targetParameter,
+                             int effectType,
+                             double effectValue)
+    {
+        if (effectType != 1)
+        {
+            Debug.Log("Unknown effect type is entered for the society model.");
+            return;
+        }
+        
+        ExecuteGeometricEvent(targetParameter, effectValue);
+
+        CalculateHappiness();
+    }
+
+    private void ExecuteGeometricEvent(string targetParameter, 
+                                       double effectValue)
+    {
+        if (targetParameter == "economicWellBeing")
+        {
+            Debug.Log("Executing a geometric event in virus model.");
+            if (effectValue > 0)
+            {
+                economicWellBeing += (1.0 - economicWellBeing) * effectValue;
+            }
+            else
+            {
+                economicWellBeing += (economicWellBeing - 0.0) * effectValue;
+            }
+        }
+        else if (targetParameter == "virusSituation")
+        {
+            Debug.Log("Executing a geometric event in virus model.");
+            if (effectValue > 0)
+            {
+                virusSituation += (1.0 - virusSituation) * effectValue;
+            }
+            else
+            {
+                virusSituation += (virusSituation - 0.0) * effectValue;
+            }
+        }
+        else if (targetParameter == "personalWellBeing")
+        {
+            Debug.Log("Executing a geometric event in virus model.");
+            if (effectValue > 0)
+            {
+                personalWellBeing += (1.0 - personalWellBeing) * effectValue;
+            }
+            else
+            {
+                personalWellBeing += (personalWellBeing - 0.0) * effectValue;
+            }
+        }
+        else
+        {
+            Debug.Log("Unknown parameter type is entered.");
+        }
     }
 }

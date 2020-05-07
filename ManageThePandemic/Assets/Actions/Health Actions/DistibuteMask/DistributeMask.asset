@@ -16,4 +16,5 @@ MonoBehaviour:
   description: 
   cost: 0
   timeToComplete: 0
-  events: []
+  events:
+  - {fileID: 11400000, guid: f28ead12e6a4a2146bad367a4c484e55, type: 2}

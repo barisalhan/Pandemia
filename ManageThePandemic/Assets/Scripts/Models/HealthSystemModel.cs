@@ -27,7 +27,7 @@ public class HealthSystemModel : MTPScriptableObject
     // [Independent]
     // Number of ICU units.
     [SerializeField]
-    private int icuCapacity;
+    private int ICUCapacity;
 
 
     // [Dependent]
@@ -42,7 +42,7 @@ public class HealthSystemModel : MTPScriptableObject
     // [Independent]
     // Number of available places for Active Cases. Defined as ACU(Active Case Unit) 
     [SerializeField]
-    private int activeCaseUnitCapacity;
+    private int ACUCapacity;
 
     // [Independent]
     // After DelayACU number of days, a patient either recovers or gets in ICU.
@@ -187,7 +187,7 @@ public class HealthSystemModel : MTPScriptableObject
         }
         else
         {
-            ratioHasAccessToICU = Math.Min(icuCapacity / (double) aggregateICUCases[today], 1.0);
+            ratioHasAccessToICU = Math.Min(ICUCapacity / (double) aggregateICUCases[today], 1.0);
         }
 
         recoveryRatioUnderICU = (ratioHasAccessToICU) * (medicineEffectICU);
@@ -203,7 +203,7 @@ public class HealthSystemModel : MTPScriptableObject
         }
         else
         {
-            ratioHasAccessToACU = Math.Min(activeCaseUnitCapacity / (double) aggregateACUCases[today], 1.0);
+            ratioHasAccessToACU = Math.Min(ACUCapacity / (double) aggregateACUCases[today], 1.0);
         }
 
         recoveryRatioUnderACU = (ratioHasAccessToACU) * (medicineEffectACU);
@@ -309,4 +309,69 @@ public class HealthSystemModel : MTPScriptableObject
 
     }
 
+    public void ExecuteEvent(string targetParameter,
+                             int effectType,
+                             double effectValue)
+    {
+        if (effectType != 0 || effectType != 1)
+        {
+            Debug.Log("Unknown effect type is entered for the health system model.");
+            return;
+        }
+
+        if (effectType == 1)
+        {
+            ExecuteGeometricEvent(targetParameter, effectValue);
+        }
+        else if (effectType == 0)
+        {
+            ExecuteArithmeticEvent(targetParameter, effectValue);
+        }
+    }
+
+    private void ExecuteArithmeticEvent(string targetParameter, double effectValue)
+    {
+        if (targetParameter == "ACUCapacity")
+        {
+            ACUCapacity += (int)effectValue;
+        }
+        else if (targetParameter == "ICUCapacity")
+        {
+            ICUCapacity += (int)effectValue;
+        }
+    }
+
+
+    private void ExecuteGeometricEvent(string targetParameter,
+        double effectValue)
+    {
+        if (targetParameter == "medicineEffectACU")
+        {
+            Debug.Log("Executing a geometric event in virus model.");
+            if (effectValue > 0)
+            {
+                medicineEffectACU += (0.9 - medicineEffectACU) * effectValue;
+            }
+            else
+            {
+                medicineEffectACU += (medicineEffectACU - 0.6) * effectValue;
+            }
+        }
+        else if (targetParameter == "medicineEffectICU")
+        {
+            Debug.Log("Executing a geometric event in virus model.");
+            if (effectValue > 0)
+            {
+                medicineEffectICU += (0.9 - medicineEffectICU) * effectValue;
+            }
+            else
+            {
+                medicineEffectICU += (medicineEffectICU - 0.6) * effectValue;
+            }
+        }
+        else
+        {
+            Debug.Log("Unknown parameter type is entered.");
+        }
+    }
 }

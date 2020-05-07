@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 using Object = System.Object;
 
@@ -18,23 +19,19 @@ using Object = System.Object;
  *      To restrict access, all dependent parameters must be private and
  *                          all independent parameters must be protected.
  */
+//TODO: change virusModel.
 [CreateAssetMenu(menuName = "ManageThePandemic/VirusModel")]
 public class VirusModel : MTPScriptableObject
 {
-    //[Independent]
-    // Daily number of the contacted people of a person
-    [SerializeField]
-    protected double averageNumberOfContactedPeople;
-
     // [Dependent]
     // Ratio of population who can be get infected. [vulnerable population / population]
     [SerializeField]
     private double vulnerabilityRatio;
 
-    // [Independent]
+    // [Independent]    
     // Probability of transmitting to a vulnerable person through physical contact.
     [SerializeField]
-    protected double probabilityOfTransmittingInfection;
+    private double effectRatio;
 
     // [Dependent]
     // It is calculated as a result of independent parameters.
@@ -68,7 +65,6 @@ public class VirusModel : MTPScriptableObject
     public void UpdateParameters(int population, int vulnerablePopulation)
     {
         UpdateVulnerabilityRatio(population, vulnerablePopulation);
-        UpdateGrowthRateParameter();
     }
 
 
@@ -89,43 +85,66 @@ public class VirusModel : MTPScriptableObject
     }
 
 
-    /*
-     * Preconditions:
-     *  - VulnerabilityRatio is updated.
-     */
-    public void UpdateGrowthRateParameter()
-    {
-        //growthRateParameter = 0.16;
-        growthRateParameter = (averageNumberOfContactedPeople * vulnerabilityRatio) * probabilityOfTransmittingInfection;
-    }
-
-
-    /*
-     * Preconditions:
-     *  - Parameters are adjusted according to events of today.
-     * TODO: error-prone method.
-     */
-    /*
-    public int CalculateDailyNewCase(int activeCaseNumberOfYesterday)
-    {
-        int today = Time.GetInstance().GetDay();
-
-        dailyNewCaseNumbers[today] = (int)(growthRateParameter * activeCaseNumberOfYesterday); ;
-
-        return dailyNewCaseNumbers[today];
-    }
-    */
-
     //TODO: think about converting activeCaseNumberOfYesterday to double.
     public int CalculateDailyNewCase(int normalizedPopulation, int activeCaseNumberOfYesterday)
     {
         double formula = ((double)normalizedPopulation / (double)activeCaseNumberOfYesterday) - 1;
-        double delay = Math.Log(formula) / growthRateParameter;
+        double delay = Math.Log(formula) / (growthRateParameter * vulnerabilityRatio);
 
-        double denominator = 1 + Math.Exp((-growthRateParameter) * (1 - delay));
+        double denominator = 1 + Math.Exp((-(growthRateParameter * vulnerabilityRatio)) * (1 - delay));
         double aggregateActiveCaseNumber = normalizedPopulation / denominator;
 
         // TODO: aggregateActiveCaseNumber > activeCaseNumberOfYesterday [varsayim]
-        return (int)Math.Ceiling(aggregateActiveCaseNumber - activeCaseNumberOfYesterday);
+        return (int)Math.Ceiling(effectRatio*(aggregateActiveCaseNumber - activeCaseNumberOfYesterday));
+    }
+
+    public void ExecuteEvent(string targetParameter,
+                             int effectType,
+                             double effectValue)
+    {
+        if (effectType != 1)
+        {
+            Debug.Log("Unknown effect type is entered for the virus model.");
+            return;
+        }
+
+        if (effectType == 1)
+        {
+            ExecuteGeometricEvent(targetParameter, effectValue);
+        }
+    }
+
+
+    private void ExecuteGeometricEvent(string targetParameter,
+                                      double effectValue)
+    {
+        if(targetParameter == "growthRateParameter")
+        {
+            Debug.Log("Executing a geometric event in virus model.");
+            if (effectValue > 0)
+            {
+                growthRateParameter += (0.5 - growthRateParameter) * effectValue;
+            }
+            else
+            {
+                growthRateParameter += (growthRateParameter - 0.1) * effectValue;
+            }
+        }
+        else if (targetParameter == "effectRatio")
+        {
+            Debug.Log("Executing a geometric event in virus model.");
+            if (effectValue > 0)
+            {
+                effectRatio += (1 - effectRatio) * effectValue;
+            }
+            else
+            {
+                effectRatio += (effectRatio - 0.1) * effectValue;
+            }
+        }
+        else
+        {
+            Debug.Log("Unknown parameter type is entered.");
+        }
     }
 }

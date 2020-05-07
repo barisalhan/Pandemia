@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: VirusModelMidWest
   m_EditorClassIdentifier: 
   averageNumberOfContactedPeople: 1
-  vulnerabilityRatio: 0.9999989697802197
+  vulnerabilityRatio: 4.999999931318682
   probabilityOfTransmittingInfection: 0.16
-  growthRateParameter: 0.15999983516483515
+  growthRateParameter: 0.44999999450549455
