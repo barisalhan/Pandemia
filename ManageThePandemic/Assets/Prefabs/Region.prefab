@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 260361432154817925}
   m_Layer: 5
-  m_Name: State
+  m_Name: Region
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,7 +25,7 @@ RectTransform:
   m_GameObject: {fileID: 5349762933081196386}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_LocalScale: {x: 55, y: 55, z: 55}
   m_Children:
   - {fileID: 5445802210900403291}
   m_Father: {fileID: 0}
