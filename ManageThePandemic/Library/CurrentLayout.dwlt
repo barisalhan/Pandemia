@@ -15,19 +15,13 @@ MonoBehaviour:
   m_PixelRect:
     serializedVersion: 2
     x: 0
-<<<<<<< HEAD
-    y: 43.2
-    width: 1536
-    height: 780.8
-=======
-    y: 42
-    width: 1500
-    height: 918
->>>>>>> origin/healtheconactions
+    y: 43
+    width: 1360
+    height: 685
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 6}
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 548}
   m_MaxSize: {x: 10000, y: 10000}
   m_Maximized: 1
 --- !u!114 &2
@@ -49,21 +43,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 30
-<<<<<<< HEAD
-    width: 1536
-    height: 731
-  m_MinSize: {x: 683, y: 498}
-  m_MaxSize: {x: 14004, y: 14048}
+    width: 1360
+    height: 635
+  m_MinSize: {x: 681, y: 498}
+  m_MaxSize: {x: 14002, y: 14048}
   vertical: 0
-  controlID: 101
-=======
-    width: 1500
-    height: 868
-  m_MinSize: {x: 683, y: 498}
-  m_MaxSize: {x: 14004, y: 14048}
-  vertical: 0
-  controlID: 99
->>>>>>> origin/healtheconactions
+  controlID: 24
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -79,19 +64,12 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-<<<<<<< HEAD
-    x: 1148
+    x: 938
     y: 0
-    width: 388
-    height: 731
-=======
-    x: 1194
-    y: 0
-    width: 306
-    height: 868
->>>>>>> origin/healtheconactions
-  m_MinSize: {x: 277, y: 74}
-  m_MaxSize: {x: 4002, y: 4024}
+    width: 422
+    height: 635
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
@@ -114,13 +92,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-<<<<<<< HEAD
-    width: 283
-    height: 457
-=======
-    width: 265
-    height: 494
->>>>>>> origin/healtheconactions
+    width: 308
+    height: 410
   m_MinSize: {x: 202, y: 224}
   m_MaxSize: {x: 4002, y: 4024}
   m_ActualView: {fileID: 15}
@@ -144,15 +117,9 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-<<<<<<< HEAD
-    y: 457
-    width: 1148
-    height: 274
-=======
-    y: 494
-    width: 1194
-    height: 374
->>>>>>> origin/healtheconactions
+    y: 410
+    width: 938
+    height: 225
   m_MinSize: {x: 232, y: 274}
   m_MaxSize: {x: 10002, y: 10024}
   m_ActualView: {fileID: 13}
@@ -181,14 +148,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-<<<<<<< HEAD
-    width: 1536
-    height: 781
-=======
-    width: 1500
-    height: 918
->>>>>>> origin/healtheconactions
-  m_MinSize: {x: 950, y: 300}
+    width: 1360
+    height: 685
+  m_MinSize: {x: 950, y: 548}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &7
 MonoBehaviour:
@@ -207,11 +169,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-<<<<<<< HEAD
-    width: 1536
-=======
-    width: 1500
->>>>>>> origin/healtheconactions
+    width: 1360
     height: 30
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
@@ -232,13 +190,8 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-<<<<<<< HEAD
-    y: 761
-    width: 1536
-=======
-    y: 898
-    width: 1500
->>>>>>> origin/healtheconactions
+    y: 665
+    width: 1360
     height: 20
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
@@ -261,21 +214,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-<<<<<<< HEAD
-    width: 1148
-    height: 731
+    width: 938
+    height: 635
   m_MinSize: {x: 406, y: 498}
   m_MaxSize: {x: 10002, y: 14048}
   vertical: 1
-  controlID: 82
-=======
-    width: 1194
-    height: 868
-  m_MinSize: {x: 406, y: 498}
-  m_MaxSize: {x: 10002, y: 14048}
-  vertical: 1
-  controlID: 59
->>>>>>> origin/healtheconactions
+  controlID: 25
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -295,21 +239,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-<<<<<<< HEAD
-    width: 1148
-    height: 457
+    width: 938
+    height: 410
   m_MinSize: {x: 406, y: 224}
   m_MaxSize: {x: 8006, y: 4024}
   vertical: 0
-  controlID: 83
-=======
-    width: 1194
-    height: 494
-  m_MinSize: {x: 406, y: 224}
-  m_MaxSize: {x: 8006, y: 4024}
-  vertical: 0
-  controlID: 60
->>>>>>> origin/healtheconactions
+  controlID: 26
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -325,26 +260,19 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-<<<<<<< HEAD
-    x: 283
+    x: 308
     y: 0
-    width: 865
-    height: 457
-=======
-    x: 265
-    y: 0
-    width: 929
-    height: 494
->>>>>>> origin/healtheconactions
+    width: 630
+    height: 410
   m_MinSize: {x: 204, y: 224}
   m_MaxSize: {x: 4004, y: 4024}
-  m_ActualView: {fileID: 16}
+  m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 16}
   - {fileID: 17}
   - {fileID: 12}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -361,7 +289,7 @@ MonoBehaviour:
   m_MaxSize: {x: 2048, y: 2048}
   m_TitleContent:
     m_Text: Asset Store
-    m_Image: {fileID: 357073275683767465, guid: 0000000000000000d000000000000000,
+    m_Image: {fileID: -8693916549880196297, guid: 0000000000000000d000000000000000,
       type: 0}
     m_Tooltip: 
   m_Pos:
@@ -387,21 +315,15 @@ MonoBehaviour:
   m_MaxSize: {x: 10000, y: 10000}
   m_TitleContent:
     m_Text: Project
-    m_Image: {fileID: -7501376956915960154, guid: 0000000000000000d000000000000000,
+    m_Image: {fileID: -5467254957812901981, guid: 0000000000000000d000000000000000,
       type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
     x: 0
-<<<<<<< HEAD
-    y: 530.4
-    width: 1146
-    height: 254
-=======
-    y: 566
-    width: 1192
-    height: 354
->>>>>>> origin/healtheconactions
+    y: 483
+    width: 936
+    height: 205
   m_PersistentViewDataDictionary: {fileID: 0}
   m_SearchFilter:
     m_NameFilter: 
@@ -415,53 +337,36 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-<<<<<<< HEAD
-    - Assets/Actions/Social Actions/AntiVirusPSA
+    - Assets/Actions/Social Actions/CurfewForElders
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Actions/Social Actions/AntiVirusPSA
+  - Assets/Actions/Social Actions/CurfewForElders
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: C:\Users\EREN\Desktop\MTP\ManageThePandemic\ManageThePandemic
+  m_LastProjectPath: D:\Projects\ManageThePandemic\ManageThePandemic
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 8a0b0000
-    m_LastClickedID: 2954
-    m_ExpandedIDs: 00000000cc0900006c0a0000a00b0000ee0b0000520c0000ee0c00008430000086300000883000008a3000008c3000008e30000090300000
-=======
-    - Assets/Actions/Economics Actions/CancelFlights
-  m_ViewMode: 1
-  m_StartGridSize: 64
-  m_LastFolders:
-  - Assets/Actions/Economics Actions/CancelFlights
-  m_LastFoldersGridSize: -1
-  m_LastProjectPath: C:\Users\Yusuf Efe\Desktop\MTP Develop\ManageThePandemic\ManageThePandemic
-  m_LockTracker:
-    m_IsLocked: 0
-  m_FolderTreeState:
-    scrollPos: {x: 0, y: 31}
-    m_SelectedIDs: fc0a0000
-    m_LastClickedID: 2812
-    m_ExpandedIDs: 00000000cc090000220a0000720a0000a80a0000aa0b0000fa0b0000e80c0000f20c000080300000823000008430000086300000883000008a3000008c300000
->>>>>>> origin/healtheconactions
+    scrollPos: {x: 0, y: 60}
+    m_SelectedIDs: 5c2b0000
+    m_LastClickedID: 11100
+    m_ExpandedIDs: 00000000d42a0000662b0000842c0000cc2c0000282d0000b82d00004a3400004c3400004e3400005034000052340000543400005634000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: CloseSchools
+      m_OriginalName: CloseSchools
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 11762
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 0}
+      m_ClientGUIView: {fileID: 5}
     m_SearchString: 
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
@@ -473,11 +378,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-<<<<<<< HEAD
-    m_ExpandedIDs: 00000000cc0900006c0a0000a00b0000ee0b0000520c0000ee0c00008430000086300000883000008a3000008c3000008e30000090300000
-=======
-    m_ExpandedIDs: 00000000cc090000220a0000720a0000a80a0000aa0b0000fa0b0000e80c0000f20c000080300000823000008430000086300000883000008a3000008c300000
->>>>>>> origin/healtheconactions
+    m_ExpandedIDs: 00000000d42a0000662b0000842c0000cc2c0000282d0000b82d00004a3400004c3400004e34000050340000523400005434000056340000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -504,11 +405,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-<<<<<<< HEAD
     m_HadKeyboardFocusLastEvent: 0
-=======
-    m_HadKeyboardFocusLastEvent: 1
->>>>>>> origin/healtheconactions
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -525,7 +422,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 5}
+      m_ClientGUIView: {fileID: 0}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0
@@ -535,7 +432,7 @@ MonoBehaviour:
     m_NewAssetIndexInList: -1
     m_ScrollPosition: {x: 0, y: 0}
     m_GridSize: 64
-  m_DirectoriesAreaWidth: 219
+  m_DirectoriesAreaWidth: 249
 --- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -552,22 +449,15 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Inspector
-    m_Image: {fileID: -6905738622615590433, guid: 0000000000000000d000000000000000,
+    m_Image: {fileID: -2667387946076563598, guid: 0000000000000000d000000000000000,
       type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-<<<<<<< HEAD
-    x: 1148
-    y: 73.6
-    width: 386
-    height: 711
-=======
-    x: 1194
-    y: 72
-    width: 304
-    height: 848
->>>>>>> origin/healtheconactions
+    x: 938
+    y: 73
+    width: 420
+    height: 615
   m_PersistentViewDataDictionary: {fileID: 0}
   m_ObjectsLockedBeforeSerialization: []
   m_InstanceIDsLockedBeforeSerialization: 
@@ -594,34 +484,22 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Hierarchy
-    m_Image: {fileID: -590624980919486359, guid: 0000000000000000d000000000000000,
+    m_Image: {fileID: 7966133145522015247, guid: 0000000000000000d000000000000000,
       type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
     x: 0
-<<<<<<< HEAD
-    y: 73.6
-    width: 281
-    height: 437
-=======
-    y: 72
-    width: 263
-    height: 474
->>>>>>> origin/healtheconactions
+    y: 73
+    width: 306
+    height: 390
   m_PersistentViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-<<<<<<< HEAD
-      m_SelectedIDs: 9a0c0000
-      m_LastClickedID: 0
-      m_ExpandedIDs: defbffff
-=======
-      m_SelectedIDs: 30f6ffff
-      m_LastClickedID: -2512
-      m_ExpandedIDs: 98f6ffffdefbffffcc0d0000560e0000100f0000
->>>>>>> origin/healtheconactions
+      m_SelectedIDs: d8e8ffff
+      m_LastClickedID: -5928
+      m_ExpandedIDs: dce8ffffd2f5ffff722e0000fe2e0000c42f0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -644,7 +522,7 @@ MonoBehaviour:
     m_LockTracker:
       m_IsLocked: 0
     m_CurrentSortingName: TransformSorting
-  m_WindowGUID: 5e50f7f3189768c46b6eba837e8f9ece
+  m_WindowGUID: f000926abb094a947b50733ba8e12667
 --- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -661,31 +539,25 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Scene
-    m_Image: {fileID: 0}
+    m_Image: {fileID: 2318424515335265636, guid: 0000000000000000d000000000000000,
+      type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-<<<<<<< HEAD
-    x: 283.2
-    y: 73.6
-    width: 861
-    height: 437
-=======
-    x: 265
-    y: 72
-    width: 925
-    height: 474
->>>>>>> origin/healtheconactions
+    x: 308
+    y: 73
+    width: 626
+    height: 390
   m_PersistentViewDataDictionary: {fileID: 0}
-  m_WindowGUID: a1d3c79ceae117144ac517d50a92bd55
+  m_WindowGUID: c2fb461b9c062b549be55cde31f78a25
   m_SceneLighting: 1
   m_2DMode: 1
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 1.669371, y: 0.975433, z: 64.36956}
+    m_Target: {x: 0, y: 0, z: 0}
     speed: 2
-    m_Value: {x: 1.669371, y: 0.975433, z: 64.36956}
+    m_Value: {x: 0, y: 0, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -717,9 +589,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 13.029774
+    m_Target: 10
     speed: 2
-    m_Value: 13.029774
+    m_Value: 10
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -747,15 +619,15 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Game
-    m_Image: {fileID: -2087823869225018852, guid: 0000000000000000d000000000000000,
+    m_Image: {fileID: -6423792434712278376, guid: 0000000000000000d000000000000000,
       type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 283.2
-    y: 73.6
-    width: 861
-    height: 437
+    x: 308
+    y: 73
+    width: 626
+    height: 390
   m_PersistentViewDataDictionary: {fileID: 0}
   m_MaximizeOnPlay: 0
   m_Gizmos: 0
@@ -767,19 +639,19 @@ MonoBehaviour:
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -373.5
-    m_HBaseRangeMax: 373.5
-    m_VBaseRangeMin: -210
-    m_VBaseRangeMax: 210
+    m_HBaseRangeMin: -313
+    m_HBaseRangeMax: 313
+    m_VBaseRangeMin: -176
+    m_VBaseRangeMax: 176
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
     m_VAllowExceedBaseRangeMax: 1
     m_ScaleWithWindow: 0
-    m_HSlider: 0
-    m_VSlider: 0
+    m_HSlider: 1
+    m_VSlider: 1
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 0
+    m_EnableMouseInput: 1
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -788,25 +660,25 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 17
-      width: 861
-      height: 420
-    m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 430.5, y: 210}
+      width: 626
+      height: 373
+    m_Scale: {x: 1.0609, y: 1.0609}
+    m_Translation: {x: 325.21027, y: 186.28162}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -430.5
-      y: -210
-      width: 861
-      height: 420
+      x: -306.54187
+      y: -175.58829
+      width: 590.06506
+      height: 351.5883
     m_MinimalGUI: 1
   m_defaultScale: 1
   m_TargetTexture: {fileID: 0}
   m_CurrentColorSpace: 0
-  m_LastWindowPixelSize: {x: 861, y: 437}
+  m_LastWindowPixelSize: {x: 626, y: 390}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -827,20 +699,13 @@ MonoBehaviour:
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Console
-    m_Image: {fileID: 111653112392082826, guid: 0000000000000000d000000000000000,
+    m_Image: {fileID: -4327648978806127646, guid: 0000000000000000d000000000000000,
       type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-<<<<<<< HEAD
-    x: 7.2000003
-    y: 441.6
-    width: 1081
-    height: 254
-=======
     x: 0
-    y: 566
-    width: 1192
-    height: 354
->>>>>>> origin/healtheconactions
+    y: 483
+    width: 936
+    height: 205
   m_PersistentViewDataDictionary: {fileID: 0}

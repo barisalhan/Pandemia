@@ -7066,6 +7066,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: IncreaseCorporateTaxes
       objectReference: {fileID: 0}
+    - target: {fileID: 3163737851337040191, guid: 001a72240a23d134e8ace04ea8cdc83c,
+        type: 3}
+      propertyPath: actionData
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3556438758999878240, guid: 001a72240a23d134e8ace04ea8cdc83c,
         type: 3}
       propertyPath: actionData
