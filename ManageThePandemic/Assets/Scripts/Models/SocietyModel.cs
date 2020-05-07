@@ -16,10 +16,23 @@ public class SocietyModel : MTPScriptableObject
     //[Dependent]
     public double happiness;
 
+    public EventHandler<HappinessArgs> HappinessChanged;
+
     public double CalculateHappiness()
     {
         happiness = Math.Min(Math.Min(economicWellBeing, virusSituation), personalWellBeing);
+
+        OnHappinessChanged();
+
         return happiness;
+    }
+
+    public void OnHappinessChanged()
+    {
+        if (HappinessChanged != null)
+        {
+            HappinessChanged(this, new HappinessArgs(happiness));
+        }
     }
 
     public void ExecuteEvent(string targetParameter,
@@ -80,5 +93,15 @@ public class SocietyModel : MTPScriptableObject
         {
             Debug.Log("Unknown parameter type is entered.");
         }
+    }
+}
+
+public class HappinessArgs
+{
+    public double value;
+
+    public HappinessArgs(double value)
+    {
+        this.value = value;
     }
 }

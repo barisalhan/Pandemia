@@ -18,7 +18,6 @@ using UnityEngine.UI;
  */
 public class ActionsController : MonoBehaviour
 {
-    [SerializeField]
     public List<GameObject> actions;
 
     private GameController gameController;

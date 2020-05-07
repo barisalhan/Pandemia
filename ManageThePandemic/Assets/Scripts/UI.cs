@@ -18,13 +18,23 @@ public class UI : MonoBehaviour
     [SerializeField]
     private GameObject ActionTreePanel;
 
+    private BarController barController;
+
     public void Awake()
     {
         gameController = mainGameObject.GetComponent<GameController>();
         regionSprites = GetComponent<RegionSprites>();
+        barController = GetComponent<BarController>();
+
+        SubscribeBarToSocietyModel();
     }
-    
-    
+
+    private void SubscribeBarToSocietyModel()
+    {
+        gameController.countryController.societyModel.HappinessChanged += barController.OnHappinesChanged;
+    }
+
+
     public void OnClickRegion(string regionName)
     {
         RegionController regionController = gameController.countryController.GetRegionByString(regionName);
