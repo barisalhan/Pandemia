@@ -14,7 +14,8 @@ using Object = System.Object;
  */
 public class GameController : MonoBehaviour, ITimeDrivable
 {
-    private Dictionary<int, List<MTPEvent>> calendar = new Dictionary<int, List<MTPEvent>>();
+    private Dictionary<int, List<MTPEvent>> eventCalendar = new Dictionary<int, List<MTPEvent>>();
+    private Dictionary<int, List<SubscriberPublisher>> actionCalendar = new Dictionary<int, List<SubscriberPublisher>>();
 
     [SerializeField]
     public CountryController countryController;
@@ -29,6 +30,7 @@ public class GameController : MonoBehaviour, ITimeDrivable
     public void Start()
     {
         SetDefaultEnvironment();
+        countryController.ChangeBudget(0);
     }
 
     public void SetDefaultEnvironment()
@@ -45,6 +47,20 @@ public class GameController : MonoBehaviour, ITimeDrivable
     {
         countryController.NextDay();
         Time.NextDay();
+
+        ExecuteActionCalendar();
+    }
+
+    private void ExecuteActionCalendar()
+    {
+        int today = Time.GetInstance().GetDay();
+        if (actionCalendar.ContainsKey(today))
+        {
+            foreach (var publisher in actionCalendar[today])
+            {
+                publisher.OnActionCompleted();
+            }
+        }
     }
 
 
@@ -52,23 +68,56 @@ public class GameController : MonoBehaviour, ITimeDrivable
     {
         foreach (var action in actionsController.actions)
         {
-            action.GetComponent<SubscriberPublisher>().ButtonClicked += OnActionTaken;
+            action.GetComponent<SubscriberPublisher>().buttonClicked += OnActionTaken;
         }
     }
 
-    //TODO: You left in here. Bundan sonra yapialcak sey, buradan gelen dataya gore
-    //budget ve calendar uzerinde islemler yaparak aksiyonu gerceklestirmek.
+
+    /*
+     * Subscription-related method.
+     *
+     */
     public void OnActionTaken(object source, ActionDataArgs actionDataArgs)
     {
-        Debug.Log("Greetings from GameController.");
-        ActionData actionData = actionDataArgs.actionData;
-
-        if (actionData.cost > 0)
+        //TODO: check in the beginning of the game if we have enough money to take the action.
+        int cost = actionDataArgs.actionData.cost;
+        if (cost > 0)
         {
-            countryController.ChangeBudget(actionData.cost);
+            countryController.ChangeBudget(cost);
         }
-        AddActionToCalendar(actionData);
 
+
+        int timeToComplete = actionDataArgs.actionData.timeToComplete;
+
+        if (timeToComplete > 0)
+        {
+            //TODO: change Time class to get today.
+            int today = Time.GetInstance().GetDay();
+
+            int completionDay = today + timeToComplete;
+
+            if (!actionCalendar.ContainsKey(completionDay))
+            {
+                actionCalendar.Add(completionDay, new List<SubscriberPublisher>());
+            }
+
+            actionCalendar[completionDay].Add(actionDataArgs.publisher);
+
+            Debug.Log("An action with initialization time is taken. Now it is under progress.");
+        }
+        else
+        {
+            Debug.Log("An immediate action is taken.");
+            OnActionCompleted(actionDataArgs);
+        }
+    }
+
+
+    public void OnActionCompleted(ActionDataArgs actionDataArgs)
+    {
+        actionDataArgs.publisher.OnActionCompleted();
+
+        AddActionToCalendar(actionDataArgs.actionData);
     }
 
 
@@ -77,8 +126,7 @@ public class GameController : MonoBehaviour, ITimeDrivable
         throw new NotImplementedException();
     }
 
- 
-    //TODO: anlik actionlari kontrol et.
+    
     public void AddActionToCalendar(ActionData actionData)
     {
         foreach (MTPEvent MTPevent in actionData.events)
@@ -92,12 +140,12 @@ public class GameController : MonoBehaviour, ITimeDrivable
         int today = Time.GetInstance().GetDay();
         int eventDay = today + MTPevent.delayTime;
 
-        if ( !calendar.ContainsKey(eventDay) )
+        if ( !eventCalendar.ContainsKey(eventDay) )
         {
-            calendar.Add(eventDay, new List<MTPEvent>());
+            eventCalendar.Add(eventDay, new List<MTPEvent>());
         }
 
-        calendar[eventDay].Add(MTPevent);
+        eventCalendar[eventDay].Add(MTPevent);
     }
 
     private void ExecuteCurrentEvents()

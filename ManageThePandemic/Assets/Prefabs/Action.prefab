@@ -214,9 +214,10 @@ GameObject:
   - component: {fileID: 5135906134919505273}
   - component: {fileID: 5135906134919505272}
   - component: {fileID: 5135906134919505279}
+  - component: {fileID: 114466728644267238}
   m_Layer: 5
   m_Name: Action
-  m_TagString: Untagged
+  m_TagString: ActionObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -281,6 +282,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependentActions: []
+--- !u!114 &114466728644267238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5135906134919505277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a4c4cda3edf9c499124cc57c6b5ffd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5135906135418890564
 GameObject:
   m_ObjectHideFlags: 0

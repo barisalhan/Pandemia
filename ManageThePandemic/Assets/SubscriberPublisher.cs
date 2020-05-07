@@ -22,16 +22,28 @@ public class SubscriberPublisher : MonoBehaviour
     public List<GameObject> dependentActions;
     
     // Publisher-Related
-    public EventHandler<ActionDataArgs> ButtonClicked;
+    public EventHandler<ActionDataArgs> actionCompleted;
+    public EventHandler<ActionDataArgs> buttonClicked;
 
     private ActionDataHolder actionDataHolder;
     private ActionData actionData;
+
+    private ActionUIController actionUIController;
+
+    private ActionDataArgs actionDataArgs;
+
 
     public void Awake()
     {
         actionDataHolder = GetComponent<ActionDataHolder>();
         actionData = actionDataHolder.actionData;
+
+        actionDataArgs = new ActionDataArgs(this, actionData);
+
+        actionUIController = GetComponent<ActionUIController>();
     }
+
+
     public void OnClick()
     {
         Debug.Log("Clicked."+this.name);
@@ -41,20 +53,39 @@ public class SubscriberPublisher : MonoBehaviour
 
     /*
      * Publisher-Related method
+     *
+     * In the future, if someone wants to connect animations to actions,
+     * the correct place is this method! And it should end the animation
+     * when the OnActionCompleted() method is called.
      */
     protected virtual void OnButtonClicked()
     { 
-        if (ButtonClicked != null)
+        if (buttonClicked != null)
         {
-            ButtonClicked(this, new ActionDataArgs(actionData));
+            buttonClicked(this, actionDataArgs);
+        }
+    }
+
+
+    /*
+     * Publisher-Related method
+     *
+     */
+    public virtual void OnActionCompleted()
+    {
+        if (actionCompleted != null)
+        {
+            actionCompleted(this, actionDataArgs);
         }
     }
 
 
     /*
      * Subscription-Related method
+     *
+     * It is called when the action that we depend on is completed.
      */
-    public void OnOtherButtonClicked(object source, ActionDataArgs actionDataArgs)
+    public void OnAnotherActionCompleted(object source, ActionDataArgs actionDataArgs)
     {
         Debug.Log("Greetings from Greece." + this.name +  " " +actionDataArgs.actionData.actionName);
         gameObject.SetActive(true);
@@ -64,15 +95,25 @@ public class SubscriberPublisher : MonoBehaviour
     public void OnBudgetChanged(object source, BudgetArgs budgetArgs)
     {
         Debug.Log("Saw the change in the budget." + this.name);
+        if (budgetArgs.budget < actionData.cost)
+        {
+            actionUIController.OnLowBudget();
+            Debug.Log("State: On low budget.");
+        }
     }
 }
+
 
 public class ActionDataArgs
 {
+    public SubscriberPublisher publisher;
     public ActionData actionData { get; set; }
 
-    public ActionDataArgs(ActionData actionData)
+    public ActionDataArgs(SubscriberPublisher publisher,
+                          ActionData actionData)
     {
+        this.publisher = publisher;
         this.actionData = actionData;
     }
 }
+

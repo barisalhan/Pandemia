@@ -38,15 +38,22 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
 
     public EventHandler<BudgetArgs> BudgetChanged;
 
+    public void ChangeBudget(int cost)
+    {
+        totalBudget -= cost;
+        OnBudgetChanged();
+    }
+
     protected virtual void OnBudgetChanged()
     {
-        Debug.Log("cagirildi.");
+        Debug.Log("Budget is changed.");
         if (BudgetChanged != null)
         {
             //WARNING: PERFORMANCE COULD BE IMPROVED!
             BudgetChanged(this, new BudgetArgs(totalBudget));
         }
     }
+
 
     public void SetDefaultEnvironment()
     {
@@ -63,6 +70,7 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
 
         CreateFirstOutbreak();
     }
+
 
     public void NextDay()
     {
@@ -133,17 +141,12 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
         
     }
 
+
     public int GetBudget()
     {
         return totalBudget;
     }
 
-    
-    public void ChangeBudget(int cost)
-    {
-        totalBudget -= cost;
-        OnBudgetChanged();
-    }
 
     public RegionController GetRegionByString(string regionName)
     {
@@ -152,22 +155,25 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
         RegionController regionController = GetRegionByName(currentRegion);
         return regionController;
     }
+
+
     public RegionController GetRegionByName(Name regionName)
     {
         int index = indexTable[regionName];
         return regionControllers[index];
     }
 
+
     public int GetPopulation()
     {
         return population;
     }
 
+
     public int GetActiveCases()
     {
         return activeCases;
     }
-
 }
 
 
