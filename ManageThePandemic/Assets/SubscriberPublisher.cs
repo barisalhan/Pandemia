@@ -28,6 +28,8 @@ public class SubscriberPublisher : MonoBehaviour
     private ActionDataHolder actionDataHolder;
     private ActionData actionData;
 
+    private ActionUIController actionUIController;
+
     private ActionDataArgs actionDataArgs;
 
 
@@ -37,6 +39,8 @@ public class SubscriberPublisher : MonoBehaviour
         actionData = actionDataHolder.actionData;
 
         actionDataArgs = new ActionDataArgs(this, actionData);
+
+        actionUIController = GetComponent<ActionUIController>();
     }
 
 
@@ -91,6 +95,11 @@ public class SubscriberPublisher : MonoBehaviour
     public void OnBudgetChanged(object source, BudgetArgs budgetArgs)
     {
         Debug.Log("Saw the change in the budget." + this.name);
+        if (budgetArgs.budget < actionData.cost)
+        {
+            actionUIController.OnLowBudget();
+            Debug.Log("State: On low budget.");
+        }
     }
 }
 

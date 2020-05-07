@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionName: 
   description: 
-  cost: 0
+  cost: 200
+  timeToComplete: 0
   events: []

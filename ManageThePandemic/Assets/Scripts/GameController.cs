@@ -30,6 +30,7 @@ public class GameController : MonoBehaviour, ITimeDrivable
     public void Start()
     {
         SetDefaultEnvironment();
+        countryController.ChangeBudget(0);
     }
 
     public void SetDefaultEnvironment()

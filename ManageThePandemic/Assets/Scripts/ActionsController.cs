@@ -6,11 +6,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-/*
- * TODO: 1- Takviem vermek icin event
- * 
- */
-
 
 /*
  * Controls the relationships between Actions and GameController.
