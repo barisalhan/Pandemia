@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce2329fe529647344961938d6c584d95, type: 3}
   m_Name: SocietyModelUSA
   m_EditorClassIdentifier: 
-  economicWellBeing: 25
-  faithInGovernment: 25
-  virusSituation: 25
-  personalWellBeing: 25
+  economicWellBeing: 0.65
+  virusSituation: 0.5
+  personalWellBeing: 0.5
+  happiness: 0.5
