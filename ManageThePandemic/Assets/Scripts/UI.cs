@@ -26,15 +26,19 @@ public class UI : MonoBehaviour
 
     private StatisticsPanelController statisticsPanelController;
 
+    private UpperPanelController upperPanelController;
+
     public void Awake()
     {
         gameController = mainGameObject.GetComponent<GameController>();
         regionSprites = GetComponent<RegionSprites>();
         barController = GetComponent<BarController>();
         statisticsPanelController = GetComponent<StatisticsPanelController>();
-        
+        upperPanelController = GetComponent<UpperPanelController>();
+
         SubscribeBarToSocietyModel();
         SubscribeStatisticsToGameController();
+        SubscribeUpperPanelToBudget();
     }
 
 
@@ -43,11 +47,16 @@ public class UI : MonoBehaviour
         gameController.countryController.societyModel.HappinessChanged += barController.OnHappinesChanged;
     }
 
+
     private void SubscribeStatisticsToGameController()
     {
         gameController.NextDayClicked += statisticsPanelController.OnNextDayClicked;
     }
 
+    private void SubscribeUpperPanelToBudget()
+    {
+        
+    }
 
     public void OnClickRegion(string regionName)
     {
