@@ -22,6 +22,8 @@ public class GameController : MonoBehaviour, ITimeDrivable
 
     private ActionsController actionsController;
 
+    public EventHandler<DailyStatisticsArgs> NextDayClicked;
+
     public void Awake()
     {
         actionsController = GetComponent<ActionsController>();
@@ -46,6 +48,9 @@ public class GameController : MonoBehaviour, ITimeDrivable
     public void NextDay()
     {
         countryController.NextDay();
+        //TODO: check if it is safe or not.
+        OnNextDayClicked();
+
         Time.NextDay();
 
         ExecuteActionCalendar();
@@ -123,6 +128,18 @@ public class GameController : MonoBehaviour, ITimeDrivable
         }
     }
 
+
+    protected virtual void OnNextDayClicked()
+    {
+        if (NextDayClicked != null)
+        {
+            var statistics = GetDailyStatistics();
+            DailyStatisticsArgs dailyStatistics = new DailyStatisticsArgs(statistics.Item1,
+                                                                        statistics.Item2,
+                                                                           statistics.Item3);
+            NextDayClicked(this, dailyStatistics);
+        }
+    }
 
     private void SubscribeToActions()
     {
@@ -209,9 +226,34 @@ public class GameController : MonoBehaviour, ITimeDrivable
         eventCalendar[eventDay].Add(MTPevent);
     }
 
-    private void ExecuteCurrentEvents()
+
+    public Tuple<int,int,int> GetDailyStatistics()
     {
-        throw new System.NotImplementedException();
+        // TODO: check if connections are correct or not.
+        int activeCases = countryController.GetActiveCases();
+        int recoveredCases = countryController.GetRecoveredCases();
+        int deathCases = countryController.GetDeathCases();
+
+        var result = Tuple.Create(activeCases, recoveredCases, deathCases);
+
+        return result;
+    }
+
+}
+
+public class DailyStatisticsArgs
+{
+    public int activeCases = 0;
+    public int recoveredCases = 0;
+    public int deathCases = 0;
+
+    public DailyStatisticsArgs(int activeCases,
+                               int recoveredCases,
+                               int deathCases)
+    {
+        this.activeCases = activeCases;
+        this.recoveredCases = recoveredCases;
+        this.deathCases = deathCases;
     }
 }
 

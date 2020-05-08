@@ -12,6 +12,10 @@ public class UI : MonoBehaviour
     public RegionSprites regionSprites;
     private SpriteRenderer currentlyOpenRegionInPanel = null;
 
+    //TODO: add wavy color
+    private Color32 regionBaseColor = new Color32(57, 136, 136, 255);
+    private Color32 regionOnClickColor = new Color32(32, 110, 110, 255);
+
     [SerializeField]
     private GameObject InfoPanel;
 
@@ -20,23 +24,28 @@ public class UI : MonoBehaviour
 
     private BarController barController;
 
-    //TODO: add wavy color
-    private Color32 regionBaseColor = new Color32(57, 136, 136, 255);
-    private Color32 regionOnClickColor = new Color32(32, 110, 110, 255);
-
+    private StatisticsPanelController statisticsPanelController;
 
     public void Awake()
     {
         gameController = mainGameObject.GetComponent<GameController>();
         regionSprites = GetComponent<RegionSprites>();
         barController = GetComponent<BarController>();
-
+        statisticsPanelController = GetComponent<StatisticsPanelController>();
+        
         SubscribeBarToSocietyModel();
+        SubscribeStatisticsToGameController();
     }
+
 
     private void SubscribeBarToSocietyModel()
     {
         gameController.countryController.societyModel.HappinessChanged += barController.OnHappinesChanged;
+    }
+
+    private void SubscribeStatisticsToGameController()
+    {
+        gameController.NextDayClicked += statisticsPanelController.OnNextDayClicked;
     }
 
 
@@ -88,4 +97,5 @@ public class UI : MonoBehaviour
     {
         ActionTreePanel.SetActive(true);
     }
+
 }
