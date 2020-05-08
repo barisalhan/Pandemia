@@ -23,6 +23,7 @@ public class ActionInfoViewer : MonoBehaviour
 
     public void OnClick()
     {
-        actionInfoPanel.SetActive(true);       
+        actionInfoPanel.SetActive(true);
+        gameObject.transform.SetAsLastSibling();
     }
 }
