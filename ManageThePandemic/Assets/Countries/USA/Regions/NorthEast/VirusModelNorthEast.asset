@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db2e85e1a533e4d419edc03fe4dfc609, type: 3}
   m_Name: VirusModelNorthEast
   m_EditorClassIdentifier: 
-  averageNumberOfContactedPeople: 1
-  vulnerabilityRatio: 0.999998987854251
-  probabilityOfTransmittingInfection: 0.16
-  growthRateParameter: 0.15999983805668017
+  vulnerabilityRatio: 1
+  effectRatio: 0.5
+  growthRateParameter: 0.5

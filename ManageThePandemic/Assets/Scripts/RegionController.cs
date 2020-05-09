@@ -63,7 +63,7 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
         healthSystemModel.UpdateParameters();
 
         activeCases.Add(0, 0);
-        vulnerablePopulation = population - 1;
+        vulnerablePopulation = population/5 - 1;
         virusModel.UpdateParameters(population, vulnerablePopulation);
     }
 

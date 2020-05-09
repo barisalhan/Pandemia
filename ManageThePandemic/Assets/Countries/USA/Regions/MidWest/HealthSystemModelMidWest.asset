@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eef02a71423d1c94393c0f4a80a54eb5, type: 3}
   m_Name: HealthSystemModelMidWest
   m_EditorClassIdentifier: 
-  icuCapacity: 500
-  activeCaseUnitCapacity: 1000
+  ICUCapacity: 30000
+  ACUCapacity: 30000
   delayACU: 14
-  medicineEffectACU: 1
-  medicineEffectICU: 0
+  medicineEffectACU: 0.4
+  medicineEffectICU: 0.4
