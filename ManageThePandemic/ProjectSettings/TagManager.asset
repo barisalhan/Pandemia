@@ -6,6 +6,7 @@ TagManager:
   tags:
   - TabButton
   - ActionObject
+  - ActionInfoPanel
   layers:
   - Default
   - TransparentFX
