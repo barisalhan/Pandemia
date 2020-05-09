@@ -174,6 +174,28 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
     {
         return activeCases;
     }
+
+    public int GetRecoveredCases()
+    {
+        int today = Time.GetInstance().GetDay();
+        int result = 0;
+        foreach (var regionController in regionControllers)
+        {
+            result += regionController.healthSystemModel.aggregateRecoveredCases[today];
+        }
+        return result;
+    }
+
+    public int GetDeathCases()
+    {
+        int today = Time.GetInstance().GetDay();
+        int result = 0;
+        foreach (var regionController in regionControllers)
+        {
+            result += regionController.healthSystemModel.aggregateDeathCases[today];
+        }
+        return result;
+    }
 }
 
 

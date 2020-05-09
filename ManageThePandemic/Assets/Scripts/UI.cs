@@ -12,6 +12,10 @@ public class UI : MonoBehaviour
     public RegionSprites regionSprites;
     private SpriteRenderer currentlyOpenRegionInPanel = null;
 
+    //TODO: add wavy color
+    private Color32 regionBaseColor = new Color32(57, 136, 136, 255);
+    private Color32 regionOnClickColor = new Color32(32, 110, 110, 255);
+
     [SerializeField]
     private GameObject InfoPanel;
 
@@ -20,20 +24,39 @@ public class UI : MonoBehaviour
 
     private BarController barController;
 
+    private StatisticsPanelController statisticsPanelController;
+
+    private UpperPanelController upperPanelController;
+
     public void Awake()
     {
         gameController = mainGameObject.GetComponent<GameController>();
         regionSprites = GetComponent<RegionSprites>();
         barController = GetComponent<BarController>();
+        statisticsPanelController = GetComponent<StatisticsPanelController>();
+        upperPanelController = GetComponent<UpperPanelController>();
 
         SubscribeBarToSocietyModel();
+        SubscribeStatisticsToGameController();
+        SubscribeUpperPanelToBudget();
     }
+
 
     private void SubscribeBarToSocietyModel()
     {
         gameController.countryController.societyModel.HappinessChanged += barController.OnHappinesChanged;
     }
 
+
+    private void SubscribeStatisticsToGameController()
+    {
+        gameController.NextDayClicked += statisticsPanelController.OnNextDayClicked;
+    }
+
+    private void SubscribeUpperPanelToBudget()
+    {
+        
+    }
 
     public void OnClickRegion(string regionName)
     {
@@ -44,12 +67,12 @@ public class UI : MonoBehaviour
         if (currentlyOpenRegionInPanel != null)
         {
             //TODO: add a new color variable to generalize it.
-            currentlyOpenRegionInPanel.color = new Color32(35, 59, 59, 255);
+            currentlyOpenRegionInPanel.color = regionBaseColor;
         }
 
         currentlyOpenRegionInPanel = regionSpriteRenderer;
 
-        regionSpriteRenderer.color = new Color32(60, 116, 116, 255);
+        regionSpriteRenderer.color = regionOnClickColor;
 
         Text[] texts = InfoPanel.GetComponentsInChildren<Text>();
 
@@ -67,7 +90,7 @@ public class UI : MonoBehaviour
     {
         if (currentlyOpenRegionInPanel != null)
         {
-            currentlyOpenRegionInPanel.color = new Color32(35, 59, 59, 255);
+            currentlyOpenRegionInPanel.color = regionBaseColor;
             currentlyOpenRegionInPanel = null;
         }
 
@@ -83,4 +106,5 @@ public class UI : MonoBehaviour
     {
         ActionTreePanel.SetActive(true);
     }
+
 }
