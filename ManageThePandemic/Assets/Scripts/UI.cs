@@ -1,20 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
+    [SerializeField]
+    private Canvas countryCanvas;
+
+    [SerializeField]
+    private Canvas midCanvas;
+
+    [SerializeField]
+    private Canvas frontCanvas;
+
     public GameObject mainGameObject;
-    private GameController gameController;
 
     [HideInInspector]
-    public RegionSprites regionSprites;
-    private SpriteRenderer currentlyOpenRegionInPanel = null;
-
-    //TODO: add wavy color
-    private Color32 regionBaseColor = new Color32(57, 136, 136, 255);
-    private Color32 regionOnClickColor = new Color32(32, 110, 110, 255);
+    public GameController gameController;
 
     [SerializeField]
     private GameObject InfoPanel;
@@ -31,7 +35,6 @@ public class UI : MonoBehaviour
     public void Awake()
     {
         gameController = mainGameObject.GetComponent<GameController>();
-        regionSprites = GetComponent<RegionSprites>();
         barController = GetComponent<BarController>();
         statisticsPanelController = GetComponent<StatisticsPanelController>();
         upperPanelController = GetComponent<UpperPanelController>();
@@ -55,56 +58,22 @@ public class UI : MonoBehaviour
 
     private void SubscribeUpperPanelToBudget()
     {
-        
+      //TODO: implement here.
     }
 
-    public void OnClickRegion(string regionName)
+
+    public void OnClickOpenActionTreePanel()
     {
-        RegionController regionController = gameController.countryController.GetRegionByString(regionName);
-
-        SpriteRenderer regionSpriteRenderer = regionSprites.GetRegionSprite(regionName);
-
-        if (currentlyOpenRegionInPanel != null)
-        {
-            //TODO: add a new color variable to generalize it.
-            currentlyOpenRegionInPanel.color = regionBaseColor;
-        }
-
-        currentlyOpenRegionInPanel = regionSpriteRenderer;
-
-        regionSpriteRenderer.color = regionOnClickColor;
-
-        Text[] texts = InfoPanel.GetComponentsInChildren<Text>();
-
-        int today = Time.GetInstance().GetDay();
-
-        //TODO: create names!
-        texts[1].text = regionController.activeCases[today - 1].ToString();
-        texts[3].text = regionController.healthSystemModel.aggregateDeathCases[today - 1].ToString();
-        texts[5].text = regionController.healthSystemModel.aggregateRecoveredCases[today - 1].ToString();
-
-        InfoPanel.SetActive(true);
-    }
-    
-    public void OnClickCloseRegionPanel()
-    {
-        if (currentlyOpenRegionInPanel != null)
-        {
-            currentlyOpenRegionInPanel.color = regionBaseColor;
-            currentlyOpenRegionInPanel = null;
-        }
-
-        InfoPanel.SetActive(false);
+        countryCanvas.gameObject.SetActive(false);
+        midCanvas.gameObject.SetActive(false);
+        frontCanvas.gameObject.SetActive(true);
     }
 
     public void OnClickCloseActionTreePanel()
     {
-        ActionTreePanel.SetActive(false);
-    }
-
-    public void OnClickOpenActionTreePanel()
-    {
-        ActionTreePanel.SetActive(true);
+        countryCanvas.gameObject.SetActive(true);
+        midCanvas.gameObject.SetActive(true);
+        frontCanvas.gameObject.SetActive(false);
     }
 
 }

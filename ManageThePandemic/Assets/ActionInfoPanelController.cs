@@ -15,20 +15,21 @@ public class ActionInfoPanelController : MonoBehaviour
 
     public void Update()
     {
-        HideIfClickedOutside(gameObject);
+        if (Input.GetMouseButton(0) && gameObject.activeSelf)
+        {
+            HideIfClickedOutside();
+        }
     }
 
 
-    private void HideIfClickedOutside(GameObject panel)
+    private void HideIfClickedOutside()
     {
-        if (Input.GetMouseButton(0) && panel.activeSelf)
+        if (!RectTransformUtility.RectangleContainsScreenPoint(panelRectTransform,
+                                                               Input.mousePosition,
+                                                               Camera.main))
         {
-            if (!RectTransformUtility.RectangleContainsScreenPoint(panelRectTransform,
-                                                                   Input.mousePosition,
-                                                                   Camera.main))
-            {
-                panel.SetActive(false);
-            }
+            gameObject.SetActive(false);
         }
+        
     }
 }
