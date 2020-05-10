@@ -65,6 +65,8 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
         activeCases.Add(0, 0);
         vulnerablePopulation = population/5 - 1;
         virusModel.UpdateParameters(population, vulnerablePopulation);
+
+        economyModel.SetDefaultModel();
     }
 
 
@@ -81,8 +83,8 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
 
         dailyNewCaseNumber = virusModel.CalculateDailyNewCase(normalizedPopulation,
                                                               activeCases[Time.GetInstance().GetDay() - 1]);
-        dailyTax = economyModel.CalculateTax(population, isQuarantined);
-
+        dailyTax = economyModel.CalculateTax(population);
+        
         UpdateFields();
         //Debug.Log(name + " " + activeCases[Time.GetInstance().GetDay()-1]);
         Debug.Log(name + " " + isInfected + " Total cases: " + activeCases[Time.GetInstance().GetDay()] );

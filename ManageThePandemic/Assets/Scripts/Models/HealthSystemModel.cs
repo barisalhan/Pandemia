@@ -313,7 +313,7 @@ public class HealthSystemModel : MTPScriptableObject
                              int effectType,
                              double effectValue)
     {
-        if (effectType != 0 || effectType != 1)
+        if (effectType != 0 && effectType != 1)
         {
             Debug.Log("Unknown effect type is entered for the health system model.");
             return;

@@ -12,23 +12,36 @@ public class EconomyModel : MTPScriptableObject
 
     //[Independent]
     [SerializeField]
-    private double economicSituation = 1;
+    private double economicSituation;
 
     // There is no upper limit for it.
     //[Independent]
-    private double taxCoefficient = 1;
+    [SerializeField]
+    private double taxCoefficient;
 
 
     // We assume that a million people give 1 game money as a tax.
-    private double normalization = 1/1e6;
+    private double normalization;
 
 
     public EventHandler<EconomicSituationArgs> EconomicSituationChanged;
 
-    public int CalculateTax(int population, bool isQuarantined)
+    public void SetDefaultModel()
     {
-        return (int) (population * normalization * economicDevelopmentCoefficient 
-                      * economicSituation * taxCoefficient);
+        economicDevelopmentCoefficient = 1;
+        economicSituation = 1;
+        taxCoefficient = 1;
+        normalization = 1 / 1e6;
+    }
+
+    public int CalculateTax(int population)
+
+    {
+        
+        int tax = (int) (population * normalization * economicDevelopmentCoefficient
+                         * economicSituation * taxCoefficient);
+        return tax ;
+        
     }
 
 
@@ -51,7 +64,7 @@ public class EconomyModel : MTPScriptableObject
     {
         if (targetParameter == "economicSituation")
         {
-            Debug.Log("Executing a geometric event in virus model.");
+            Debug.Log("Executing a geometric event in economy model.");
             if (effectValue > 0)
             {
                 economicSituation += (1.0 - economicSituation) * effectValue;
@@ -65,7 +78,7 @@ public class EconomyModel : MTPScriptableObject
         }
         else if (targetParameter == "taxCoefficient")
         {
-            Debug.Log("Executing a geometric event in virus model.");
+            Debug.Log("Executing a geometric event in economy model.");
             taxCoefficient *= effectValue;
             if (effectValue < 0)
             {

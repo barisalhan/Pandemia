@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionName: 
   description: 
-  cost: 0
+  cost: 10
   timeToComplete: 0
-  events: []
+  events:
+  - {fileID: 11400000, guid: 32c1f48dd2bc3374ca515973ab8de987, type: 2}

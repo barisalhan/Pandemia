@@ -18,6 +18,14 @@ public class SocietyModel : MTPScriptableObject
 
     public EventHandler<HappinessArgs> HappinessChanged;
 
+
+    public void SetDefaultModel()
+    {
+        economicWellBeing = 1;
+        virusSituation = 1;
+        personalWellBeing = 1;
+    }
+
     public double CalculateHappiness()
     {
         happiness = Math.Min(Math.Min(economicWellBeing, virusSituation), personalWellBeing);

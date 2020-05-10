@@ -44,6 +44,10 @@ public class UI : MonoBehaviour
         SubscribeUpperPanelToBudget();
     }
 
+    public void Start()
+    {
+        frontCanvas.gameObject.SetActive(false);
+    }
 
     private void SubscribeBarToSocietyModel()
     {
