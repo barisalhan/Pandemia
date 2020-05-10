@@ -16,6 +16,8 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
 
     private int normalizedPopulation;
 
+    private double normalizationCoefficent = 5;
+
     // When multiplied with free active cases it gives probability of outbreak
     [SerializeField] 
     private double travelFlowCoeff; 
@@ -54,7 +56,7 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
     public void SetDefaultEnvironment()
     {
         dailyNewCaseNumber = 0;
-        normalizedPopulation = population / 5;
+        normalizedPopulation = (int)(population / normalizationCoefficent);
         isInfected = false;
         isQuarantined = false;
 
@@ -63,7 +65,7 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
         healthSystemModel.UpdateParameters();
 
         activeCases.Add(0, 0);
-        vulnerablePopulation = population/5 - 1;
+        vulnerablePopulation = normalizedPopulation;
         virusModel.UpdateParameters(population, vulnerablePopulation);
 
         economyModel.SetDefaultModel();

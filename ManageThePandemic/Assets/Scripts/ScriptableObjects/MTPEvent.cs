@@ -17,7 +17,11 @@ public class MTPEvent : ScriptableObject
      * 0: arithmetic effect
      * 1: geometric effect
      * 2: boolean value change
-     *      Ex: Change the value of isQuarantined. 
+     *      Ex: Change the value of isQuarantined.
+     * 3: reverse effect
+     *      Currently, reverse effect is only valid for
+     *    geometric events. It reverts the effect of a
+     *    temporary action when the time ends.
      */
     public int effectType;
 
