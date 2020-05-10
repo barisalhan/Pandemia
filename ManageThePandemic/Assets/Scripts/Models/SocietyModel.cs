@@ -6,6 +6,16 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "ManageThePandemic/SocietyModel")]
 public class SocietyModel : MTPScriptableObject
 {
+    private const double MAX_ECONOMIC_WELL_BEING = 1;
+    private const double MIN_ECONOMIC_WELL_BEING = 0;
+
+    private const double MAX_VIRUS_SITUATION = 1;
+    private const double MIN_VIRUS_SITUATION = 0;
+
+    private const double MAX_PERSONAL_WELL_BEING = 1;
+    private const double MIN_PERSONAL_WELL_BEING = 0;
+
+
     public double economicWellBeing = 1;
 
     public double virusSituation = 1;
@@ -47,13 +57,20 @@ public class SocietyModel : MTPScriptableObject
                              int effectType,
                              double effectValue)
     {
-        if (effectType != 1)
+        if (effectType != 1 && effectType != 3)
         {
             Debug.Log("Unknown effect type is entered for the society model.");
             return;
         }
-        
-        ExecuteGeometricEvent(targetParameter, effectValue);
+
+        if (effectType == 1)
+        {
+            ExecuteGeometricEvent(targetParameter, effectValue);
+        }
+        else if (effectType == 3)
+        {
+            ExecuteReverseEvent(targetParameter, effectValue);
+        }
 
         CalculateHappiness();
     }
@@ -63,38 +80,94 @@ public class SocietyModel : MTPScriptableObject
     {
         if (targetParameter == "economicWellBeing")
         {
-            Debug.Log("Executing a geometric event in virus model.");
+            Debug.Log("Executing a geometric event in society model.");
             if (effectValue > 0)
             {
-                economicWellBeing += (1.0 - economicWellBeing) * effectValue;
+                economicWellBeing += (MAX_ECONOMIC_WELL_BEING - economicWellBeing) * effectValue;
             }
             else
             {
-                economicWellBeing += (economicWellBeing - 0.0) * effectValue;
+                economicWellBeing += (economicWellBeing - MIN_ECONOMIC_WELL_BEING) * effectValue;
             }
         }
         else if (targetParameter == "virusSituation")
         {
-            Debug.Log("Executing a geometric event in virus model.");
+            Debug.Log("Executing a geometric event in society model.");
             if (effectValue > 0)
             {
-                virusSituation += (1.0 - virusSituation) * effectValue;
+                virusSituation += (MAX_VIRUS_SITUATION - virusSituation) * effectValue;
             }
             else
             {
-                virusSituation += (virusSituation - 0.0) * effectValue;
+                virusSituation += (virusSituation - MIN_VIRUS_SITUATION) * effectValue;
             }
         }
         else if (targetParameter == "personalWellBeing")
         {
-            Debug.Log("Executing a geometric event in virus model.");
+            Debug.Log("Executing a geometric event in society model.");
             if (effectValue > 0)
             {
-                personalWellBeing += (1.0 - personalWellBeing) * effectValue;
+                personalWellBeing += (MAX_PERSONAL_WELL_BEING - personalWellBeing) * effectValue;
             }
             else
             {
-                personalWellBeing += (personalWellBeing - 0.0) * effectValue;
+                personalWellBeing += (personalWellBeing - MIN_PERSONAL_WELL_BEING) * effectValue;
+            }
+        }
+        else
+        {
+            Debug.Log("Unknown parameter type is entered.");
+        }
+    }
+
+    private void ExecuteReverseEvent(string targetParameter, double effectValue)
+    {
+        if (targetParameter == "economicWellBeing")
+        {
+            Debug.Log("Executing a reverse geometric event in society model.");
+            if (effectValue > 0)
+            {
+                double nominator = economicWellBeing - effectValue * MAX_ECONOMIC_WELL_BEING;
+                double denominator = 1 - effectValue;
+                economicWellBeing = nominator / denominator;
+            }
+            else
+            {
+                double nominator = economicWellBeing + effectValue * MIN_ECONOMIC_WELL_BEING;
+                double denominator = 1 + effectValue;
+                economicWellBeing = nominator / denominator;
+            }
+        }
+        else if (targetParameter == "virusSituation")
+        {
+            Debug.Log("Executing a reverse geometric event in society model.");
+            if (effectValue > 0)
+            {
+                double nominator = virusSituation - effectValue * MAX_VIRUS_SITUATION;
+                double denominator = 1 - effectValue;
+                virusSituation = nominator / denominator;
+            }
+            else
+            {
+                double nominator = virusSituation + effectValue * MIN_VIRUS_SITUATION;
+                double denominator = 1 + effectValue;
+                virusSituation = nominator / denominator;
+            }
+        }
+        else if (targetParameter == "personalWellBeing")
+        {
+            Debug.Log("Executing a geometric event in society model.");
+            if (effectValue > 0)
+            {
+                double nominator = personalWellBeing - effectValue * MAX_PERSONAL_WELL_BEING;
+                double denominator = 1 - effectValue;
+                personalWellBeing = nominator / denominator;
+            }
+            else
+            {
+                double nominator = personalWellBeing + effectValue * MIN_PERSONAL_WELL_BEING;
+                double denominator = 1 + effectValue;
+                personalWellBeing = nominator / denominator;
             }
         }
         else

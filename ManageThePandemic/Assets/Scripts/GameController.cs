@@ -12,6 +12,7 @@ using Object = System.Object;
  * Handles the actions and records the required events to the calendar.
  * Executes the events.
  */
+//TODO: Make a party about changing the model equation calculations to a central place!
 public class GameController : MonoBehaviour, ITimeDrivable
 {
     private Dictionary<int, List<MTPEvent>> eventCalendar = new Dictionary<int, List<MTPEvent>>();

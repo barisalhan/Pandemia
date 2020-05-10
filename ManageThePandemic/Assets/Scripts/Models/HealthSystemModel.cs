@@ -24,6 +24,12 @@ using Object = System.Object;
 [CreateAssetMenu(menuName = "ManageThePandemic/HealthSystemModel")]
 public class HealthSystemModel : MTPScriptableObject
 {
+    private const double MAX_MEDICINE_EFFECT_ICU = 0.9;
+    private const double MIN_MEDICINE_EFFECT_ICU = 0.6;
+
+    private const double MAX_MEDICINE_EFFECT_ACU = 0.9;
+    private const double MIN_MEDICINE_EFFECT_ACU = 0.6;
+
     // [Independent]
     // Number of ICU units.
     [SerializeField]
@@ -288,6 +294,7 @@ public class HealthSystemModel : MTPScriptableObject
         AddToDictionary(today, delayICU, dailyDeathCases, dailyNewDeaths);
     }
 
+
     /*
      * Takes the daily change info from daily dictionaries and applies to aggregate ones.
      */
@@ -309,11 +316,12 @@ public class HealthSystemModel : MTPScriptableObject
 
     }
 
+
     public void ExecuteEvent(string targetParameter,
                              int effectType,
                              double effectValue)
     {
-        if (effectType != 0 && effectType != 1)
+        if (effectType != 0 && effectType != 1 && effectType!=3)
         {
             Debug.Log("Unknown effect type is entered for the health system model.");
             return;
@@ -326,6 +334,10 @@ public class HealthSystemModel : MTPScriptableObject
         else if (effectType == 0)
         {
             ExecuteArithmeticEvent(targetParameter, effectValue);
+        }
+        else if (effectType == 3)
+        {
+            ExecuteReverseEvent(targetParameter, effectValue);
         }
     }
 
@@ -347,26 +359,66 @@ public class HealthSystemModel : MTPScriptableObject
     {
         if (targetParameter == "medicineEffectACU")
         {
-            Debug.Log("Executing a geometric event in virus model.");
+            Debug.Log("Executing a geometric event in health system model.");
             if (effectValue > 0)
             {
-                medicineEffectACU += (0.9 - medicineEffectACU) * effectValue;
+                medicineEffectACU += (MAX_MEDICINE_EFFECT_ACU - medicineEffectACU) * effectValue;
             }
             else
             {
-                medicineEffectACU += (medicineEffectACU - 0.6) * effectValue;
+                medicineEffectACU += (medicineEffectACU - MIN_MEDICINE_EFFECT_ACU) * effectValue;
             }
         }
         else if (targetParameter == "medicineEffectICU")
         {
-            Debug.Log("Executing a geometric event in virus model.");
+            Debug.Log("Executing a geometric event in health system model.");
             if (effectValue > 0)
             {
-                medicineEffectICU += (0.9 - medicineEffectICU) * effectValue;
+                medicineEffectICU += (MAX_MEDICINE_EFFECT_ICU - medicineEffectICU) * effectValue;
             }
             else
             {
-                medicineEffectICU += (medicineEffectICU - 0.6) * effectValue;
+                medicineEffectICU += (medicineEffectICU - MIN_MEDICINE_EFFECT_ICU) * effectValue;
+            }
+        }
+        else
+        {
+            Debug.Log("Unknown parameter type is entered.");
+        }
+    }
+
+    private void ExecuteReverseEvent(string targetParameter, double effectValue)
+    {
+        if (targetParameter == "medicineEffectACU")
+        {
+            Debug.Log("Executing a reverse geometric event in health system model.");
+            if (effectValue > 0)
+            {
+                double nominator = medicineEffectACU - effectValue * MAX_MEDICINE_EFFECT_ACU;
+                double denominator = 1 - effectValue;
+                medicineEffectACU = nominator / denominator;
+            }
+            else
+            {
+                double nominator = medicineEffectACU + effectValue * MIN_MEDICINE_EFFECT_ACU;
+                double denominator = 1 + effectValue;
+                medicineEffectACU = nominator / denominator;
+            }
+        }
+        else if (targetParameter == "medicineEffectICU")
+        {
+            Debug.Log("Executing a reverse geometric event in health system model.");
+            if (effectValue > 0)
+            {
+                double nominator = medicineEffectICU - effectValue * MAX_MEDICINE_EFFECT_ICU;
+                double denominator = 1 - effectValue;
+                medicineEffectICU = nominator / denominator;
+            }
+            else
+            {
+                double nominator = medicineEffectICU + effectValue * MIN_MEDICINE_EFFECT_ICU;
+                double denominator = 1 + effectValue;
+                medicineEffectICU = nominator / denominator;
             }
         }
         else
