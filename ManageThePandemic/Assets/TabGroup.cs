@@ -24,6 +24,17 @@ public class TabGroup : MonoBehaviour
             actionPages.Add(actionPage.gameObject);
         }
     }
+
+    public void Start()
+    {
+        foreach (GameObject actionPage in actionPages)
+        {
+            actionPage.SetActive(false);
+        }
+        // First page is active when game is started
+        actionPages[0].SetActive(true);
+    }
+
     public void AddToList(TabButton tabButton)
     {
         tabButtons.Add(tabButton);

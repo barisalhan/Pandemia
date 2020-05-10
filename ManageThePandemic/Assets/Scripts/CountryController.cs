@@ -69,7 +69,10 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
         }
 
         CreateFirstOutbreak();
+        societyModel.SetDefaultModel();
+        happiness = societyModel.CalculateHappiness();
     }
+    
 
 
     public void NextDay()
@@ -80,7 +83,7 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
         foreach (RegionController region in regionControllers)
         {
             region.NextDay();
-
+            Debug.Log("Daily Tax: "+region.name+" "+ region.dailyTax.ToString());
             totalBudget += region.dailyTax;
             activeCases += region.GetActiveCases();
 
