@@ -58,6 +58,8 @@ aa165095bcf0f4d99594ea33df01c81b UnityEngine.UI.dll:UnityEngine.UI.Slider
 abf1930d8126d0b2e00e9449129a0190 UnityEngine.UI.dll:UnityEngine.EventSystems.TouchInputModule
 64e54c0cbb0177c5ea26f340efb9ff85 UnityEngine.UI.dll:UnityEngine.UI.VerticalLayoutGroup
 d3c76b14a25eebd3a3323dd43297919c Unity.TextMeshPro.dll:TMPro.TMP_InputField
+71bb6a6b6c8f052f948db64c7dd3ca4f UnityEngine.Advertisements.dll:UnityEngine.Advertisements.CallbackExecutor
+71bb6a6b6c8f052f948db64c7dd3ca4f UnityEngine.Advertisements.dll:UnityEngine.Advertisements.Editor.Placeholder
 cf9f5cf2c3145a37ac07f00e50e460f9 UnityEngine.UI.dll:UnityEngine.UI.AspectRatioFitter
 71bb6a6b6c8f052f948db64c7dd3ca4f UnityEngine.UI.dll:UnityEngine.EventSystems.BaseInput
 507174d46dacbc5fe45e28485db5dd1e UnityEngine.UI.dll:UnityEngine.UI.Button
@@ -121,13 +123,13 @@ ad9173d3a69d99153f38ed4b62226129 UnityEngine.Networking.dll:UnityEngine.Networki
 d251bf88db6c95a6b1aa0b69298da9ef UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 71bb6a6b6c8f052f948db64c7dd3ca4f Assembly-CSharp.dll:.ButtonHandler
 3d0d75aad4f04ae4f8b19b22c306636e Assembly-CSharp.dll:.RegionSprites
-25719c534c488233ef794b6af0ce9254 Assembly-CSharp.dll:.EconomyModel
+fb8da5615a270d105312b646573890db Assembly-CSharp.dll:.EconomyModel
 999659ac8b9d84d7c559bc3360e3319e Assembly-CSharp.dll:.MTPEvent
 e0e736487bdb35142029f6ff31d1cebf Assembly-CSharp.dll:.ActionData
 71bb6a6b6c8f052f948db64c7dd3ca4f Assembly-CSharp.dll:.ActionInfoPanelController
 b8a5e8091ab0b8861d2add371082c5e0 Unity.TextMeshPro.dll:TMPro.TMP_SpriteAsset
 46d5edfd312e9035ab8668b8226eab37 Assembly-CSharp.dll:.RegionInfoPanelController
-6c6cf843ccb4132e37bb83d77aecb946 Assembly-CSharp.dll:.UI
+fede2ee082130c07759e3f6cdb8bd97f Assembly-CSharp.dll:.UI
 2e8870b267cd44efa6b95696e0e7487c Assembly-CSharp.dll:.ActionsController
 e2d1c477f101fd77c27c60de8279fac3 Assembly-CSharp.dll:.UpperPanelController
 b3ab2106268377ffe25dd18ac23dca28 Unity.TextMeshPro.dll:TMPro.TMP_Asset
