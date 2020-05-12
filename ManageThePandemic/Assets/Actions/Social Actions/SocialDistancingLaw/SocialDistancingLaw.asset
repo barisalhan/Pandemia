@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SocialDistancingLaw
   m_EditorClassIdentifier: 
   actionName: 
-  description: 
+  description: Make a law to enforce social distancing between people.
   cost: 20
   timeToComplete: 0
   events:
