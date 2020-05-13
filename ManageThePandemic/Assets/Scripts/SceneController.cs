@@ -4,6 +4,10 @@ using UnityEngine;
 
 using UnityEngine.SceneManagement;
 
+
+/*
+ * Controls the start menu actions.
+ */
 public class SceneController : MonoBehaviour
 {
     public void OnStartButton()

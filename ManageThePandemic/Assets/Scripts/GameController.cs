@@ -4,7 +4,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.Experimental.UIElements;
 using Object = System.Object;
-
+using UnityEngine.SceneManagement;
 
 /*
  * Manages the time of the game.
@@ -24,6 +24,9 @@ public class GameController : MonoBehaviour, ITimeDrivable
     private ActionsController actionsController;
 
     public EventHandler<DailyStatisticsArgs> NextDayClicked;
+
+    [SerializeField]
+    private GameObject endGamePanel;
 
     public void Awake()
     {
@@ -56,7 +59,19 @@ public class GameController : MonoBehaviour, ITimeDrivable
 
         ExecuteActionCalendar();
         ExecuteEventCalendar();
+        CheckGameOver();
     }
+
+
+    private void CheckGameOver()
+    {
+        if (countryController.GetActiveCases() > 60)
+        {
+            endGamePanel.SetActive(true);
+        }
+
+    }
+
 
     private void ExecuteActionCalendar()
     {
@@ -239,6 +254,19 @@ public class GameController : MonoBehaviour, ITimeDrivable
 
         return result;
     }
+
+
+    public void RestartGame()
+    {
+
+    }
+
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
 
 }
 
