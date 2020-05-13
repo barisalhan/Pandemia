@@ -5,12 +5,15 @@ using UnityEngine.UI;
 
 public class BarController : MonoBehaviour
 {
-    public Slider mainSlider;
+    public List<Slider> sliders;
 
     public void OnHappinesChanged(object source, HappinessArgs happinessArgs)
     {
         Debug.Log("BarController saw the change in the happiness.");
-        mainSlider.value = (float)happinessArgs.value;
+        foreach (var slider in sliders)
+        {
+            slider.value = (float)happinessArgs.value;
+        }
     }
     
 }
