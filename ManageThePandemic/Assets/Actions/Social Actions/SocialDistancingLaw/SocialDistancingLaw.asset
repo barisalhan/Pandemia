@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionName: 
   description: Make a law to enforce social distancing between people.
-  cost: 20
+  cost: 7
   timeToComplete: 0
   events:
   - {fileID: 11400000, guid: e4314a9e460b38b4fb227f20bfaebaba, type: 2}
