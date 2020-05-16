@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: PostponeCorporateDebts
   m_EditorClassIdentifier: 
   actionName: 
-  description: 
+  description: 'Postpone <b>corporate debts</b> for a while.
+
+'
+  hint: <i>It slows down the economic regression.</i>
   cost: 0
   timeToComplete: 0
   events:

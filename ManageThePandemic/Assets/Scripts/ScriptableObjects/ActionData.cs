@@ -19,6 +19,9 @@ public class ActionData : ScriptableObject
     [TextArea]
     public string description;
 
+    [TextArea]
+    public string hint;
+
     public int cost;
 
     public int timeToComplete;

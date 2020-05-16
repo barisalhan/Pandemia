@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: CashAid
   m_EditorClassIdentifier: 
   actionName: 
-  description: 
+  description: 'Provide one time cash assistance to the people.
+
+'
+  hint: <i>It increases the happiness of the people.</i>
   cost: 0
   timeToComplete: 0
   events:

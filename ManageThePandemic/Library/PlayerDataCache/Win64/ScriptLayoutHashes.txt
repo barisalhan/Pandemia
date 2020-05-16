@@ -123,7 +123,7 @@ d251bf88db6c95a6b1aa0b69298da9ef UnityEngine.SpatialTracking.dll:UnityEngine.Spa
 3d0d75aad4f04ae4f8b19b22c306636e Assembly-CSharp.dll:.RegionSprites
 fb8da5615a270d105312b646573890db Assembly-CSharp.dll:.EconomyModel
 999659ac8b9d84d7c559bc3360e3319e Assembly-CSharp.dll:.MTPEvent
-e0e736487bdb35142029f6ff31d1cebf Assembly-CSharp.dll:.ActionData
+dc03b1e3d783cba0b419c5fe51dda721 Assembly-CSharp.dll:.ActionData
 71bb6a6b6c8f052f948db64c7dd3ca4f Assembly-CSharp.dll:.ActionInfoPanelController
 b8a5e8091ab0b8861d2add371082c5e0 Unity.TextMeshPro.dll:TMPro.TMP_SpriteAsset
 46d5edfd312e9035ab8668b8226eab37 Assembly-CSharp.dll:.RegionInfoPanelController

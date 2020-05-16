@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: GlorifyDoctors
   m_EditorClassIdentifier: 
   actionName: 
-  description: 
+  description: 'Publish advertisements to <b>praise</b> health care workers.
+
+'
+  hint: <i>It increases the motivation of health care workers.</i>
   cost: 10
   timeToComplete: 0
   events:

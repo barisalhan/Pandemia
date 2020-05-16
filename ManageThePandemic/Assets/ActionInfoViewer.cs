@@ -24,7 +24,8 @@ public class ActionInfoViewer : MonoBehaviour
         //TODO: It is dependent to the order of texts in the editor.
         Text[] texts = actionInfoPanel.GetComponentsInChildren<Text>();
         texts[0].text = actionData.description;
-        texts[1].text = actionData.cost.ToString() + "M $";
+        texts[1].text = "<i>Hint:</i> " + actionData.hint;
+        texts[2].text = actionData.cost.ToString() + " $";
     }
 
 
