@@ -28,21 +28,18 @@ public class UI : MonoBehaviour
 
     private BarController barController;
 
-    private StatisticsPanelController statisticsPanelController;
-
     private UpperPanelController upperPanelController;
 
     public void Awake()
     {
         gameController = mainGameObject.GetComponent<GameController>();
         barController = GetComponent<BarController>();
-        statisticsPanelController = GetComponent<StatisticsPanelController>();
         upperPanelController = GetComponent<UpperPanelController>();
 
         SubscribeBarToSocietyModel();
-        SubscribeStatisticsToGameController();
         SubscribeUpperPanelToBudget();
     }
+
 
     public void Start()
     {
@@ -52,12 +49,6 @@ public class UI : MonoBehaviour
     private void SubscribeBarToSocietyModel()
     {
         gameController.countryController.societyModel.HappinessChanged += barController.OnHappinesChanged;
-    }
-
-
-    private void SubscribeStatisticsToGameController()
-    {
-        gameController.NextDayClicked += statisticsPanelController.OnNextDayClicked;
     }
 
     private void SubscribeUpperPanelToBudget()

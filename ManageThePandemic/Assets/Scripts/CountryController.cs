@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 using Random = System.Random;
 
@@ -10,6 +11,8 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
     [SerializeField]
     public List<RegionController> regionControllers = new List<RegionController>();
 
+    private const int INITIAL_BUDGET = 500;
+    
     public Dictionary<Name, int> indexTable = new Dictionary<Name, int>();
 
     public enum Name
@@ -44,6 +47,12 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
         OnBudgetChanged();
     }
 
+    public void SetBudget(int budget)
+    {
+        totalBudget = budget;
+        OnBudgetChanged();
+    }
+
     protected virtual void OnBudgetChanged()
     {
         Debug.Log("Budget is changed.");
@@ -57,6 +66,8 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
 
     public void SetDefaultEnvironment()
     {
+        SetBudget(INITIAL_BUDGET);
+
         CreateIndexTable();
 
         foreach (RegionController region in regionControllers)

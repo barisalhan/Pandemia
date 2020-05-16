@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Mime;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Experimental.UIElements;
 using Object = System.Object;
 using UnityEngine.SceneManagement;
@@ -23,21 +26,43 @@ public class GameController : MonoBehaviour, ITimeDrivable
 
     private ActionsController actionsController;
 
-    public EventHandler<DailyStatisticsArgs> NextDayClicked;
-
     [SerializeField]
     private GameObject endGamePanel;
+
+    [SerializeField]
+    private Text dayText;
+
+    [SerializeField]
+    private GameObject statisticsPanel;
+
+    private Text[] caseTexts;
+
+    [SerializeField]
+    private Text moneyText;
 
     public void Awake()
     {
         actionsController = GetComponent<ActionsController>();
+        caseTexts = statisticsPanel.GetComponentsInChildren<Text>();
     }
 
     public void Start()
     {
+        SubscribeMoneyTextToBudget();
         SetDefaultEnvironment();
-        countryController.ChangeBudget(0);
     }
+
+    private void SubscribeMoneyTextToBudget()
+    {
+        countryController.BudgetChanged += OnBudgetChanged;
+    }
+
+    private void OnBudgetChanged(object source, BudgetArgs budgetArgs)
+    {
+        //TODO: add M to moneyText.
+        moneyText.text = budgetArgs.budget.ToString() + "$";
+    }
+
 
     public void SetDefaultEnvironment()
     {
@@ -52,16 +77,52 @@ public class GameController : MonoBehaviour, ITimeDrivable
     public void NextDay()
     {
         countryController.NextDay();
-        //TODO: check if it is safe or not.
-        OnNextDayClicked();
+
+        UpdateDailyStatistics();
 
         Time.NextDay();
+
+        UpdateDayText();
 
         ExecuteActionCalendar();
         ExecuteEventCalendar();
         CheckGameOver();
     }
 
+
+    /*
+     * Warning: It's dependent to the order of case texts in the UI.
+     */
+    private void UpdateDailyStatistics()
+    {
+        caseTexts[0].text = countryController.GetActiveCases().ToString();
+        caseTexts[1].text = countryController.GetRecoveredCases().ToString();
+        caseTexts[2].text = countryController.GetDeathCases().ToString();
+    }
+
+
+    private void UpdateDayText()
+    {
+        string filler = " Day of Pandemia";
+        if (Time.GetInstance().GetDay() == 2)
+        {
+            dayText.text = " 2nd"+ filler;
+        }
+        else if (Time.GetInstance().GetDay() == 3)
+        {
+            dayText.text = " 3rd" + filler;
+        }
+        else
+        {
+            dayText.text = " " + Time.GetInstance().GetDay().ToString() + "th" + filler;
+        }
+    }
+
+
+    private void UpdateCaseTexts()
+    {
+        
+    }
 
     private void CheckGameOver()
     {
@@ -144,18 +205,6 @@ public class GameController : MonoBehaviour, ITimeDrivable
         }
     }
 
-
-    protected virtual void OnNextDayClicked()
-    {
-        if (NextDayClicked != null)
-        {
-            var statistics = GetDailyStatistics();
-            DailyStatisticsArgs dailyStatistics = new DailyStatisticsArgs(statistics.Item1,
-                                                                        statistics.Item2,
-                                                                           statistics.Item3);
-            NextDayClicked(this, dailyStatistics);
-        }
-    }
 
     private void SubscribeToActions()
     {
@@ -243,19 +292,6 @@ public class GameController : MonoBehaviour, ITimeDrivable
     }
 
 
-    public Tuple<int,int,int> GetDailyStatistics()
-    {
-        // TODO: check if connections are correct or not.
-        int activeCases = countryController.GetActiveCases();
-        int recoveredCases = countryController.GetRecoveredCases();
-        int deathCases = countryController.GetDeathCases();
-
-        var result = Tuple.Create(activeCases, recoveredCases, deathCases);
-
-        return result;
-    }
-
-
     public void RestartGame()
     {
 
@@ -267,25 +303,7 @@ public class GameController : MonoBehaviour, ITimeDrivable
         Application.Quit();
     }
 
-
 }
-
-public class DailyStatisticsArgs
-{
-    public int activeCases = 0;
-    public int recoveredCases = 0;
-    public int deathCases = 0;
-
-    public DailyStatisticsArgs(int activeCases,
-                               int recoveredCases,
-                               int deathCases)
-    {
-        this.activeCases = activeCases;
-        this.recoveredCases = recoveredCases;
-        this.deathCases = deathCases;
-    }
-}
-
 /*
  * TODO: move this comment!
  * The data is displayed on the screen in the end of the day.
