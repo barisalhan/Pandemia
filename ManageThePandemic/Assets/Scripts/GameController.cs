@@ -38,7 +38,7 @@ public class GameController : MonoBehaviour, ITimeDrivable
     private Text[] caseTexts;
 
     [SerializeField]
-    private Text moneyText;
+    private Text[] moneyTexts;
 
     public void Awake()
     {
@@ -60,7 +60,10 @@ public class GameController : MonoBehaviour, ITimeDrivable
     private void OnBudgetChanged(object source, BudgetArgs budgetArgs)
     {
         //TODO: add M to moneyText.
-        moneyText.text = budgetArgs.budget.ToString() + "$";
+        foreach (var moneyText in moneyTexts)
+        {
+            moneyText.text = budgetArgs.budget.ToString() + "$";
+        }
     }
 
 
