@@ -9099,10 +9099,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1183632471}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdfb9733e0763314997ee79be984a5d1, type: 3}
+  m_Script: {fileID: 11500000, guid: e62d8a4df0c4cdc45bc730f5327354cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pageArea: {fileID: 1245450327}
+  pageGroup: {fileID: 1245450327}
 --- !u!1001 &1187361402
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9593,7 +9593,7 @@ GameObject:
   - component: {fileID: 1245450330}
   - component: {fileID: 1245450329}
   m_Layer: 5
-  m_Name: PageArea
+  m_Name: PageGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16542,11 +16542,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9b80ef17f311b0f4ab8a646b50b3d3d7,
+      objectReference: {fileID: 21300000, guid: d5017224b48ce5c4294f020b0e15987f,
         type: 3}
     - target: {fileID: 8475429761348872408, guid: 7bed35636e6a311479bb5c23c251316f,
         type: 3}
       propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8475429761348872408, guid: 7bed35636e6a311479bb5c23c251316f,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8475429761348872408, guid: 7bed35636e6a311479bb5c23c251316f,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8475429761348872408, guid: 7bed35636e6a311479bb5c23c251316f,
+        type: 3}
+      propertyPath: m_Color.b
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9203047608647424416, guid: 7bed35636e6a311479bb5c23c251316f,

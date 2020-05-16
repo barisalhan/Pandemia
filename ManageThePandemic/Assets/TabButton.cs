@@ -5,17 +5,16 @@ using UnityEngine.EventSystems;
 
 public class TabButton : MonoBehaviour, IPointerClickHandler
 {
-    private TabGroup tabGroup;
+    private PageAreaController pageAreaController;
 
-    void Awake()
+    public void Awake()
     {
-        tabGroup = gameObject.GetComponentInParent<TabGroup>();
-        tabGroup.AddToList(this);
+        pageAreaController = GetComponentInParent<PageAreaController>();
     }
 
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        tabGroup.OnTabSelected(this);
+        pageAreaController.OnTabSelected(this);
     }
 }
