@@ -16,7 +16,7 @@ MonoBehaviour:
   description: 'Postpone <b>corporate debts</b> for a while.
 
 '
-  hint: <i>It slows down the economic regression.</i>
+  hint: <i>It reduces the collected tax by half.</i>
   cost: 0
   timeToComplete: 0
   events:

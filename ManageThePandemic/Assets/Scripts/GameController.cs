@@ -62,7 +62,7 @@ public class GameController : MonoBehaviour, ITimeDrivable
         //TODO: add M to moneyText.
         foreach (var moneyText in moneyTexts)
         {
-            moneyText.text = budgetArgs.budget.ToString() + "$";
+            moneyText.text = budgetArgs.budget.ToString() + " M$";
         }
     }
 
@@ -213,7 +213,7 @@ public class GameController : MonoBehaviour, ITimeDrivable
     {
         foreach (var action in actionsController.actions)
         {
-            action.GetComponent<SubscriberPublisher>().buttonClicked += OnActionTaken;
+            action.GetComponent<SubscriberPublisher>().actionTaken += OnActionTaken;
         }
     }
 

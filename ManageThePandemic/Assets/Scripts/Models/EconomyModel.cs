@@ -34,7 +34,7 @@ public class EconomyModel : MTPScriptableObject
         economicDevelopmentCoefficient = 1;
         economicSituation = 1;
         taxCoefficient = 1;
-        normalization = 1 / 1e6;
+        normalization = 2 / 1e7;
     }
 
     public int CalculateTax(int population)

@@ -4143,7 +4143,7 @@ PrefabInstance:
     - target: {fileID: 5135906134919505278, guid: 8496046a075bfb549a4a40259b58e865,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 5135906134919505278, guid: 8496046a075bfb549a4a40259b58e865,
         type: 3}
@@ -7058,7 +7058,7 @@ PrefabInstance:
     - target: {fileID: 5135906134919505278, guid: 8496046a075bfb549a4a40259b58e865,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5135906134919505278, guid: 8496046a075bfb549a4a40259b58e865,
         type: 3}
@@ -7874,6 +7874,11 @@ PrefabInstance:
       propertyPath: dependentActions.Array.data[2]
       value: 
       objectReference: {fileID: 447663098}
+    - target: {fileID: 5135906134919505279, guid: 8496046a075bfb549a4a40259b58e865,
+        type: 3}
+      propertyPath: prerequisiteAction
+      value: 
+      objectReference: {fileID: 1148787675}
     - target: {fileID: 5135906135418890565, guid: 8496046a075bfb549a4a40259b58e865,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -8678,7 +8683,7 @@ PrefabInstance:
     - target: {fileID: 5135906134919505278, guid: 8496046a075bfb549a4a40259b58e865,
         type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5135906134919505278, guid: 8496046a075bfb549a4a40259b58e865,
         type: 3}

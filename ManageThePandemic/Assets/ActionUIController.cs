@@ -6,8 +6,8 @@ using UnityEngine.UI;
 /*
  * Different states of an action:
  *      Action is not enabled because prerequisite actions are not done yet.
- *      Action is enabled but it cannot be taken because budget is not sufficient.
  *      Action is ready to be taken.
+ *      Action is enabled but it cannot be taken because budget is not sufficient.
  *      Action has duration time and it is in use currently.
  *      Action is one time action and it had taken.
  */
@@ -18,26 +18,32 @@ public class ActionUIController : MonoBehaviour
 
     public void Awake()
     {
-        // Warning: It is dependent to the order in the editor.
+        // WARNING: It is dependent to the order in the editor.
         button = gameObject.GetComponentInChildren<Button>();
+        if (button != null)
+        {
+            Debug.Log("nerede bu buton? burada");
+        }
     }
 
+    //TODO: You're here. OnPassive is called before Awake.
 
-    public void OnDisabled()
+
+    public void OnPassive()
     {
-
-    }
-
-
-    public void OnLowBudget()
-    {
+        Debug.Log("GELDIM YOKTUNUZ.");
         button.interactable = false;
     }
 
 
     public void OnReady()
     {
+        button.interactable = true;
+    }
 
+    public void OnLowBudget()
+    {
+        button.interactable = false;
     }
 
 
@@ -47,8 +53,8 @@ public class ActionUIController : MonoBehaviour
     }
 
 
-    public void OnDone()
+    public void OnCompleted()
     {
-
+        button.interactable = false;
     }
 }

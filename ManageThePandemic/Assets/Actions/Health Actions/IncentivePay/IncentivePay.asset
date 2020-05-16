@@ -17,6 +17,6 @@ MonoBehaviour:
 
 '
   hint: <i>It increases the motivation of health care workers.</i>
-  cost: 20
+  cost: 120
   timeToComplete: 0
   events: []

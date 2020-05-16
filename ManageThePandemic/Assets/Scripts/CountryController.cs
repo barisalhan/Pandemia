@@ -11,7 +11,7 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
     [SerializeField]
     public List<RegionController> regionControllers = new List<RegionController>();
 
-    private const int INITIAL_BUDGET = 500;
+    private const int INITIAL_BUDGET = 80;
     
     public Dictionary<Name, int> indexTable = new Dictionary<Name, int>();
 

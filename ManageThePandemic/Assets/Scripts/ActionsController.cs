@@ -28,7 +28,7 @@ public class ActionsController : MonoBehaviour
 
         GetActionsInTheGame();
 
-        SubscribeActionsToOtherActions();
+        SubscribeActionsToPrerequisiteActions();
         SubscribeActionsToBudget();
     }
 
@@ -39,16 +39,15 @@ public class ActionsController : MonoBehaviour
     }
 
 
-    private void SubscribeActionsToOtherActions()
+    private void SubscribeActionsToPrerequisiteActions()
     {
         foreach (var action in actions)
         {
-            var publisher = action.GetComponent<SubscriberPublisher>();
-          
-            foreach (var dependentAction in publisher.dependentActions)
+            var subscriber = action.GetComponent<SubscriberPublisher>();
+
+            if (subscriber.prerequisiteAction != null)
             {
-                // TODO: Check here if the loading time is too much.
-                SubscriberPublisher subscriber = dependentAction.GetComponent<SubscriberPublisher>();
+                SubscriberPublisher publisher = subscriber.prerequisiteAction.GetComponent<SubscriberPublisher>();
                 publisher.actionCompleted += subscriber.OnAnotherActionCompleted;
             }
         }

@@ -17,7 +17,7 @@ MonoBehaviour:
 
 '
   hint: <i>It increases the happiness of the people.</i>
-  cost: 0
+  cost: 200
   timeToComplete: 0
   events:
   - {fileID: 11400000, guid: 011c37ef32d75844db2fdcc1bb7f1324, type: 2}

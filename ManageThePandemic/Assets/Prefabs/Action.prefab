@@ -411,7 +411,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebd4aa00dca69d0429253e766cae4e1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependentActions: []
+  prerequisiteAction: {fileID: 0}
+  actionInfoPanel: {fileID: 5135906135712900825}
 --- !u!114 &114466728644267238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,7 +540,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5135906134919505279}
-        m_MethodName: OnClick
+        m_MethodName: OnActionTaken
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

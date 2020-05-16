@@ -5,49 +5,117 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
+/*
+ * 1- Kodda subscription publish olayini duzenle +
+ * 2- Dependent actions'un tanimini cok kesin bir sekilde yap. +
+ * 3- Editorde var olan seyleri degistir
+ * 4- OnClick methodunu degistir.
+ * 5- Yusuf'a soyle.
+ *
+ */
 
 /*
  * Handles what will happen when this button is clicked.
  *
- *      Dependent Action: An action which cannot be taken
- *      before taking this action.
+ *      Prerequisite Action: This action cannot be taken
+ *      before taking prerequisite action.
  *
- * It specifically holds the list of dependent actions.
- * Then, when this button is clicked, it publishes message
- * to all dependent actions.
+ * It holds the prerequisite action. Then, subscribes
+ * the related method of that action to be notified
+ * when it is completed.
  */
 public class SubscriberPublisher : MonoBehaviour
 {
     [SerializeField]
-    public List<GameObject> dependentActions;
-    
+    public GameObject prerequisiteAction = null;
+
+    /*
+     * 0: not ready - prerequisites are not sufficient
+     * 1: ready
+     * 2: low-budget
+     * 3: on use
+     * 4: done
+     */
+    private int currentState = 0;
+
     // Publisher-Related
+    public EventHandler<ActionDataArgs> actionTaken;
     public EventHandler<ActionDataArgs> actionCompleted;
-    public EventHandler<ActionDataArgs> buttonClicked;
+    private ActionDataArgs actionDataArgs;
 
     private ActionDataHolder actionDataHolder;
     private ActionData actionData;
 
     private ActionUIController actionUIController;
 
-    private ActionDataArgs actionDataArgs;
+    [SerializeField]
+    private GameObject actionInfoPanel;
 
 
     public void Awake()
     {
+        actionUIController = GetComponent<ActionUIController>();
+
         actionDataHolder = GetComponent<ActionDataHolder>();
         actionData = actionDataHolder.actionData;
 
         actionDataArgs = new ActionDataArgs(this, actionData);
 
-        actionUIController = GetComponent<ActionUIController>();
+        SetDefaultState();
     }
 
 
-    public void OnClick()
+    private void SetDefaultState()
+    {
+        if (prerequisiteAction != null)
+        {
+            SetCurrentState(0);
+        }
+        else
+        {
+            SetCurrentState(1);
+        }
+    }
+
+
+    private void SetCurrentState(int newState)
+    {
+        currentState = newState;
+
+        if (newState == 0)
+        {
+            actionUIController.OnPassive();
+        }
+        else if (newState == 1)
+        {
+            actionUIController.OnReady();
+        }
+        else if (newState == 2)
+        {
+            actionUIController.OnLowBudget();
+        }
+        else if (newState == 3)
+        {
+            actionUIController.OnUse();
+        }
+        else if (newState == 4)
+        {
+            actionUIController.OnCompleted();
+        }
+        else
+        {
+            Debug.Log("Unknown state type is tried to be set to" +
+                      " SubscriberPublisher of an action. Action: " +
+                      actionData.actionName);
+        }
+    }
+
+
+    public void OnActionTaken()
     {
         Debug.Log("Clicked."+this.name);
         OnButtonClicked();
+        actionInfoPanel.SetActive(false);
     }
 
 
@@ -60,9 +128,9 @@ public class SubscriberPublisher : MonoBehaviour
      */
     protected virtual void OnButtonClicked()
     { 
-        if (buttonClicked != null)
+        if (actionTaken != null)
         {
-            buttonClicked(this, actionDataArgs);
+            actionTaken(this, actionDataArgs);
         }
     }
 
@@ -83,7 +151,7 @@ public class SubscriberPublisher : MonoBehaviour
     /*
      * Subscription-Related method
      *
-     * It is called when the action that we depend on is completed.
+     * It is called when the prerequisite action is completed.
      */
     public void OnAnotherActionCompleted(object source, ActionDataArgs actionDataArgs)
     {
@@ -92,6 +160,10 @@ public class SubscriberPublisher : MonoBehaviour
     }
 
 
+    /*
+    * Subscription-Related method
+    *
+    */
     public void OnBudgetChanged(object source, BudgetArgs budgetArgs)
     {
         Debug.Log("Saw the change in the budget." + this.name);
@@ -99,6 +171,10 @@ public class SubscriberPublisher : MonoBehaviour
         {
             actionUIController.OnLowBudget();
             Debug.Log("State: On low budget.");
+        }
+        else
+        {
+            actionUIController.OnReady();
         }
     }
 }

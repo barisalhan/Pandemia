@@ -15,7 +15,7 @@ MonoBehaviour:
   actionName: 
   description: "Make a <b>propoganda</b> about the severeness of the virus. \n"
   hint: <i>It increases the awareness of the people.</i>
-  cost: 10
+  cost: 50
   timeToComplete: 0
   events:
   - {fileID: 11400000, guid: 32c1f48dd2bc3374ca515973ab8de987, type: 2}

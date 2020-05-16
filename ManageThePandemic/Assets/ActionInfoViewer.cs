@@ -25,7 +25,14 @@ public class ActionInfoViewer : MonoBehaviour
         Text[] texts = actionInfoPanel.GetComponentsInChildren<Text>();
         texts[0].text = actionData.description;
         texts[1].text = "<i>Hint:</i> " + actionData.hint;
-        texts[2].text = actionData.cost.ToString() + " $";
+        if (actionData.cost != 0)
+        {
+            texts[2].text = actionData.cost.ToString() + " M$";
+        }
+        else
+        {
+            texts[2].text = "FREE";
+        }
     }
 
 
