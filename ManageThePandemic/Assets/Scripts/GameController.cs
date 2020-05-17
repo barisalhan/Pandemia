@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.Experimental.UIElements;
 using Object = System.Object;
 using UnityEngine.SceneManagement;
+using UnityEngine.Windows.Speech;
 
 /*
  * Manages the time of the game.
@@ -20,6 +21,7 @@ public class GameController : MonoBehaviour, ITimeDrivable
 {
     private Dictionary<int, List<MTPEvent>> eventCalendar = new Dictionary<int, List<MTPEvent>>();
     private Dictionary<int, List<ActionDataArgs>> actionConstructionCalendar = new Dictionary<int, List<ActionDataArgs>>();
+    private Dictionary<int, List<ActionDataArgs>> actionOnUseCalendar = new Dictionary<int, List<ActionDataArgs>>();
 
     [SerializeField]
     public CountryController countryController;
@@ -231,12 +233,19 @@ public class GameController : MonoBehaviour, ITimeDrivable
 
             int completionDay = today + timeToConstruct;
 
+            
+            AddElementToDictionary<int, ActionDataArgs>(actionConstructionCalendar,
+                                                        completionDay, 
+                                                        actionDataArgs);
+                                                        
+            /*
             if (!actionConstructionCalendar.ContainsKey(completionDay))
             {
                 actionConstructionCalendar.Add(completionDay, new List<ActionDataArgs>());
             }
 
             actionConstructionCalendar[completionDay].Add(actionDataArgs);
+            */
             actionDataArgs.publisher.OnConstruction();
 
             Debug.Log("An action with construction time is taken. Now it is under progress.");
@@ -276,9 +285,31 @@ public class GameController : MonoBehaviour, ITimeDrivable
         
         else if (actionDataArgs.actionData.type == 1)
         {
-            Debug.Log("Daha implemente etmedik.");
+            /*
+            if (actionDataArgs.actionData.duration > 0)
+            {
+                actionOnUseCalendar.Add();
+            }
+            else
+            {
+                actionDataArgs.publisher.SetReadyOrLowBudget();
+            }
+            */
+            /*
+             * Duration kadar use state'e gec.
+             * Duration bittiginde on ready'e don.
+             */
         }
         
+    }
+
+    public void AddElementToDictionary<T, V>(Dictionary<T, List<V>> dict, T t, V v)
+    {
+        if (!dict.ContainsKey(t))
+        {
+            dict.Add(t, new List<V>());
+        }
+        dict[t].Add(v);
     }
 
 

@@ -29,8 +29,8 @@ public class ActionInfoPanelController : MonoBehaviour
     private void HideIfClickedOutside()
     {
         if (!RectTransformUtility.RectangleContainsScreenPoint(panelRectTransform,
-            Input.mousePosition,
-            Camera.main))
+                                                               Input.mousePosition,
+                                                               Camera.main))
         {
             gameObject.SetActive(false);
         }

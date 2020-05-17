@@ -207,7 +207,7 @@ public class SubscriberPublisher : MonoBehaviour
         }
     }
 
-    private void SetReadyOrLowBudget()
+    public void SetReadyOrLowBudget()
     {
         if (isBudgetSufficient)
         {
