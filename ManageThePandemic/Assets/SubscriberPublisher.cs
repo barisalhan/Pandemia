@@ -85,26 +85,32 @@ public class SubscriberPublisher : MonoBehaviour
 
         if (newState.Equals(state.Passive))
         {
+            Debug.Log("OnPassive is called with action: " + actionData.actionName);
             actionUIController.OnPassive();
         }
         else if (newState.Equals(state.Ready))
         {
+            Debug.Log("OnReady is called with action: " + actionData.actionName);
             actionUIController.OnReady();
         }
         else if (newState.Equals(state.LowBudget))
         {
+            Debug.Log("OnLowbudget is called with action: " + actionData.actionName);
             actionUIController.OnLowBudget();
         }
         else if (newState.Equals(state.OnUse))
         {
+            Debug.Log("OnUse is called with action: " + actionData.actionName);
             actionUIController.OnUse();
         }
         else if (newState.Equals(state.Completed))
         {
+            Debug.Log("OnCompleted is called with action: " + actionData.actionName);
             actionUIController.OnCompleted();
         }
         else if (newState.Equals(state.OnConstruction))
         {
+            Debug.Log("OnConstruction is called with action: " + actionData.actionName);
             actionUIController.OnConstruction();
         }
         else
@@ -209,6 +215,7 @@ public class SubscriberPublisher : MonoBehaviour
 
     public void SetReadyOrLowBudget()
     {
+        Debug.Log("SetReadyOrLowBudget is called with action: " + actionData.actionName);
         if (isBudgetSufficient)
         {
             SetCurrentState(state.Ready);
@@ -222,6 +229,11 @@ public class SubscriberPublisher : MonoBehaviour
     public void OnConstruction()
     {
         SetCurrentState(state.OnConstruction);
+    }
+
+    public void OnUse()
+    {
+        SetCurrentState(state.OnUse);
     }
 }
 

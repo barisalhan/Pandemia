@@ -31,6 +31,8 @@ public class ActionUIController : MonoBehaviour
 
     public void OnReady()
     {
+        Color32 readyColor = new Color32(33, 75, 75, 255);
+        buttonImage.color = readyColor;
         infoViewerButton.interactable = true;
     }
 
@@ -50,7 +52,9 @@ public class ActionUIController : MonoBehaviour
 
     public void OnUse()
     {
-        //3AD9D9
+        Color32 onUseColor = new Color32(135, 231, 245, 255);
+        buttonImage.color = onUseColor;
+        infoViewerButton.interactable = false;
     }
     
     

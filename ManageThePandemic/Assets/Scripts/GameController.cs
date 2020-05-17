@@ -91,6 +91,7 @@ public class GameController : MonoBehaviour, ITimeDrivable
 
         ExecuteActionConstructionCalendar();
         ExecuteEventCalendar();
+        ExecuteActionOnUseCalendar();
         CheckGameOver();
     }
 
@@ -234,30 +235,18 @@ public class GameController : MonoBehaviour, ITimeDrivable
             int completionDay = today + timeToConstruct;
 
             
-            AddElementToDictionary<int, ActionDataArgs>(actionConstructionCalendar,
-                                                        completionDay, 
-                                                        actionDataArgs);
-                                                        
-            /*
-            if (!actionConstructionCalendar.ContainsKey(completionDay))
-            {
-                actionConstructionCalendar.Add(completionDay, new List<ActionDataArgs>());
-            }
-
-            actionConstructionCalendar[completionDay].Add(actionDataArgs);
-            */
+            AddElementToDictionary(actionConstructionCalendar,
+                                   completionDay, 
+                                   actionDataArgs);
+            
             actionDataArgs.publisher.OnConstruction();
 
             Debug.Log("An action with construction time is taken. Now it is under progress.");
         }
         else
         {
-            Debug.Log("An immediate action is taken.");
-            if (actionDataArgs.actionData.type == 0)
-            {
-                OnActionConstructionCompleted(actionDataArgs);
-            }
-            
+            Debug.Log("An action without construction time is taken.");
+            OnActionConstructionCompleted(actionDataArgs);
         }
     }
 
@@ -274,6 +263,18 @@ public class GameController : MonoBehaviour, ITimeDrivable
         }
     }
 
+    private void ExecuteActionOnUseCalendar()
+    {
+        int today = Time.GetInstance().GetDay();
+        if (actionOnUseCalendar.ContainsKey(today))
+        {
+            foreach (var actionDataArgs in actionOnUseCalendar[today])
+            {
+                actionDataArgs.publisher.SetReadyOrLowBudget();
+            }
+        }
+    }
+
     public void OnActionConstructionCompleted(ActionDataArgs actionDataArgs)
     {
         AddActionEventsToEventCalendar(actionDataArgs.actionData);
@@ -285,24 +286,28 @@ public class GameController : MonoBehaviour, ITimeDrivable
         
         else if (actionDataArgs.actionData.type == 1)
         {
-            /*
-            if (actionDataArgs.actionData.duration > 0)
+            int duration = actionDataArgs.actionData.duration;
+            if (duration > 0)
             {
-                actionOnUseCalendar.Add();
+                int today = Time.GetInstance().GetDay();
+                int endDay = today + duration;
+                AddElementToDictionary(actionOnUseCalendar,
+                                       endDay,
+                                       actionDataArgs);
+                actionDataArgs.publisher.OnUse();
             }
             else
             {
                 actionDataArgs.publisher.SetReadyOrLowBudget();
             }
-            */
-            /*
-             * Duration kadar use state'e gec.
-             * Duration bittiginde on ready'e don.
-             */
         }
         
     }
 
+
+    /*
+     * Orhan ve Barış'tan sevgiler. 17.05.2020
+     */
     public void AddElementToDictionary<T, V>(Dictionary<T, List<V>> dict, T t, V v)
     {
         if (!dict.ContainsKey(t))

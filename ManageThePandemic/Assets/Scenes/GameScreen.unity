@@ -7652,6 +7652,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5135906134498754848, guid: 8496046a075bfb549a4a40259b58e865,
+        type: 3}
+      propertyPath: m_Interactable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5135906134498754855, guid: 8496046a075bfb549a4a40259b58e865,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -7878,7 +7883,7 @@ PrefabInstance:
         type: 3}
       propertyPath: prerequisiteAction
       value: 
-      objectReference: {fileID: 1148787675}
+      objectReference: {fileID: 0}
     - target: {fileID: 5135906135418890565, guid: 8496046a075bfb549a4a40259b58e865,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -8584,6 +8589,31 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5135906134498754848, guid: 8496046a075bfb549a4a40259b58e865,
+        type: 3}
+      propertyPath: m_Transition
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5135906134498754849, guid: 8496046a075bfb549a4a40259b58e865,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.12941177
+      objectReference: {fileID: 0}
+    - target: {fileID: 5135906134498754849, guid: 8496046a075bfb549a4a40259b58e865,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.29411766
+      objectReference: {fileID: 0}
+    - target: {fileID: 5135906134498754849, guid: 8496046a075bfb549a4a40259b58e865,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.29411766
+      objectReference: {fileID: 0}
+    - target: {fileID: 5135906134498754854, guid: 8496046a075bfb549a4a40259b58e865,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5135906134498754855, guid: 8496046a075bfb549a4a40259b58e865,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -8824,6 +8854,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: SocialDistancing Law
+      objectReference: {fileID: 0}
+    - target: {fileID: 5135906135712900825, guid: 8496046a075bfb549a4a40259b58e865,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5135906135712900826, guid: 8496046a075bfb549a4a40259b58e865,
         type: 3}
