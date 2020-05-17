@@ -5,14 +5,6 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
-/*
- * 1- Kodda subscription publish olayini duzenle +
- * 2- Dependent actions'un tanimini cok kesin bir sekilde yap. +
- * 3- Editorde var olan seyleri degistir
- * 4- OnClick methodunu degistir.
- * 5- Yusuf'a soyle.
- *
- */
 
 /*
  * Handles what will happen when this button is clicked.
@@ -30,13 +22,11 @@ public class SubscriberPublisher : MonoBehaviour
     public GameObject prerequisiteAction = null;
 
     /*
-     * 0: not ready - prerequisites are not sufficient
-     * 1: ready
-     * 2: low-budget
-     * 3: on use
-     * 4: done
+     *  WARNING: Do NOT change this variable
+     *  outside of SetCurrentState method.
+     *  It is interconnected with ActionUIController.
      */
-    private int currentState = 0;
+    private state currentState = state.Passive;
 
     // Publisher-Related
     public EventHandler<ActionDataArgs> actionTaken;
@@ -51,6 +41,17 @@ public class SubscriberPublisher : MonoBehaviour
     [SerializeField]
     private GameObject actionInfoPanel;
 
+    private bool isBudgetSufficient;
+
+    public enum state
+    {
+        Passive,
+        Ready,
+        LowBudget,
+        OnConstruction,
+        OnUse,
+        Completed
+    }
 
     public void Awake()
     {
@@ -69,38 +70,42 @@ public class SubscriberPublisher : MonoBehaviour
     {
         if (prerequisiteAction != null)
         {
-            SetCurrentState(0);
+            SetCurrentState(state.Passive);
         }
         else
         {
-            SetCurrentState(1);
+            SetCurrentState(state.Ready);
         }
     }
 
 
-    private void SetCurrentState(int newState)
+    private void SetCurrentState(state newState)
     {
         currentState = newState;
 
-        if (newState == 0)
+        if (newState.Equals(state.Passive))
         {
             actionUIController.OnPassive();
         }
-        else if (newState == 1)
+        else if (newState.Equals(state.Ready))
         {
             actionUIController.OnReady();
         }
-        else if (newState == 2)
+        else if (newState.Equals(state.LowBudget))
         {
             actionUIController.OnLowBudget();
         }
-        else if (newState == 3)
+        else if (newState.Equals(state.OnUse))
         {
             actionUIController.OnUse();
         }
-        else if (newState == 4)
+        else if (newState.Equals(state.Completed))
         {
             actionUIController.OnCompleted();
+        }
+        else if (newState.Equals(state.OnConstruction))
+        {
+            actionUIController.OnConstruction();
         }
         else
         {
@@ -124,10 +129,10 @@ public class SubscriberPublisher : MonoBehaviour
      *
      * In the future, if someone wants to connect animations to actions,
      * the correct place is this method! And it should end the animation
-     * when the OnActionCompleted() method is called.
+     * when the OnActionConstructionCompleted() method is called.
      */
     protected virtual void OnButtonClicked()
-    { 
+    {
         if (actionTaken != null)
         {
             actionTaken(this, actionDataArgs);
@@ -141,6 +146,16 @@ public class SubscriberPublisher : MonoBehaviour
      */
     public virtual void OnActionCompleted()
     {
+        if (actionData.type == 0)
+        {
+            SetCurrentState(state.Completed);
+        }
+        else
+        {
+            Debug.Log("Unexpected action type arrived to OnActionCompleted." +
+                      " Action Name: " + actionData.actionName);
+        }
+
         if (actionCompleted != null)
         {
             actionCompleted(this, actionDataArgs);
@@ -156,7 +171,7 @@ public class SubscriberPublisher : MonoBehaviour
     public void OnAnotherActionCompleted(object source, ActionDataArgs actionDataArgs)
     {
         Debug.Log("Greetings from Greece." + this.name +  " " +actionDataArgs.actionData.actionName);
-        gameObject.SetActive(true);
+        SetReadyOrLowBudget();
     }
 
 
@@ -166,16 +181,47 @@ public class SubscriberPublisher : MonoBehaviour
     */
     public void OnBudgetChanged(object source, BudgetArgs budgetArgs)
     {
-        Debug.Log("Saw the change in the budget." + this.name);
+        if (currentState.Equals(state.Completed))
+        {
+            return;
+        }
+
+        //Debug.Log("Saw the change in the budget." + this.name);
         if (budgetArgs.budget < actionData.cost)
         {
-            actionUIController.OnLowBudget();
-            Debug.Log("State: On low budget.");
+            isBudgetSufficient = false;
+            if (currentState.Equals(state.Ready))
+            {
+                SetCurrentState(state.LowBudget);
+                Debug.Log("Action State: On low budget.");
+            }
+        }
+        else if (budgetArgs.budget >= actionData.cost)
+        {
+            isBudgetSufficient = true;
+            if (currentState.Equals(state.LowBudget))
+            {
+                SetCurrentState(state.Ready);
+                Debug.Log("Action State: On sufficient budget.");
+            }
+        }
+    }
+
+    private void SetReadyOrLowBudget()
+    {
+        if (isBudgetSufficient)
+        {
+            SetCurrentState(state.Ready);
         }
         else
         {
-            actionUIController.OnReady();
+            SetCurrentState(state.LowBudget);
         }
+    }
+
+    public void OnConstruction()
+    {
+        SetCurrentState(state.OnConstruction);
     }
 }
 

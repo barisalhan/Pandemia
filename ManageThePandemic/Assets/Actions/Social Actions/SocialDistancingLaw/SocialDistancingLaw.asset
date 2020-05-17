@@ -17,8 +17,10 @@ MonoBehaviour:
 
 '
   hint: <i>It decreases the interaction between people.</i>
+  type: 0
   cost: 5
-  timeToComplete: 0
+  timeToConstruct: 2
+  duration: 0
   events:
   - {fileID: 11400000, guid: e4314a9e460b38b4fb227f20bfaebaba, type: 2}
   - {fileID: 11400000, guid: fed612fc0dd00fa49b539b19b12253cc, type: 2}

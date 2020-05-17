@@ -19,7 +19,7 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour, ITimeDrivable
 {
     private Dictionary<int, List<MTPEvent>> eventCalendar = new Dictionary<int, List<MTPEvent>>();
-    private Dictionary<int, List<SubscriberPublisher>> actionCalendar = new Dictionary<int, List<SubscriberPublisher>>();
+    private Dictionary<int, List<ActionDataArgs>> actionConstructionCalendar = new Dictionary<int, List<ActionDataArgs>>();
 
     [SerializeField]
     public CountryController countryController;
@@ -87,7 +87,7 @@ public class GameController : MonoBehaviour, ITimeDrivable
 
         UpdateDayText();
 
-        ExecuteActionCalendar();
+        ExecuteActionConstructionCalendar();
         ExecuteEventCalendar();
         CheckGameOver();
     }
@@ -134,19 +134,6 @@ public class GameController : MonoBehaviour, ITimeDrivable
             endGamePanel.SetActive(true);
         }
 
-    }
-
-
-    private void ExecuteActionCalendar()
-    {
-        int today = Time.GetInstance().GetDay();
-        if (actionCalendar.ContainsKey(today))
-        {
-            foreach (var publisher in actionCalendar[today])
-            {
-                publisher.OnActionCompleted();
-            }
-        }
     }
 
 
@@ -224,45 +211,74 @@ public class GameController : MonoBehaviour, ITimeDrivable
      */
     public void OnActionTaken(object source, ActionDataArgs actionDataArgs)
     {
-        //TODO: check in the beginning of the game if we have enough money to take the action.
         int cost = actionDataArgs.actionData.cost;
+        if (cost > countryController.GetBudget())
+        {
+            Debug.Log("Action is tried to be taken even though the budget is insufficient.");
+            return;
+        }
         if (cost > 0)
         {
             countryController.ChangeBudget(cost);
         }
 
 
-        int timeToComplete = actionDataArgs.actionData.timeToComplete;
+        int timeToConstruct = actionDataArgs.actionData.timeToConstruct;
 
-        if (timeToComplete > 0)
+        if (timeToConstruct > 0)
         {
-            //TODO: change Time class to get today.
             int today = Time.GetInstance().GetDay();
 
-            int completionDay = today + timeToComplete;
+            int completionDay = today + timeToConstruct;
 
-            if (!actionCalendar.ContainsKey(completionDay))
+            if (!actionConstructionCalendar.ContainsKey(completionDay))
             {
-                actionCalendar.Add(completionDay, new List<SubscriberPublisher>());
+                actionConstructionCalendar.Add(completionDay, new List<ActionDataArgs>());
             }
 
-            actionCalendar[completionDay].Add(actionDataArgs.publisher);
+            actionConstructionCalendar[completionDay].Add(actionDataArgs);
+            actionDataArgs.publisher.OnConstruction();
 
-            Debug.Log("An action with initialization time is taken. Now it is under progress.");
+            Debug.Log("An action with construction time is taken. Now it is under progress.");
         }
         else
         {
             Debug.Log("An immediate action is taken.");
-            OnActionCompleted(actionDataArgs);
+            if (actionDataArgs.actionData.type == 0)
+            {
+                OnActionConstructionCompleted(actionDataArgs);
+            }
+            
         }
     }
 
 
-    public void OnActionCompleted(ActionDataArgs actionDataArgs)
+    private void ExecuteActionConstructionCalendar()
     {
-        actionDataArgs.publisher.OnActionCompleted();
+        int today = Time.GetInstance().GetDay();
+        if (actionConstructionCalendar.ContainsKey(today))
+        {
+            foreach (var actionDataArgs in actionConstructionCalendar[today])
+            {
+                OnActionConstructionCompleted(actionDataArgs);
+            }
+        }
+    }
 
-        AddActionToCalendar(actionDataArgs.actionData);
+    public void OnActionConstructionCompleted(ActionDataArgs actionDataArgs)
+    {
+        AddActionEventsToEventCalendar(actionDataArgs.actionData);
+
+        if (actionDataArgs.actionData.type == 0)
+        {
+            actionDataArgs.publisher.OnActionCompleted();
+        }
+        
+        else if (actionDataArgs.actionData.type == 1)
+        {
+            Debug.Log("Daha implemente etmedik.");
+        }
+        
     }
 
 
@@ -272,7 +288,7 @@ public class GameController : MonoBehaviour, ITimeDrivable
     }
 
     
-    public void AddActionToCalendar(ActionData actionData)
+    public void AddActionEventsToEventCalendar(ActionData actionData)
     {
         foreach (MTPEvent MTPevent in actionData.events)
         {

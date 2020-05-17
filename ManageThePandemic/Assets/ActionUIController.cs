@@ -13,48 +13,55 @@ using UnityEngine.UI;
  */
 public class ActionUIController : MonoBehaviour
 {
-    private Button button;
+    [SerializeField]
+    private Button infoViewerButton;
 
+    private Image buttonImage;
 
-    public void Awake()
+    public void Start()
     {
-        // WARNING: It is dependent to the order in the editor.
-        button = gameObject.GetComponentInChildren<Button>();
-        if (button != null)
-        {
-            Debug.Log("nerede bu buton? burada");
-        }
+        buttonImage = infoViewerButton.GetComponent<Image>();
     }
-
-    //TODO: You're here. OnPassive is called before Awake.
-
 
     public void OnPassive()
     {
-        Debug.Log("GELDIM YOKTUNUZ.");
-        button.interactable = false;
+        infoViewerButton.interactable = false;
     }
 
 
     public void OnReady()
     {
-        button.interactable = true;
+        infoViewerButton.interactable = true;
     }
+
 
     public void OnLowBudget()
     {
-        button.interactable = false;
+        Debug.Log("parayi kontrol ettim.");
+        infoViewerButton.interactable = false;
     }
 
+    public void OnConstruction()
+    {
+        Color32 constructionColor = new Color32(16, 24, 255, 255);
+        buttonImage.color = constructionColor;
+        infoViewerButton.interactable = false;
+    }
 
     public void OnUse()
     {
-
+        //3AD9D9
     }
-
-
+    
+    
+    /*
+     * Tek seferlik aksiyonlarin construction time bittikten sonra
+     * geldikleri state => OnCompleted().
+     */
     public void OnCompleted()
     {
-        button.interactable = false;
+        Color32 completedColor = new Color32(255, 3, 0, 255);
+        buttonImage.color = completedColor;
+        infoViewerButton.interactable = false;
     }
 }

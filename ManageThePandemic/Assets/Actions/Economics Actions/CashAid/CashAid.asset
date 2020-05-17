@@ -16,6 +16,7 @@ MonoBehaviour:
   description: 'Provide one time cash assistance to the people.
 
 '
+  type: 1
   hint: <i>It increases the happiness of the people.</i>
   cost: 200
   timeToComplete: 0

@@ -16,6 +16,7 @@ MonoBehaviour:
   description: 'Offer <b>incentive pay</b> to health care workers.
 
 '
+  type: 1
   hint: <i>It increases the motivation of health care workers.</i>
   cost: 120
   timeToComplete: 0

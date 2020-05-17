@@ -17,8 +17,10 @@ MonoBehaviour:
 
 '
   hint: <i>It reduces the collected tax by half.</i>
+  type: 0
   cost: 0
-  timeToComplete: 0
+  timeToConstruct: 0
+  duration: 0
   events:
   - {fileID: 11400000, guid: 80318f6a070f2d74a84f588fa982082e, type: 2}
   - {fileID: 11400000, guid: bd200f692d79e16458fa68e22409c593, type: 2}
