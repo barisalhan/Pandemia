@@ -12,8 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: IncreaseHoursOfLabor
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
-  timeToComplete: 0
-  events: []
+  actionName: Increase Working Hours
+  description: 'Increase the maximum limit of <b>working hours</b> for workers.
+
+'
+  hint: 
+  type: 1
+  cost: 250
+  timeToConstruct: 0
+  duration: 7
+  events:
+  - {fileID: 11400000, guid: 3c8c06671e2b08c40b1e0f94b0696df6, type: 2}
+  - {fileID: 11400000, guid: d3e01a8a29ba97b489f10156c40ac2cd, type: 2}
+  - {fileID: 11400000, guid: e6ac96821784aa442b5e0f4d4c496ee9, type: 2}

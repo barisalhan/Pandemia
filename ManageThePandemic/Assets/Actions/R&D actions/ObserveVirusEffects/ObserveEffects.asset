@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: ObserveEffects
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
+  actionName: Initiate Medicine Studies
+  description: <b>Observe biological effects</b> of the virus to initiate <b>medicine</b>
+    studies.
+  hint: Developing medicine has a higher comparative advantage for the early stages
+    of the disease.
+  type: 0
+  cost: 200
+  timeToConstruct: 0
+  duration: 0
   events: []

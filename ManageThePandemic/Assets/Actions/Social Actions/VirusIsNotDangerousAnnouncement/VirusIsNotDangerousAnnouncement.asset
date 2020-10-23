@@ -12,8 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: VirusIsNotDangerousAnnouncement
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
-  timeToComplete: 0
-  events: []
+  actionName: '"Virus is not dangerous!"'
+  description: Announce that virus is <b>no different</b> than ordinary <b>flu</b>.
+  hint: People will keep partying!
+  type: 0
+  cost: 200
+  timeToConstruct: 0
+  duration: 0
+  events:
+  - {fileID: 11400000, guid: 63c4db47fd188a94db4342d8b874c00c, type: 2}
+  - {fileID: 11400000, guid: eb39bcdb87cf0a04aa3dc91dc2d080e1, type: 2}
+  - {fileID: 11400000, guid: f4039c227100085478d5be4280b1f163, type: 2}

@@ -12,8 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: PersonalNurse
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
-  timeToComplete: 0
-  events: []
+  actionName: Nurse
+  description: <b>Employ</b> new <b>nurses</b> to achieve a more careful treatment.
+  hint: Patients under intensive care will have a better treatment.
+  type: 0
+  cost: 600
+  timeToConstruct: 0
+  duration: 0
+  events:
+  - {fileID: 11400000, guid: 62d9eac64d8f7fb4099b818b78c3c0ba, type: 2}
+  - {fileID: 11400000, guid: 576755b9bd5969445b375a4327711a8c, type: 2}

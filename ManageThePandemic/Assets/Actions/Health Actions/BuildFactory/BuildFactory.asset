@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: BuildFactory
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
-  timeToComplete: 0
+  actionName: Build Factory
+  description: Build <b>infrastructure</b> for <b>production line</b>.
+  hint: 
+  type: 0
+  cost: 500
+  timeToConstruct: 3
+  duration: 0
   events: []

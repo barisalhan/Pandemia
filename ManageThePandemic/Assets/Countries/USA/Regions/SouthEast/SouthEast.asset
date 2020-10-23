@@ -15,9 +15,10 @@ MonoBehaviour:
   name: SouthEast
   population: 70500000
   travelFlowCoeff: 0.01
-  dailyTax: 70
-  isInfected: 1
+  dailyTax: 14
+  isInfected: 0
   isQuarantined: 0
   healthSystemModel: {fileID: 11400000, guid: 74836df05c3ee0540a2ae4a0f7389a2b, type: 2}
   virusModel: {fileID: 11400000, guid: 0f1d3c64da9e3ac4a827cc77746cea8d, type: 2}
   economyModel: {fileID: 11400000, guid: c7b16f8db74a3294ebea75a159ea7214, type: 2}
+  societyModel: {fileID: 11400000, guid: a91ad3f33703e80459312eaf45b2a9f0, type: 2}

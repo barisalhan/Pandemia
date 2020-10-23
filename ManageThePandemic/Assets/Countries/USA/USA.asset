@@ -19,5 +19,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 15f260469f5661a44a68b6946a522501, type: 2}
   - {fileID: 11400000, guid: 27b59c6088afe134b97c0e4e58e47783, type: 2}
   - {fileID: 11400000, guid: 9db29540f51e5574cb4b63c31db92e63, type: 2}
-  societyModel: {fileID: 11400000, guid: 593a5d54131f12044b979021f985e17f, type: 2}
-  totalBudget: 500
+  totalBudget: 80

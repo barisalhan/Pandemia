@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using TMPro;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ManageThePandemic/State")]
+[CreateAssetMenu(menuName = "Pandemia/State")]
 public class RegionController : MTPScriptableObject, ITimeDrivable
 {
+    [SerializeField]
     public string name;
 
     // Total number of alive people.
@@ -39,11 +36,39 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
     // Number of population who can get infected.(Population - (active cases + recovered cases))
     private int vulnerablePopulation;
 
-    public HealthSystemModel healthSystemModel;
 
-    public VirusModel virusModel;
+    [SerializeField]
+    private HealthSystemModel healthSystemModel;
+    public HealthSystemModel HealthSystemModel
+    {
+        get { return healthSystemModel; }
+        set { healthSystemModel = value; }
+    }
 
-    public EconomyModel economyModel;
+
+    [SerializeField]
+    private VirusModel virusModel;
+    public VirusModel VirusModel
+    {
+        get { return virusModel; }
+        set { virusModel = value; }
+    }
+
+    [SerializeField]
+    private EconomyModel economyModel;
+    public EconomyModel EconomyModel
+    {
+        get { return economyModel; }
+        set { economyModel = value; }
+    }
+
+    [SerializeField]
+    private SocietyModel societyModel;
+    public SocietyModel SocietyModel
+    {
+        get { return societyModel; }
+        set { societyModel = value; }
+    }
 
 
     /*
@@ -69,13 +94,15 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
         virusModel.UpdateParameters(population, vulnerablePopulation);
 
         economyModel.SetDefaultModel();
+
+        societyModel.SetDefaultModel();
     }
 
 
     // TODO: Extend this method for other models.
     public void NextDay()
     {
-        virusModel.UpdateParameters(population, vulnerablePopulation);
+        virusModel.UpdateParameters(normalizedPopulation, vulnerablePopulation);
 
         healthSystemModel.UpdateParameters();
 
@@ -85,11 +112,12 @@ public class RegionController : MTPScriptableObject, ITimeDrivable
 
         dailyNewCaseNumber = virusModel.CalculateDailyNewCase(normalizedPopulation,
                                                               activeCases[Time.GetInstance().GetDay() - 1]);
+        Debug.Log(this.name + "right after it is calculated:" + dailyNewCaseNumber);
         dailyTax = economyModel.CalculateTax(population);
         
         UpdateFields();
         //Debug.Log(name + " " + activeCases[Time.GetInstance().GetDay()-1]);
-        Debug.Log(name + " " + isInfected + " Total cases: " + activeCases[Time.GetInstance().GetDay()] );
+        //Debug.Log(name + " " + isInfected + " Total cases: " + activeCases[Time.GetInstance().GetDay()] );
     }
 
 

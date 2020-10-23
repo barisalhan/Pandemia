@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.ConstrainedExecution;
 using UnityEngine;
-using Object = System.Object;
 
 
 /*
@@ -17,31 +15,75 @@ using Object = System.Object;
  *  Convention:
  *      All parameters must be classified as independent and dependent.
  */
-[CreateAssetMenu(menuName = "ManageThePandemic/VirusModel")]
+[CreateAssetMenu(menuName = "Pandemia/VirusModel")]
 public class VirusModel : MTPScriptableObject
 {
-    private const double MAX_GROWTH_RATE_PARAMETER = 0.5;
-    private const double MIN_GROWTH_RATE_PARAMETER = 0.1;
+    public static Double[] LIMITS_GrowthRateParameter = { 0.5, 0.8 };
+    public static Double[] LIMITS_EffectRatio = { 0.25, 0.55 };
 
-    private const double MAX_EFFECT_RATIO = 1.0;
-    private const double MIN_EFFECT_RATIO = 0.1;
+    private const double INITIAL_InputGrowthRateParameter = 0;
+    private const double INITIAL_InputEffectRatio = 0;
+
 
     // [Dependent]
     // Ratio of population who can be get infected. [vulnerable population / Normalized population]
     [SerializeField]
     private double vulnerabilityRatio;
 
-    // [Independent]    
-    // Ratio of population who is active in daily life.
-    [SerializeField]
-    private double effectRatio;
 
 
+    private double inputGrowthRateParameter;
+    public double InputGrowthRateParameter
+    {
+        get { return inputGrowthRateParameter; }
+        set
+        {
+            inputGrowthRateParameter = value;
+            GrowthRateParameter = Sigmoid(value,
+                                LIMITS_GrowthRateParameter[0],
+                                LIMITS_GrowthRateParameter[1],
+                               Temperatures.T_GrowthRateParameter);
+        }
+    }
     // TODO: It is not parameter. Change its name both from here and from actions.
     // [Dependent]
     [SerializeField]
+    [Help("GrowthRateParameter : 0.4 - 0.7")]
     private double growthRateParameter;
+    public double GrowthRateParameter
+    {
+        get { return growthRateParameter; }
+        set { growthRateParameter = value; }
+    }
+
+
+
+    private double inputEffectRatio;
+    public double InputEffectRatio
+    {
+        get { return inputGrowthRateParameter; }
+        set
+        {
+            inputEffectRatio = value;
+            EffectRatio = Sigmoid(value, LIMITS_EffectRatio[0],
+                LIMITS_EffectRatio[1], Temperatures.T_EffectRatio);
+        }
+    }
     
+    // [Independent]    
+    // Ratio of population who is active in daily life.
+    [SerializeField]
+    [Help("Effect Ratio : 0.25 - 0.55")]
+    private double effectRatio;
+    public double EffectRatio
+    {
+        get { return effectRatio; }
+        set { effectRatio = value; }
+    }
+
+
+
+
     // [Dependent]
     // [Day, new case number on that day]
     private Dictionary<int, int> dailyNewCaseNumbers = new Dictionary<int, int>();
@@ -56,8 +98,8 @@ public class VirusModel : MTPScriptableObject
      */
     public void SetDefaultModel()
     {
-        effectRatio = 1;
-        growthRateParameter = 0.5;
+        InputGrowthRateParameter = INITIAL_InputGrowthRateParameter;
+        InputEffectRatio = INITIAL_InputEffectRatio;
         dailyNewCaseNumbers.Add(0, 1);
     }
 
@@ -98,100 +140,6 @@ public class VirusModel : MTPScriptableObject
 
         // TODO: aggregateActiveCaseNumber > activeCaseNumberOfYesterday [varsayim]
         return (int)Math.Ceiling(effectRatio*(aggregateActiveCaseNumber - activeCaseNumberOfYesterday));
-    }
-
-    public void ExecuteEvent(string targetParameter,
-                             int effectType,
-                             double effectValue)
-    {
-        if (effectType != 1 && effectType != 3)
-        {
-            Debug.Log("Unknown effect type is entered for the virus model.");
-            return;
-        }
-
-        if (effectType == 1)
-        {
-            ExecuteGeometricEvent(targetParameter, effectValue);
-        }
-        if (effectType == 3)
-        {
-            ExecuteReverseEvent(targetParameter, effectValue);
-        }
-    }
-
-
-    private void ExecuteGeometricEvent(string targetParameter,
-                                       double effectValue)
-    {
-        if(targetParameter == "growthRateParameter")
-        {
-            Debug.Log("Executing a geometric event in virus model.");
-            if (effectValue > 0)
-            {
-                growthRateParameter += (MAX_GROWTH_RATE_PARAMETER - growthRateParameter) * effectValue;
-            }
-            else
-            {
-                growthRateParameter += (growthRateParameter - MIN_GROWTH_RATE_PARAMETER) * effectValue;
-            }
-        }
-        else if (targetParameter == "effectRatio")
-        {
-            Debug.Log("Executing a geometric event in virus model.");
-            if (effectValue > 0)
-            {
-                effectRatio += (MAX_EFFECT_RATIO  - effectRatio) * effectValue;
-            }
-            else
-            {
-                effectRatio += (effectRatio - MIN_EFFECT_RATIO) * effectValue;
-            }
-        }
-        else
-        {
-            Debug.Log("Unknown parameter type is entered.");
-        }
-    }
-
-    private void ExecuteReverseEvent(string targetParameter, double effectValue)
-    {
-        if (targetParameter == "growthRateParameter")
-        {
-            Debug.Log("Executing a reverse geometric event in virus model.");
-            if (effectValue > 0)
-            {
-                double nominator = growthRateParameter - effectValue * MAX_GROWTH_RATE_PARAMETER;
-                double denominator = 1 - effectValue;
-                growthRateParameter = nominator / denominator;
-            }
-            else
-            {
-                double nominator = growthRateParameter + effectValue * MIN_GROWTH_RATE_PARAMETER;
-                double denominator = 1 + effectValue;
-                growthRateParameter = nominator / denominator;
-            }
-        }
-        else if (targetParameter == "effectRatio")
-        {
-            Debug.Log("Executing a reverse geometric event in virus model.");
-            if (effectValue > 0)
-            {
-                double nominator = effectRatio - effectValue * MAX_EFFECT_RATIO;
-                double denominator = 1 - effectValue;
-                effectRatio = nominator / denominator;
-            }
-            else
-            {
-                double nominator = effectRatio + effectValue * MIN_EFFECT_RATIO;
-                double denominator = 1 + effectValue;
-                effectRatio = nominator / denominator;
-            }
-        }
-        else
-        {
-            Debug.Log("Unknown parameter type is entered.");
-        }
     }
 
 }

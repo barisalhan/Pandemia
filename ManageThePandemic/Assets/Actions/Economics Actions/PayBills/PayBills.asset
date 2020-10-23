@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: PayBills
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
-  timeToComplete: 0
-  events: []
+  actionName: Pay Bills
+  description: Pay <b>utility bills</b> of poor families
+  hint: 
+  type: 1
+  cost: 150
+  timeToConstruct: 0
+  duration: 7
+  events:
+  - {fileID: 11400000, guid: e63c1a27b7f6b5b4ea47b50d927f23ad, type: 2}

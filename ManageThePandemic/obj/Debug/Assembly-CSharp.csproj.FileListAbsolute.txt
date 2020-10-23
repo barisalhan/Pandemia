@@ -234,3 +234,5 @@ D:\Projects\ManageThePandemic\ManageThePandemic\obj\Debug\Assembly-CSharp.csproj
 D:\Projects\ManageThePandemic\ManageThePandemic\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 D:\Projects\ManageThePandemic\ManageThePandemic\obj\Debug\Assembly-CSharp.dll
 D:\Projects\ManageThePandemic\ManageThePandemic\obj\Debug\Assembly-CSharp.pdb
+D:\Projects\ManageThePandemic\ManageThePandemic\Temp\bin\Debug\UnityEngine.Advertisements.Editor.dll
+D:\Projects\ManageThePandemic\ManageThePandemic\Temp\bin\Debug\UnityEngine.Monetization.Editor.dll

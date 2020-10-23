@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: VaccineExperimentOnHumanWithPermission
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
+  actionName: Human Experiments
+  description: Start <b>legal human experiments</b> to finish vaccine development
+    process.
+  hint: 
+  type: 2
+  cost: 750
+  timeToConstruct: 0
+  duration: 0
   events: []

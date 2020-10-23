@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Object = System.Object;
 
 
 //TODO: Consider adapting to the name convention.
@@ -21,19 +19,95 @@ using Object = System.Object;
  *      To restrict access, all dependent parameters must be private and
  *                          all independent parameters must be protected.
  */
-[CreateAssetMenu(menuName = "ManageThePandemic/HealthSystemModel")]
+[CreateAssetMenu(menuName = "Pandemia/HealthSystemModel")]
 public class HealthSystemModel : MTPScriptableObject
 {
-    private const double MAX_MEDICINE_EFFECT_ICU = 0.9;
-    private const double MIN_MEDICINE_EFFECT_ICU = 0.6;
+    private const double INITIAL_InputMedicineEffectACU = 0;
+    private const double INITIAL_InputMedicineEffectICU = 0;
 
-    private const double MAX_MEDICINE_EFFECT_ACU = 0.9;
-    private const double MIN_MEDICINE_EFFECT_ACU = 0.6;
+    private const double INITIAL_AcuCapacity = 3000;
+    private const double INITIAL_IcuCapacity = 3000;
+
+    private const int INITIAL_DelayACU = 3;
+    private const int INITIAL_DelayICU = 1;
+
+    public static Double[] LIMITS_MedicineEffectACU = { 0.1, 0.89 };
+    public static Double[] LIMITS_MedicineEffectICU = { 0.1, 0.7 };
+    // UNUSED!
+    public static Double[] LIMITS_AcuCapacity = { 0.0, 0.0 };
+    // UNUSED!
+    public static Double[] LIMITS_IcuCapacity = { 0.0, 0.0 };
+
+
+
+
+    private double inputMedicineEffectACU;
+    public double InputMedicineEffectACU
+    {
+        get { return inputMedicineEffectACU; }
+        set
+        {
+            inputMedicineEffectACU = value;
+            MedicineEffectACU = Sigmoid(value, LIMITS_MedicineEffectACU[0],
+                LIMITS_MedicineEffectACU[1], Temperatures.T_MedACU);
+        }
+    }
+    // [Independent] [Parameter]
+    // Effect of medicine which determines recovery/ICU ratio for active cases.
+    [SerializeField]
+    private double medicineEffectACU;
+    public double MedicineEffectACU
+    {
+        get { return medicineEffectACU; }
+        set { medicineEffectACU = value; }
+    }
+
+
+
+
+    private double inputMedicineEffectICU;
+    public double InputMedicineEffectICU
+    {
+        get { return inputMedicineEffectICU; }
+        set
+        {
+            inputMedicineEffectICU = value;
+            MedicineEffectICU = Sigmoid(value, LIMITS_MedicineEffectICU[0], 
+                LIMITS_MedicineEffectICU[1], Temperatures.T_MedICU);
+        }
+    }
+    // [Independent] [Parameter]
+    // Effect of medicine which determines recovery/Death ratio for active cases.
+    [SerializeField]
+    private double medicineEffectICU;
+    public double MedicineEffectICU
+    {
+        get { return medicineEffectICU; }
+        set { medicineEffectICU = value; }
+    }
+
+
+    // [Independent]
+    // Number of available places for Active Cases. Defined as ACU(Active Case Unit) 
+    [SerializeField]
+    private double acuCapacity;
+    public double AcuCapacity
+    {
+        get { return acuCapacity; }
+        set { acuCapacity = value; }
+    }
+
 
     // [Independent]
     // Number of ICU units.
     [SerializeField]
-    private int ICUCapacity;
+    private double icuCapacity;
+    public double IcuCapacity
+    {
+        get { return icuCapacity; }
+        set { icuCapacity = value; }
+    }
+
 
 
     // [Dependent]
@@ -43,17 +117,11 @@ public class HealthSystemModel : MTPScriptableObject
 
     // [Independent]
     // After DelayICU number of days, a patient under ICU either recovers or dies.
-    private int delayICU = 5;
-
-    // [Independent]
-    // Number of available places for Active Cases. Defined as ACU(Active Case Unit) 
-    [SerializeField]
-    private int ACUCapacity;
+    private int delayICU;
 
     // [Independent]
     // After DelayACU number of days, a patient either recovers or gets in ICU.
-    [SerializeField]
-    private int delayACU = 14;
+    private int delayACU;
 
     // [Dependent]
     // By using dailyNewICUCases, this number is projected to DelayICU days later.
@@ -103,24 +171,6 @@ public class HealthSystemModel : MTPScriptableObject
     // Daily ICU Cases as a function of day, kept as a dictionary.
     private Dictionary<int, int> dailyNetICUCases = new Dictionary<int, int>();
 
-
-    // [Independent]
-    // [Parameter]
-    // Effect of medicine which determines recovery/ICU ratio for active cases.
-    [SerializeField]
-    private double medicineEffectACU;
-
-    // [Independent]
-    // [Parameter]
-    // Effect of medicine which determines recovery/Death ratio for active cases.
-    [SerializeField]
-    private double medicineEffectICU;
-
-    // [Independent]
-    // [Parameter]
-    // Amount of Mask Supply which will be used a parameter for infection probability.
-    private int maskCapacity;
-
     // [Dependent]
     // [Parameter]
     // Recovery Ratio for active cases.
@@ -137,6 +187,14 @@ public class HealthSystemModel : MTPScriptableObject
      */
     public void SetDefaultModel()
     {
+        InputMedicineEffectACU = INITIAL_InputMedicineEffectACU;
+        InputMedicineEffectICU = INITIAL_InputMedicineEffectICU;
+        acuCapacity = INITIAL_AcuCapacity;
+        icuCapacity = INITIAL_IcuCapacity;
+        delayACU = INITIAL_DelayACU;        
+        delayICU = INITIAL_DelayICU;
+
+
         dailyICUCases.Add(0, 0);
         dailyNetICUCases.Add(0, 0);
         dailyACUCases.Add(0, 0);
@@ -148,6 +206,14 @@ public class HealthSystemModel : MTPScriptableObject
         aggregateICUCases.Add(0, 0);
         aggregateRecoveredCases.Add(0, 0);
     }
+
+
+    public double CalculateHospitalOccupancyRate()
+    {
+        int today = Time.GetInstance().GetDay();
+        return aggregateACUCases[today - 1] / acuCapacity;
+    }
+
 
     public int GetNewRecoveredCases(int day)
     {
@@ -180,6 +246,8 @@ public class HealthSystemModel : MTPScriptableObject
         CalculateDailyNewRecoveredsFromICU();
 
         UpdateDailyDictionaries(dailyNewActiveCases);
+        int today = Time.GetInstance().GetDay();
+
     }
 
     public void UpdateRecoveryRatioUnderICU()
@@ -193,7 +261,7 @@ public class HealthSystemModel : MTPScriptableObject
         }
         else
         {
-            ratioHasAccessToICU = Math.Min(ICUCapacity / (double) aggregateICUCases[today], 1.0);
+            ratioHasAccessToICU = Math.Min(icuCapacity / (double) aggregateICUCases[today], 1.0);
         }
 
         recoveryRatioUnderICU = (ratioHasAccessToICU) * (medicineEffectICU);
@@ -209,7 +277,7 @@ public class HealthSystemModel : MTPScriptableObject
         }
         else
         {
-            ratioHasAccessToACU = Math.Min(ACUCapacity / (double) aggregateACUCases[today], 1.0);
+            ratioHasAccessToACU = Math.Min(acuCapacity / (double) aggregateACUCases[today], 1.0);
         }
 
         recoveryRatioUnderACU = (ratioHasAccessToACU) * (medicineEffectACU);
@@ -218,27 +286,30 @@ public class HealthSystemModel : MTPScriptableObject
     // This is projected to DelayACU days later.
     public void CalculateDailyNewICUCases(int dailyNewActiveCases)
     {
-        dailyNewICUCases = (int)((1 - recoveryRatioUnderACU) * (dailyNewActiveCases));
+        dailyNewICUCases = (int)(Math.Round((1 - recoveryRatioUnderACU) * (dailyNewActiveCases)));
     }
 
     // This is projected to DelayACU days later.  
     public void CalculateDailyNewRecoveredsFromACU(int dailyNewActiveCases)
     {
-        dailyNewRecoveredsFromACU = (int)(recoveryRatioUnderACU * dailyNewActiveCases);
+        dailyNewRecoveredsFromACU = (int)Math.Round(recoveryRatioUnderACU * dailyNewActiveCases);
+
     }
 
     // This is projected to DelayACU days later.  
     public void CalculateDailyNewDeaths()
     {
         int today = Time.GetInstance().GetDay();
-        dailyNewDeaths = (int)((1 - recoveryRatioUnderICU) * dailyICUCases[today - 1]);
+        dailyNewDeaths = (int)Math.Round((1 - recoveryRatioUnderICU) * dailyICUCases[today - 1]);
+
     }
 
     // This is projected to DelayICU days later.  
     public void CalculateDailyNewRecoveredsFromICU()
     {
         int today = Time.GetInstance().GetDay();
-        dailyNewRecoveredsFromICU = (int)(recoveryRatioUnderICU * dailyICUCases[today - 1]);
+        dailyNewRecoveredsFromICU = (int)Math.Round(recoveryRatioUnderICU * dailyICUCases[today - 1]);
+
     }
 
     /*
@@ -264,6 +335,7 @@ public class HealthSystemModel : MTPScriptableObject
         AddToDictionary(today, 0, dailyNetICUCases, 0);
         AddToDictionary(today, 0, dailyACUCases, 0);
         AddToDictionary(today, 0, dailyRecoveredCases, 0);
+
         AddToDictionary(today, 0, dailyDeathCases, 0);
 
         // Passes projected dailyNewICUCases to the corresponding date. 
@@ -289,7 +361,6 @@ public class HealthSystemModel : MTPScriptableObject
         // Adds today's dailyNewRecoveredsFromICU to aggregate dictionary.
         AddToDictionary(today, delayICU, dailyRecoveredCases, dailyNewRecoveredsFromICU);
 
-
         // Adds today's dailyNewDeaths(projected to delayICU days later) to daily dictionary.
         AddToDictionary(today, delayICU, dailyDeathCases, dailyNewDeaths);
     }
@@ -314,116 +385,5 @@ public class HealthSystemModel : MTPScriptableObject
         AddToDictionary(today, 0, aggregateDeathCases, dailyDeathCases[today]);
         AddToDictionary(today, 0, aggregateDeathCases, aggregateDeathCases[today - 1]);
 
-    }
-
-
-    public void ExecuteEvent(string targetParameter,
-                             int effectType,
-                             double effectValue)
-    {
-        if (effectType != 0 && effectType != 1 && effectType!=3)
-        {
-            Debug.Log("Unknown effect type is entered for the health system model.");
-            return;
-        }
-
-        if (effectType == 1)
-        {
-            ExecuteGeometricEvent(targetParameter, effectValue);
-        }
-        else if (effectType == 0)
-        {
-            ExecuteArithmeticEvent(targetParameter, effectValue);
-        }
-        else if (effectType == 3)
-        {
-            ExecuteReverseEvent(targetParameter, effectValue);
-        }
-    }
-
-    private void ExecuteArithmeticEvent(string targetParameter, double effectValue)
-    {
-        if (targetParameter == "ACUCapacity")
-        {
-            ACUCapacity += (int)effectValue;
-        }
-        else if (targetParameter == "ICUCapacity")
-        {
-            ICUCapacity += (int)effectValue;
-        }
-    }
-
-
-    private void ExecuteGeometricEvent(string targetParameter,
-        double effectValue)
-    {
-        if (targetParameter == "medicineEffectACU")
-        {
-            Debug.Log("Executing a geometric event in health system model.");
-            if (effectValue > 0)
-            {
-                medicineEffectACU += (MAX_MEDICINE_EFFECT_ACU - medicineEffectACU) * effectValue;
-            }
-            else
-            {
-                medicineEffectACU += (medicineEffectACU - MIN_MEDICINE_EFFECT_ACU) * effectValue;
-            }
-        }
-        else if (targetParameter == "medicineEffectICU")
-        {
-            Debug.Log("Executing a geometric event in health system model.");
-            if (effectValue > 0)
-            {
-                medicineEffectICU += (MAX_MEDICINE_EFFECT_ICU - medicineEffectICU) * effectValue;
-            }
-            else
-            {
-                medicineEffectICU += (medicineEffectICU - MIN_MEDICINE_EFFECT_ICU) * effectValue;
-            }
-        }
-        else
-        {
-            Debug.Log("Unknown parameter type is entered.");
-        }
-    }
-
-    private void ExecuteReverseEvent(string targetParameter, double effectValue)
-    {
-        if (targetParameter == "medicineEffectACU")
-        {
-            Debug.Log("Executing a reverse geometric event in health system model.");
-            if (effectValue > 0)
-            {
-                double nominator = medicineEffectACU - effectValue * MAX_MEDICINE_EFFECT_ACU;
-                double denominator = 1 - effectValue;
-                medicineEffectACU = nominator / denominator;
-            }
-            else
-            {
-                double nominator = medicineEffectACU + effectValue * MIN_MEDICINE_EFFECT_ACU;
-                double denominator = 1 + effectValue;
-                medicineEffectACU = nominator / denominator;
-            }
-        }
-        else if (targetParameter == "medicineEffectICU")
-        {
-            Debug.Log("Executing a reverse geometric event in health system model.");
-            if (effectValue > 0)
-            {
-                double nominator = medicineEffectICU - effectValue * MAX_MEDICINE_EFFECT_ICU;
-                double denominator = 1 - effectValue;
-                medicineEffectICU = nominator / denominator;
-            }
-            else
-            {
-                double nominator = medicineEffectICU + effectValue * MIN_MEDICINE_EFFECT_ICU;
-                double denominator = 1 + effectValue;
-                medicineEffectICU = nominator / denominator;
-            }
-        }
-        else
-        {
-            Debug.Log("Unknown parameter type is entered.");
-        }
     }
 }

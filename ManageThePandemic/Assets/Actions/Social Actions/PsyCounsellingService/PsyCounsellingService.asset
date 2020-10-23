@@ -12,8 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: PsyCounsellingService
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
-  timeToComplete: 0
-  events: []
+  actionName: Councelling Service
+  description: Provide a one-week-long councelling service to give <b>psychological
+    support</b> during the period of pandemia.
+  hint: 
+  type: 1
+  cost: 500
+  timeToConstruct: 0
+  duration: 7
+  events:
+  - {fileID: 11400000, guid: 4aa88b6e270f9e7469be16d960044909, type: 2}

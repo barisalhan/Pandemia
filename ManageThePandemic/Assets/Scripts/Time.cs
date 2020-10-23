@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /*
  * Global time of the game. It follows singleton pattern.
@@ -11,11 +8,22 @@ public class Time
 {
     private int day;
 
+    private int week;
+    
+    public int Week
+    {
+        get { return week; }
+        set { week = value; }
+    }
+
+
+
     private static Time time;
 
     private Time()
     {
         day = 1;
+        week = 1;
     }
 
 
@@ -59,6 +67,11 @@ public class Time
             int currentDay = time.GetDay();
             time.SetDay(currentDay + 1);
             Debug.Log("NextDay() is invoked. Current day: " + time.GetDay());
+
+            if (currentDay % 7 == 0)
+            {
+                time.week++;
+            }
         }
     }
 
@@ -67,7 +80,6 @@ public class Time
     {
         return day;
     }
-
 
     public void SetDay(int newDay)
     {

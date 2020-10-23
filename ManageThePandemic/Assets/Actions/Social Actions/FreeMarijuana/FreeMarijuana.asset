@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: FreeMarijuana
   m_EditorClassIdentifier: 
   actionName: 
-  description: 
+  description: Legalize marijuana in the entire USA.
+  hint: 
+  type: 0
   cost: 0
-  timeToComplete: 0
+  timeToConstruct: 0
+  duration: 0
   events: []

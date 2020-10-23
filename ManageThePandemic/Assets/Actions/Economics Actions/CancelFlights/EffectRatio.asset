@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b860cc45a372b54d8190a4df2a7bb48, type: 3}
-  m_Name: TaxCoeff0.5
+  m_Name: EffectRatio
   m_EditorClassIdentifier: 
-  targetModelName: economy
-  targetParameter: taxCoefficient
-  effectType: 1
-  effectValue: 0.5
-  delayTime: 0
+  targetModel: 0
+  targetParameter: 1
+  effectType: 0
+  effectValue: -3
+  isReversible: 1
+  isReverse: 0
+  duration: 0

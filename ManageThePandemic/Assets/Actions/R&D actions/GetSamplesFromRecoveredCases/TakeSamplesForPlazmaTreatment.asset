@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: TakeSamplesForPlazmaTreatment
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
+  actionName: Initiate Plasma Treatment Studies
+  description: Take antibody samples from recovered people to initiate <b>plasma treatment</b>
+    studies.
+  hint: Plasma treatment has a higher comparative advantage for the later stages of
+    the disease.
+  type: 0
+  cost: 200
+  timeToConstruct: 2
+  duration: 0
   events: []

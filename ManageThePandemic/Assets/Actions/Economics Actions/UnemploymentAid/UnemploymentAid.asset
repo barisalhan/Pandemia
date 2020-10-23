@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: UnemploymentAid
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
-  timeToComplete: 0
-  events: []
+  actionName: Unemployment Aid
+  description: Provide <b>federal benefit</b> for a week.
+  hint: 
+  type: 1
+  cost: 450
+  timeToConstruct: 0
+  duration: 7
+  events:
+  - {fileID: 11400000, guid: ea0fd1bf6f967134fa670d11af1044de, type: 2}

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 public abstract class MTPScriptableObject : ScriptableObject
 {
@@ -11,28 +8,58 @@ public abstract class MTPScriptableObject : ScriptableObject
      * Gets the value of an independent
      * parameter of an instance of a class.
      */
-    public virtual object GetParameter(string parameterName)
+    public virtual T GetParameterValue<T>(string parameterName)
     {
         // Holds the metadata of the class.
         Type type = this.GetType();
 
-        string methodName = "Get" + parameterName;
+        PropertyInfo property = type.GetProperty(parameterName);
 
-        // Holds kind of a pointer to the method that we want to reach.
-        MethodInfo method = type.GetMethod(methodName);
+        Debug.Log(property.Name);
 
-        if (method != null)
+        if (property != null)
         {
-            Object instance = this;
-            var value = method.Invoke(instance, null);
-            return value.ToString();
+            var value = property.GetValue(this);
+            return (T)value;
+
+            //return (T)Convert.ChangeType(value, typeof(T));
         }
         else
         {
-            Debug.Log("Method:" + methodName + " does not exits and it is tried to be called.");
+            /*
+            Debug.Log("Field: " + parameterName  + " does not exits" +
+                      " and it is tried to be reached. 0 value is returned.");
+            */
+            return (T)Convert.ChangeType(null, typeof(T));
         }
+    }
 
-        return null;
+
+    public Double[] GetParameterLimits(string parameterName)
+    {
+        // Holds the metadata of the class.
+        Type type = this.GetType();
+
+        parameterName = "LIMITS_" + parameterName;
+        FieldInfo fieldInfo = type.GetField(parameterName);
+
+        if (fieldInfo != null)
+        {
+            Double[] limits = (Double[])fieldInfo.GetValue(this);
+            
+            if (limits == null)
+            {
+                Debug.Log("Limits is assigned but it is null.");
+            }
+
+            return limits;
+        }
+        else
+        {
+            Debug.Log("Limits: " + parameterName + " does not exits" +
+                      " and it is tried to be reached. Null value is returned.");
+            return null;
+        }
     }
 
 
@@ -40,74 +67,29 @@ public abstract class MTPScriptableObject : ScriptableObject
      * Sets the value of an independent
      * parameter of an instance of a class.
      */
-    public virtual void SetParameter(string parameterName,
-                                     int effectType,
-                                     double effectValue)
+    public virtual void SetParameterValue<T>(string parameterName, T t)
     {
         // Holds the metadata of the class.
         Type type = this.GetType();
 
-        FieldInfo fieldInfo = type.GetField(parameterName);
+        PropertyInfo property = type.GetProperty(parameterName);
 
-        // TODO: error-prone area.
-        if (fieldInfo != null)
+        if (property != null)
         {
-            Object instance = this;
-
-            if (effectType == 0)
-            {
-                if (fieldInfo.FieldType == typeof(double))
-                {
-                    double currentValue = (double)fieldInfo.GetValue(instance);
-                    fieldInfo.SetValue(instance, currentValue + effectValue);
-                }
-                else if (fieldInfo.FieldType == typeof(int))
-                {
-                    int currentValue = (int)fieldInfo.GetValue(instance);
-                    fieldInfo.SetValue(instance, (int)(currentValue + effectValue));
-                }
-                else
-                {
-                    Debug.Log("EffectType and EffectValue do not match.");
-                }
-            }
-            else if (effectType == 1)
-            {
-                if (fieldInfo.FieldType == typeof(double))
-                {
-                    double currentValue = (double)fieldInfo.GetValue(instance);
-                    fieldInfo.SetValue(instance, currentValue * effectValue);
-                }
-                else if(fieldInfo.FieldType == typeof(int))
-                {
-                    int currentValue = (int)fieldInfo.GetValue(instance);
-                    fieldInfo.SetValue(instance, (int)(currentValue * effectValue));
-                }
-                else
-                {
-                    Debug.Log("EffectType and EffectValue do not match.");
-                }
-            }
-            else if (effectType == 2)
-            {
-                if (fieldInfo.FieldType == typeof(bool))
-                {
-                    bool currentValue = (bool)fieldInfo.GetValue(instance);
-                    fieldInfo.SetValue(instance, effectValue);
-                }
-                else
-                {
-                    Debug.Log("EffectType and EffectValue do not match.");
-                }
-            }
-            else
-            {
-                Debug.Log("Unknown effectType is requested.");
-            }
+            property.SetValue(this, t);
         }
         else
         {
-            Debug.Log("Parameter:" + parameterName + " does not exits and it is tried to be reached.");
+            Debug.Log("Field: " + parameterName + " does not exits" +
+                      " and it is tried to be set.");
         }
     }
+
+    public double Sigmoid(double input, double lowerLimit, double upperLimit, double temperature = 1)
+    {
+        double exp = Math.Exp(input/temperature);
+        return lowerLimit + (exp / (1 + exp))*(upperLimit-lowerLimit);
+    }
 }
+
+     

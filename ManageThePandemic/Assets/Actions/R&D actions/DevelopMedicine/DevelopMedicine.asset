@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: DevelopMedicine
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
-  events: []
+  actionName: Develop Medicine
+  description: <b>Develop medicine</b> to start clinical experiments.
+  hint: 
+  type: 0
+  cost: 350
+  timeToConstruct: 2
+  duration: 0
+  events:
+  - {fileID: 11400000, guid: c0a16488e8cbb144d9c9d3bd6f96ccbe, type: 2}

@@ -12,8 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: ProduceVentilator
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
-  timeToComplete: 0
-  events: []
+  actionName: Mass Production
+  description: Start <b>mass production</b> of <b>ventilators</b> to deliver country-wide.
+  hint: It will reduce mortality rate.
+  type: 0
+  cost: 750
+  timeToConstruct: 5
+  duration: 0
+  events:
+  - {fileID: 11400000, guid: 2cf062cda7cea334c9526d1e80dc6c19, type: 2}
+  - {fileID: 11400000, guid: 37f85973dfe36eb428292b6d00fd8fdd, type: 2}

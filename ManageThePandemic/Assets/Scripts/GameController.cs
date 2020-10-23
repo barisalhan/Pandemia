@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Net.Mime;
-using System.Reflection;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Experimental.UIElements;
-using Object = System.Object;
-using UnityEngine.SceneManagement;
-using UnityEngine.Windows.Speech;
+using Random = System.Random;
+
 
 /*
  * Manages the time of the game.
@@ -28,8 +24,17 @@ public class GameController : MonoBehaviour, ITimeDrivable
 
     private ActionsController actionsController;
 
+    [SerializeField] 
+    private GameObject countryObject;
+
+    [SerializeField] 
+    private Canvas endGameCanvas;
+
     [SerializeField]
-    private GameObject endGamePanel;
+    private GameObject gameLostPanel;
+
+    [SerializeField]
+    private GameObject gameWonPanel;
 
     [SerializeField]
     private Text dayText;
@@ -39,19 +44,49 @@ public class GameController : MonoBehaviour, ITimeDrivable
 
     private Text[] caseTexts;
 
+    // Budgeti gosteren yerler buna subscribe ediyor.
     [SerializeField]
     private Text[] moneyTexts;
+
+    [SerializeField]
+    private GameObject coinPrefab;
+
+    public EventHandler<HospitalArgs> MaxHospitalOccupancyRateChanged;
+
+    private bool isHospitalFull = false;
+    private bool isDeathLimitExceeded = false;
+
+    [SerializeField]
+    public int[] weeklyDeathLimits;
+
+    //TODO: Consider moving these rip group elements from here.
+    [Header("RIP Statistics Group")]
+    [SerializeField] 
+    private Slider ripSlider;
+    [SerializeField] 
+    private Text ripStatisticsText;
+
+    private int currentWeek;
+
+    private TimelineController timelineController;
+
+    private AdsController adsController;
 
     public void Awake()
     {
         actionsController = GetComponent<ActionsController>();
         caseTexts = statisticsPanel.GetComponentsInChildren<Text>();
+        timelineController = GetComponent<TimelineController>();
+        adsController = GetComponent<AdsController>();
     }
 
     public void Start()
     {
         SubscribeMoneyTextToBudget();
         SetDefaultEnvironment();
+
+        UpdateHospitalOccupancyRate();
+        //timelineController.SetWeeklyDeathLimits(weeklyDeathLimits.ToList());
     }
 
     private void SubscribeMoneyTextToBudget()
@@ -61,7 +96,6 @@ public class GameController : MonoBehaviour, ITimeDrivable
 
     private void OnBudgetChanged(object source, BudgetArgs budgetArgs)
     {
-        //TODO: add M to moneyText.
         foreach (var moneyText in moneyTexts)
         {
             moneyText.text = budgetArgs.budget.ToString() + " M$";
@@ -73,7 +107,8 @@ public class GameController : MonoBehaviour, ITimeDrivable
     {
         // Global time of the game is created.
         Time.CreateTime();
-        
+        currentWeek = Time.GetInstance().Week;
+
         countryController.SetDefaultEnvironment();
 
         SubscribeToActions();
@@ -83,40 +118,170 @@ public class GameController : MonoBehaviour, ITimeDrivable
     {
         countryController.NextDay();
 
+        CreateCoinsOnMap(countryController.dailyTax);
+        //DEPRECATED!
         UpdateDailyStatistics();
 
         Time.NextDay();
+
+        // If we arrived to a new week.
+        if (currentWeek != Time.GetInstance().Week)
+        {
+            OnNextWeek();
+        }
 
         UpdateDayText();
 
         ExecuteActionConstructionCalendar();
         ExecuteEventCalendar();
         ExecuteActionOnUseCalendar();
+        
+        UpdateHospitalOccupancyRate();
+        UpdateRipRate();
+
         CheckGameOver();
+        if (Time.GetInstance().GetDay()%10 == 0)
+        {
+            adsController.myButton.interactable = true;
+        }
+    }
+
+    // TODO: Think about a better place for this method. UI should not be done in GameController.
+    private void CreateCoinsOnMap(int money)
+    {
+        int moneyForEachCoin = 30;
+        int numberOfCoins = money / moneyForEachCoin;
+        
+        // TODO: centralize random.
+        Random random = new Random();
+        for (int i = 0; i < numberOfCoins; i++)
+        {
+            // TODO: Change this when adding a new map.
+            int max_x = 3;
+            int min_x = -2;
+            double xPosition = (random.NextDouble() * (max_x - min_x)) + min_x;
+
+            double max_y = 3.2;
+            double min_y = 0.5;
+            double yPosition = (random.NextDouble() * (max_y - min_y)) + min_y;
+
+            Vector3 position = new Vector3((float) xPosition, (float) yPosition, 10);
+            GameObject coinObject = Instantiate(coinPrefab,
+                                                position,
+                                                Quaternion.identity,
+                                                countryObject.transform);
+            CoinController coinController = coinObject.GetComponent<CoinController>();
+            coinController.money = moneyForEachCoin;
+            coinObject.SetActive(true);
+        }
+    }
+
+
+    private void OnNextWeek()
+    {
+        currentWeek = Time.GetInstance().Week;
+        //adsController.ShowAdvertisement();
+        
+
+        // TODO: Newspaper wil be added from here.
+
+
+        timelineController.OnNextWeek();
+    }
+
+
+    private void UpdateHospitalOccupancyRate()
+    {
+        double maxOccupancyRate = 0;
+        string regionName = "";
+
+        foreach (var region in countryController.regionControllers)
+        {
+            double occupancyRate = region.HealthSystemModel.CalculateHospitalOccupancyRate();
+            if (occupancyRate > maxOccupancyRate)
+            {
+                maxOccupancyRate = occupancyRate;
+                regionName = region.name;
+            }
+
+            if (occupancyRate > 0.99)
+            {
+                isHospitalFull = true;
+            }
+        }
+
+        OnOccupancyRateChanged(maxOccupancyRate, regionName);
+    }
+
+
+    private void UpdateRipRate()
+    {
+
+        int deathCases = countryController.GetDeathCases();
+        int deathLimit = weeklyDeathLimits[Time.GetInstance().Week - 1];
+
+        // Slider value takes the input between 0 and 1. So, we limit the max value.
+        float ratio = Math.Min((float)deathCases / deathLimit, 1);
+
+        ripSlider.value = ratio;
+        ripStatisticsText.text = String.Format("{0:0}", (ratio * 100)) + "%";
+
+        if (ratio > 0.99)
+        {
+            isDeathLimitExceeded = true;
+        }
+    }
+
+
+    public void OnOccupancyRateChanged(double maxOccupancyRate, string regionName)
+    {
+        if (MaxHospitalOccupancyRateChanged != null)
+        {
+            Debug.Log("Capacity cagirildi.");
+            MaxHospitalOccupancyRateChanged(this, new HospitalArgs(maxOccupancyRate, regionName));
+        }
     }
 
 
     /*
      * Warning: It's dependent to the order of case texts in the UI.
+     * !!!!DEPRECATED!!!!!
+     * When you start to use again, make sure that it is called after Time.NextDay();
      */
     private void UpdateDailyStatistics()
     {
+        
         caseTexts[0].text = countryController.GetActiveCases().ToString();
         caseTexts[1].text = countryController.GetRecoveredCases().ToString();
         caseTexts[2].text = countryController.GetDeathCases().ToString();
+        
     }
 
 
     private void UpdateDayText()
     {
         string filler = " Day of Pandemia";
-        if (Time.GetInstance().GetDay() == 2)
+        if (Time.GetInstance().GetDay()%10 == 2)
         {
-            dayText.text = " 2nd"+ filler;
+            if (Time.GetInstance().GetDay() == 12)
+            {
+                dayText.text = " 12th" + filler;
+            }
+            else
+            {
+                dayText.text = " " + Time.GetInstance().GetDay().ToString() + "nd" + filler;
+            }
         }
-        else if (Time.GetInstance().GetDay() == 3)
+        else if (Time.GetInstance().GetDay()%10 == 3)
         {
-            dayText.text = " 3rd" + filler;
+            if (Time.GetInstance().GetDay() == 13)
+            {
+                dayText.text = " 13th" + filler;
+            }
+            else
+            {
+                dayText.text = " " + Time.GetInstance().GetDay().ToString() + "rd" + filler;
+            }
         }
         else
         {
@@ -132,14 +297,28 @@ public class GameController : MonoBehaviour, ITimeDrivable
 
     private void CheckGameOver()
     {
-        if (countryController.GetActiveCases() > 60)
+        if (isHospitalFull ||
+            isDeathLimitExceeded ||
+            countryController.getAvgHappiness() < 0.2)
         {
-            endGamePanel.SetActive(true);
+            endGameCanvas.gameObject.SetActive(true);
+            gameLostPanel.SetActive(true);
         }
 
+        if (Time.GetInstance().Week == 9)
+        {
+            endGameCanvas.gameObject.SetActive(true);
+            gameWonPanel.SetActive(true);
+        }
     }
 
 
+    /*
+     * If in the forward mode, it executes the event and
+     * add the reverse of the same event to the calendar.
+     *
+     * Else, it executes the event and set the event to default.
+     */
     private void ExecuteEventCalendar()
     {
         int today = Time.GetInstance().GetDay();
@@ -148,54 +327,141 @@ public class GameController : MonoBehaviour, ITimeDrivable
             foreach (var mtpEvent in eventCalendar[today])
             {
                 ExecuteEvent(mtpEvent);
+
+                if (mtpEvent.isReversible == 1)
+                {
+                    // Forward-mode = 0
+                    // Reverse-mode = 1
+                    if (mtpEvent.isReverse == 0)
+                    {
+                        int eventDay = today + mtpEvent.duration;
+                        AddEventToCalendar(mtpEvent, eventDay);
+                    }
+
+                    mtpEvent.isReverse = 1 - mtpEvent.isReverse;
+                }
             }
             eventCalendar[today].Clear();
         }
-
     }
 
 
-    // TODO: refactor this method.
+    /*
+        * Modelleri bul
+        * Parametreyi getir.
+        * Denkleme ver.
+        * Paratmetreyi geri koy.
+    */
     private void ExecuteEvent(MTPEvent mtpEvent)
     {
-        if (mtpEvent.targetModelName == "virus")
+        foreach (var regionController in countryController.regionControllers)
         {
-            foreach (var regionController in countryController.regionControllers)
-            {
-                regionController.virusModel.ExecuteEvent(mtpEvent.targetParameter,
-                                                         mtpEvent.effectType,
-                                                         mtpEvent.effectValue);
-            }
-        }
-        else if (mtpEvent.targetModelName == "society")
-        {
+            string modelName = mtpEvent.targetModel.ToString();
+            string parameterName = mtpEvent.targetParameter.ToString();
 
-            countryController.societyModel.ExecuteEvent(mtpEvent.targetParameter,
-                                                        mtpEvent.effectType,
-                                                        mtpEvent.effectValue);
+            var model = regionController.GetParameterValue<MTPScriptableObject>(modelName);
+            //Debug.Log("Model name: " + model.name);
+
+            double parameter = model.GetParameterValue<Double>(parameterName);
+            //Debug.Log("Value of " + regionController.name + ": " + parameter);
+
+            double[] limits = model.GetParameterLimits(parameterName);
+
+            double newValue = CalculateNewValue(mtpEvent,
+                                                parameter,
+                                                limits);
+
+            model.SetParameterValue(parameterName, newValue);
         }
-        else if (mtpEvent.targetModelName == "health")
+        
+    }
+
+    private double CalculateNewValue(MTPEvent mtpEvent,
+                                     double parameter,
+                                     double[] limits)
+    {
+        int effectType = mtpEvent.effectType;
+        double effectValue = mtpEvent.effectValue;
+
+        if (!MTPEvent.possibleEffectTypes.Contains(effectType))
         {
-            foreach (var regionController in countryController.regionControllers)
+            Debug.Log("Unknown effect type is entered for the health system model." +
+                      "0 value is returned.");
+            return 0;
+        }
+
+        // Arithmetic
+        if (effectType == 0)
+        {
+            if (mtpEvent.isReversible == 1 && mtpEvent.isReverse == 1)
             {
-                regionController.healthSystemModel.ExecuteEvent(mtpEvent.targetParameter,
-                                                                mtpEvent.effectType,
-                                                                mtpEvent.effectValue);
+                parameter -= effectValue;
+            }
+            else
+            {
+                parameter += effectValue;
+                //Debug.Log("Executing a arithmetic event");
+            }
+            
+        }
+
+        // Geometric
+        else if (effectType == 1)
+        {
+            if (mtpEvent.isReversible == 1 && mtpEvent.isReverse == 1)
+            {
+                if (effectValue > 0)
+                {
+                    double nominator = parameter - effectValue * limits[1];
+                    double denominator = 1 - effectValue;
+                    parameter = nominator / denominator;
+                }
+                else
+                {
+                    double nominator = parameter + effectValue * limits[0];
+                    double denominator = 1 + effectValue;
+                    parameter = nominator / denominator;
+                }
+            }
+            else
+            {
+                //Debug.Log("Executing a geometric event");
+                if (effectValue > 0)
+                {
+                    parameter += (limits[1] - parameter) * effectValue;
+                }
+                else
+                {
+                    parameter += (parameter - limits[0]) * effectValue;
+                }
             }
         }
-        else if (mtpEvent.targetModelName == "economy")
+
+        // Boolean ( We use double for representing boolean. )
+        else if (effectType == 2)
         {
-            foreach (var regionController in countryController.regionControllers)
+            //Debug.Log("Executing a boolean event");
+            parameter = 1 - parameter;
+        }
+
+        // Limitless geometric
+        else if (effectType == 3)
+        {
+            if (effectValue < 0)
             {
-                regionController.economyModel.ExecuteEvent(mtpEvent.targetParameter,
-                                                           mtpEvent.effectType,
-                                                           mtpEvent.effectValue);
+                Debug.Log("Negative coefficient is given for a limitless geometric event.");
+            }
+            else if (mtpEvent.isReversible == 1 && mtpEvent.isReverse == 1)
+            {
+                parameter /= effectValue;
+            }
+            else
+            {
+                parameter *= effectValue;
             }
         }
-        else
-        {
-            Debug.Log("Unknown model type is entered.");
-        }
+
+        return parameter;
     }
 
 
@@ -222,7 +488,7 @@ public class GameController : MonoBehaviour, ITimeDrivable
         }
         if (cost > 0)
         {
-            countryController.ChangeBudget(cost);
+            countryController.SpendMoney(cost);
         }
 
 
@@ -241,11 +507,11 @@ public class GameController : MonoBehaviour, ITimeDrivable
             
             actionDataArgs.publisher.OnConstruction();
 
-            Debug.Log("An action with construction time is taken. Now it is under progress.");
+            //Debug.Log("An action with construction time is taken. Now it is under progress.");
         }
         else
         {
-            Debug.Log("An action without construction time is taken.");
+           // Debug.Log("An action without construction time is taken.");
             OnActionConstructionCompleted(actionDataArgs);
         }
     }
@@ -279,11 +545,12 @@ public class GameController : MonoBehaviour, ITimeDrivable
     {
         AddActionEventsToEventCalendar(actionDataArgs.actionData);
 
+        Debug.Log("Eventleri ekledim.");
         if (actionDataArgs.actionData.type == 0)
         {
             actionDataArgs.publisher.OnActionCompleted();
         }
-        
+
         else if (actionDataArgs.actionData.type == 1)
         {
             int duration = actionDataArgs.actionData.duration;
@@ -292,8 +559,8 @@ public class GameController : MonoBehaviour, ITimeDrivable
                 int today = Time.GetInstance().GetDay();
                 int endDay = today + duration;
                 AddElementToDictionary(actionOnUseCalendar,
-                                       endDay,
-                                       actionDataArgs);
+                    endDay,
+                    actionDataArgs);
                 actionDataArgs.publisher.OnUse();
             }
             else
@@ -301,7 +568,11 @@ public class GameController : MonoBehaviour, ITimeDrivable
                 actionDataArgs.publisher.SetReadyOrLowBudget();
             }
         }
-        
+        else if (actionDataArgs.actionData.type == 2)
+        {
+            endGameCanvas.gameObject.SetActive(true);
+            gameWonPanel.SetActive(true);
+        }
     }
 
 
@@ -326,24 +597,22 @@ public class GameController : MonoBehaviour, ITimeDrivable
     
     public void AddActionEventsToEventCalendar(ActionData actionData)
     {
+        int today = Time.GetInstance().GetDay();
         foreach (MTPEvent MTPevent in actionData.events)
         {
-            AddEventToCalendar(MTPevent);
+            if(MTPevent.isReversible == 1)
+            {
+                MTPevent.duration = actionData.duration;
+            }
+
+            AddEventToCalendar(MTPevent, today);
         }
         ExecuteEventCalendar();
     }
 
-    private void AddEventToCalendar(MTPEvent MTPevent)
+    private void AddEventToCalendar(MTPEvent MTPevent, int eventDay)
     {
-        int today = Time.GetInstance().GetDay();
-        int eventDay = today + MTPevent.delayTime;
-
-        if ( !eventCalendar.ContainsKey(eventDay) )
-        {
-            eventCalendar.Add(eventDay, new List<MTPEvent>());
-        }
-
-        eventCalendar[eventDay].Add(MTPevent);
+        AddElementToDictionary(eventCalendar, eventDay, MTPevent);
     }
 
 
@@ -356,9 +625,25 @@ public class GameController : MonoBehaviour, ITimeDrivable
     public void QuitGame()
     {
         Application.Quit();
+        //SceneManager.LoadScene("StartScreen");
     }
 
 }
+
+public class HospitalArgs
+{
+    public double value;
+    public string regionName;
+
+    public HospitalArgs(double value, string regionName)
+    {
+        this.value = value;
+        this.regionName = regionName;
+    }
+}
+
+
+
 /*
  * TODO: move this comment!
  * The data is displayed on the screen in the end of the day.

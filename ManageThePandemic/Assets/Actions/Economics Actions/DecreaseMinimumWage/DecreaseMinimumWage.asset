@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: DecreaseMinimumWage
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
-  timeToComplete: 0
-  events: []
+  actionName: Decrease Minimum Wage
+  description: <b>Decrease minimum wage</b> limit to reduce the costs of companies.
+  hint: 
+  type: 1
+  cost: 400
+  timeToConstruct: 0
+  duration: 7
+  events:
+  - {fileID: 11400000, guid: 11aea102d4a8380498c5864131b39f32, type: 2}

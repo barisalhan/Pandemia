@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: PostponeCorporateDebts
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 'Postpone <b>corporate debts</b> for a while.
+  actionName: Postpone Corporate Debts
+  description: 'Postpone <b>corporate debts</b> for a week.
 
 '
-  hint: <i>It reduces the collected tax by half.</i>
-  type: 0
-  cost: 0
+  hint: <i>It decreases your income for a week.</i>
+  type: 1
+  cost: 500
   timeToConstruct: 0
-  duration: 0
+  duration: 7
   events:
-  - {fileID: 11400000, guid: 80318f6a070f2d74a84f588fa982082e, type: 2}
-  - {fileID: 11400000, guid: bd200f692d79e16458fa68e22409c593, type: 2}
+  - {fileID: 11400000, guid: 00cc040bc8bfd2b4396c6686fe4c20e4, type: 2}
+  - {fileID: 11400000, guid: b5b8fa5243eee6e46a5167a826a3f35c, type: 2}
+  - {fileID: 11400000, guid: deedee5a33631124cb50d26b0c907ce7, type: 2}

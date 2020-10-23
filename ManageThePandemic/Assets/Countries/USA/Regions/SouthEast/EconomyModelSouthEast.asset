@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: EconomyModelSouthEast
   m_EditorClassIdentifier: 
   economicDevelopmentCoefficient: 1
-  economicSituation: 1
-  taxCoefficient: 1
+  economicSituation: 0.11920292202211755
+  taxCoefficient: 0.5

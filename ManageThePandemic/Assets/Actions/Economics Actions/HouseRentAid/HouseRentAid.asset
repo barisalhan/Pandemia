@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: HouseRentAid
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
-  timeToComplete: 0
-  events: []
+  actionName: Rent Aid
+  description: Pay <b>house rents</b> of poor families.
+  hint: 
+  type: 1
+  cost: 250
+  timeToConstruct: 0
+  duration: 7
+  events:
+  - {fileID: 11400000, guid: ee13f5d077348714fb5cdf28da4aa0d9, type: 2}

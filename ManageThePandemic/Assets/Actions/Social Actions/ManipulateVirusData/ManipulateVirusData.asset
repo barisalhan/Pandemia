@@ -12,8 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: ManipulateVirusData
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
-  timeToComplete: 0
-  events: []
+  actionName: Manipulate with Virus Data
+  description: <b>Lie</b> about the number of people died/infected of the virus.
+  hint: It relieves people but increases spread of the virus.
+  type: 0
+  cost: 200
+  timeToConstruct: 0
+  duration: 0
+  events:
+  - {fileID: 11400000, guid: 1fddc27ffaee3cf42aad2c76b99e9b4e, type: 2}
+  - {fileID: 11400000, guid: 9c1af52119d24ca428025a04dccf0b39, type: 2}
+  - {fileID: 11400000, guid: a9cb58d76f1e6be43ac913f744382854, type: 2}

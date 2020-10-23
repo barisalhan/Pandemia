@@ -12,8 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: HygienePSA
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
-  timeToComplete: 0
-  events: []
+  actionName: '"Wash your hands!"'
+  description: Make public service announcement to <b>raise awareness</b> about <b>personal
+    hygiene</b>.
+  hint: 
+  type: 0
+  cost: 100
+  timeToConstruct: 0
+  duration: 0
+  events:
+  - {fileID: 11400000, guid: 07e5d5a50c401824a852e7bdc3208f27, type: 2}

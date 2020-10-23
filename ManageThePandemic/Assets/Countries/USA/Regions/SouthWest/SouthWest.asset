@@ -15,9 +15,10 @@ MonoBehaviour:
   name: SouthWest
   population: 51000000
   travelFlowCoeff: 0.01
-  dailyTax: 61
-  isInfected: 1
+  dailyTax: 10
+  isInfected: 0
   isQuarantined: 0
   healthSystemModel: {fileID: 11400000, guid: 53a8dbfd1d3a4b14aa8273f7737a2f86, type: 2}
   virusModel: {fileID: 11400000, guid: 94d15e56f64c59140abed541bffe40c9, type: 2}
   economyModel: {fileID: 11400000, guid: 74c73c50e2280654da8fd496a7bd3052, type: 2}
+  societyModel: {fileID: 11400000, guid: 0049d7c0c8e8d6547a599b85d4cfd587, type: 2}

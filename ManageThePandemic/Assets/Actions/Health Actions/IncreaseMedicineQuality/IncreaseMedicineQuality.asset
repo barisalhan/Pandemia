@@ -12,8 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: IncreaseMedicineQuality
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
-  timeToComplete: 0
-  events: []
+  actionName: Import Newly Developed Medicine
+  description: Import newly developed medicine to provide <b>better treatment</b>.
+  hint: 
+  type: 1
+  cost: 400
+  timeToConstruct: 0
+  duration: 7
+  events:
+  - {fileID: 11400000, guid: bf2d550049f17ac4cb9d75a9b0427d23, type: 2}
+  - {fileID: 11400000, guid: 7f854d080a9023b4f9323de4ef8f7d84, type: 2}

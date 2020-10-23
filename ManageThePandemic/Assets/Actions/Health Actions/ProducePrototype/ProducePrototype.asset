@@ -12,8 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: ProducePrototype
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
-  timeToComplete: 0
-  events: []
+  actionName: Ventilator Prototype
+  description: <b>Produce ventilator prototype</b> to increase the quality of treatment
+    to patients under intensive care.
+  hint: Approval rate of government about the pandemic management will increase.
+  type: 0
+  cost: 350
+  timeToConstruct: 3
+  duration: 0
+  events:
+  - {fileID: 11400000, guid: 386c0f654bfc56f4099c2648a13c5fd5, type: 2}

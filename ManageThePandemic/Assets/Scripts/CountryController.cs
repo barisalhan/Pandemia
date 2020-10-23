@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 using Random = System.Random;
 
 
-[CreateAssetMenu(menuName = "ManageThePandemic/Country")]
+[CreateAssetMenu(menuName = "Pandemia/Country")]
 public class CountryController : MTPScriptableObject, ITimeDrivable
 {
     [SerializeField]
     public List<RegionController> regionControllers = new List<RegionController>();
 
+    [SerializeField]
     private const int INITIAL_BUDGET = 80;
     
     public Dictionary<Name, int> indexTable = new Dictionary<Name, int>();
@@ -31,25 +31,29 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
 
     private int unquarantinedActiveCases = 0;
 
-    [SerializeField]
-    public SocietyModel societyModel;
 
-    private double happiness;
+    private double avgHappiness;
+    private double avgEconomicWellBeing;
+    private double avgPersonalWellBeing;
 
     [SerializeField]
     private int totalBudget;
 
     public EventHandler<BudgetArgs> BudgetChanged;
 
-    public void ChangeBudget(int cost)
+    public EventHandler<AvgHappinessArgs> AvgHappinessChanged;
+
+    public int dailyTax;
+
+    public void AddMoney(int gain)
     {
-        totalBudget -= cost;
+        totalBudget += gain;
         OnBudgetChanged();
     }
 
-    public void SetBudget(int budget)
+    public void SpendMoney(int cost)
     {
-        totalBudget = budget;
+        totalBudget -= cost;
         OnBudgetChanged();
     }
 
@@ -66,12 +70,14 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
 
     public void SetDefaultEnvironment()
     {
-        SetBudget(INITIAL_BUDGET);
+        AddMoney(INITIAL_BUDGET);
 
         CreateIndexTable();
 
         foreach (RegionController region in regionControllers)
-        { 
+        {
+            region.SocietyModel.HappinessChanged += OnHappinessChanged;
+
             region.SetDefaultEnvironment();
 
             population += region.GetPopulation();
@@ -80,22 +86,70 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
         }
 
         CreateFirstOutbreak();
-        societyModel.SetDefaultModel();
-        happiness = societyModel.CalculateHappiness();
     }
-    
 
+
+    public void OnHappinessChanged(object source, EventArgs args)
+    {
+        CalculateAvgHappiness();
+        SetAvgHappiness(avgEconomicWellBeing, avgPersonalWellBeing);
+        // Barlara bagla
+    }
+
+
+    public void CalculateAvgHappiness()
+    {
+        double sumOfEconomicWellBeing = 0;
+        double sumOfPersonalWellBeing = 0;
+
+        foreach (var region in regionControllers)
+        {
+           sumOfEconomicWellBeing += region.SocietyModel.EconomicWellBeing;
+           sumOfPersonalWellBeing += region.SocietyModel.PersonalWellBeing;
+        }
+
+        avgEconomicWellBeing = sumOfEconomicWellBeing / regionControllers.Count;
+        avgPersonalWellBeing = sumOfPersonalWellBeing / regionControllers.Count;
+    }
+
+
+    public void SetAvgHappiness(double avgEconomicWellBeing, double avgPersonalWellBeing)
+    {
+        avgHappiness = Math.Min(avgEconomicWellBeing, avgPersonalWellBeing);
+
+        AvgHappinessArgs.Cause cause;
+        if (avgEconomicWellBeing < avgPersonalWellBeing)
+        {
+            cause = AvgHappinessArgs.Cause.economicWellBeing;
+        }
+        else
+        {
+            cause = AvgHappinessArgs.Cause.personalWellBeing;
+        }
+
+        OnAvgHappinessChanged(avgHappiness, cause);
+    }
+
+
+    public void OnAvgHappinessChanged(double avgHappiness, AvgHappinessArgs.Cause cause)
+    {
+        if (AvgHappinessChanged != null)
+        {
+            AvgHappinessChanged(this, new AvgHappinessArgs(avgHappiness, cause));
+        }
+    }
 
     public void NextDay()
     {
         unquarantinedActiveCases = 0;
         activeCases = 0;
 
+        dailyTax = 0;
         foreach (RegionController region in regionControllers)
         {
             region.NextDay();
-            Debug.Log("Daily Tax: "+region.name+" "+ region.dailyTax.ToString());
-            totalBudget += region.dailyTax;
+            //Debug.Log("Daily Tax: "+region.name+" "+ region.dailyTax.ToString());
+            dailyTax += region.dailyTax;
             activeCases += region.GetActiveCases();
 
             if (!region.isQuarantined)
@@ -103,8 +157,6 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
                 unquarantinedActiveCases += region.GetActiveCases();
             }
         }
-
-        OnBudgetChanged();
 
         // Precondition: Total unquarantined active cases must be calculated.
         foreach (RegionController region in regionControllers)
@@ -114,10 +166,7 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
                 region.InfectRegion(unquarantinedActiveCases);
             }
         }
-       
-        happiness = societyModel.CalculateHappiness();
     }
-
 
     public void CreateIndexTable()
     {
@@ -195,20 +244,30 @@ public class CountryController : MTPScriptableObject, ITimeDrivable
         int result = 0;
         foreach (var regionController in regionControllers)
         {
-            result += regionController.healthSystemModel.aggregateRecoveredCases[today];
+            result += regionController.HealthSystemModel.aggregateRecoveredCases[today];
         }
         return result;
     }
 
+
+    /*
+     * Precondition: NextDay is called beforehand. Otherwise, it lags
+     *               the real data with one day.
+     */
     public int GetDeathCases()
     {
         int today = Time.GetInstance().GetDay();
         int result = 0;
         foreach (var regionController in regionControllers)
         {
-            result += regionController.healthSystemModel.aggregateDeathCases[today];
+            result += regionController.HealthSystemModel.aggregateDeathCases[today - 1];
         }
         return result;
+    }
+
+    public double getAvgHappiness()
+    {
+        return avgHappiness;
     }
 }
 
@@ -220,5 +279,27 @@ public class BudgetArgs : EventArgs
     public BudgetArgs(int budget)
     {
         this.budget = budget;
+    }
+}
+
+public class AvgHappinessArgs
+{
+    [HideInInspector]
+    public double value;
+
+    [HideInInspector]
+    public enum Cause
+    {
+        economicWellBeing,
+        personalWellBeing
+    }
+
+    [HideInInspector]
+    public Cause cause;
+
+    public AvgHappinessArgs(double value, Cause cause)
+    {
+        this.value = value;
+        this.cause = cause;
     }
 }

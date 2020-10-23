@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: FreeData
   m_EditorClassIdentifier: 
   actionName: 
-  description: 
+  description: Provide unlimited cellular data to all country.
+  hint: 
+  type: 0
   cost: 0
-  timeToComplete: 0
+  timeToConstruct: 0
+  duration: 0
   events: []

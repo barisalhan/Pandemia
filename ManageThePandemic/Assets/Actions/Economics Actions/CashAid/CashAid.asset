@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: CashAid
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 'Provide one time cash assistance to the people.
+  actionName: Cash Aid
+  description: 'Provide <b>one time cash aid</b> to the people.
 
 '
-  type: 1
   hint: <i>It increases the happiness of the people.</i>
-  cost: 200
-  timeToComplete: 0
+  type: 1
+  cost: 250
+  timeToConstruct: 0
+  duration: 1
   events:
-  - {fileID: 11400000, guid: 011c37ef32d75844db2fdcc1bb7f1324, type: 2}
+  - {fileID: 11400000, guid: bd3646562e44e9349811ef2e649888e8, type: 2}

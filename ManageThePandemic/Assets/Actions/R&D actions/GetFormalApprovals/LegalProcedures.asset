@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: LegalProcedures
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
+  actionName: Legal Procedures
+  description: Complete <b>legal procedures</b> to start testing the selected vaccine
+    candidate on humans.
+  hint: 
+  type: 0
+  cost: 500
+  timeToConstruct: 4
+  duration: 0
   events: []

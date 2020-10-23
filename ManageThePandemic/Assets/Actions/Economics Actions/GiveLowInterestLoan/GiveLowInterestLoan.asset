@@ -12,8 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: GiveLowInterestLoan
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
-  timeToComplete: 0
-  events: []
+  actionName: Low Interest Loan
+  description: Give <b>low interest loan</b> to companies and entrepreneurs to <b>revive
+    the economy</b>.
+  hint: 
+  type: 1
+  cost: 850
+  timeToConstruct: 0
+  duration: 7
+  events:
+  - {fileID: 11400000, guid: 2e8d30d5d526678498fe5d8763640adb, type: 2}
+  - {fileID: 11400000, guid: f7238ea423cb3bb408f239382174194a, type: 2}

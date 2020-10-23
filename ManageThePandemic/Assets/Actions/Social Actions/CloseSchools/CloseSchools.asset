@@ -12,8 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: CloseSchools
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
-  timeToComplete: 0
-  events: []
+  actionName: School Closure
+  description: <b>Close schools</b> untill the end of the semester.
+  hint: Virus spread rate between children is much faster than it is between adults.
+  type: 0
+  cost: 500
+  timeToConstruct: 0
+  duration: 0
+  events:
+  - {fileID: 11400000, guid: 068cebc8125c40d48871466fb53348af, type: 2}
+  - {fileID: 11400000, guid: 04dbdebfff1dc9947a567e7bd1efbf42, type: 2}

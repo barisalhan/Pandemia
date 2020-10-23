@@ -1,26 +1,58 @@
 ﻿using System;
-using System.Diagnostics;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
-[CreateAssetMenu(menuName = "ManageThePandemic/EconomyModel")]
+[CreateAssetMenu(menuName = "Pandemia/EconomyModel")]
 public class EconomyModel : MTPScriptableObject
 {
-    private const double MAX_ECONOMIC_SITUATION = 1;
-    private const double MIN_ECONOMIC_SITUATION = 0;
+    public static Double[] LIMITS_EconomicSituation = { 0.0, 1.0 };
+    // UNUSED!
+    public static Double[] LIMITS_TaxCoefficient = { 0.0, 0.0 };
+    
+    private const double INITIAL_EconomicDevelopmentCoefficient = 1;
+    private const double INITIAL_InputEconomicSituation = 1;
+
+    private const double INITIAL_TaxCoefficient = 1;
+    private const double INITIAL_Normalization = 1 / 2e6;
 
     //[Independent]
     [SerializeField]
     private double economicDevelopmentCoefficient;
 
+
+    private double inputEconomicSituation;
+    public double InputEconomicSituation
+    {
+        get { return inputEconomicSituation; }
+        set
+        {
+            inputEconomicSituation = value;
+            EconomicSituation = Sigmoid(value, LIMITS_EconomicSituation[0], 
+                LIMITS_EconomicSituation[1], Temperatures.T_EconomicSituation);
+        }
+    }
     //[Independent]
     [SerializeField]
     private double economicSituation;
+    public double EconomicSituation
+    {
+        get { return economicSituation; }
+        set
+        {
+            economicSituation = value;
+            OnEconomicSituationChanged();
+        }
+    }
+
 
     // There is no upper limit for it.
     //[Independent]
     [SerializeField]
     private double taxCoefficient;
+    public double TaxCoefficient
+    {
+        get { return taxCoefficient; }
+        set { taxCoefficient = value; }
+    }
 
 
     // We assume that a million people give 1 game money as a tax.
@@ -31,10 +63,10 @@ public class EconomyModel : MTPScriptableObject
 
     public void SetDefaultModel()
     {
-        economicDevelopmentCoefficient = 1;
-        economicSituation = 1;
-        taxCoefficient = 1;
-        normalization = 2 / 1e7;
+        economicDevelopmentCoefficient = INITIAL_EconomicDevelopmentCoefficient;
+        InputEconomicSituation = INITIAL_InputEconomicSituation;
+        taxCoefficient = INITIAL_TaxCoefficient;
+        normalization = INITIAL_Normalization;
     }
 
     public int CalculateTax(int population)
@@ -48,61 +80,6 @@ public class EconomyModel : MTPScriptableObject
     }
 
 
-    public void ExecuteEvent(string targetParameter,
-                             int effectType,
-                             double effectValue)
-    {
-        if (effectType != 1 && effectType !=3)
-        {
-            Debug.Log("Unknown effect type is entered for the economy model.");
-            return;
-        }
-
-        if (effectType == 1)
-        {
-            ExecuteGeometricEvent(targetParameter, effectValue);
-        }
-
-        if (effectType == 3)
-        {
-            ExecuteReverseEvent(targetParameter, effectValue);
-        }
-
-    }
-
-    private void ExecuteGeometricEvent(string targetParameter,
-                                      double effectValue)
-    {
-        if (targetParameter == "economicSituation")
-        {
-            Debug.Log("Executing a geometric event in economy model.");
-            if (effectValue > 0)
-            {
-                economicSituation += (MAX_ECONOMIC_SITUATION - economicSituation) * effectValue;
-            }
-            else
-            {
-                economicSituation += (economicSituation - MIN_ECONOMIC_SITUATION) * effectValue;
-            }
-
-            OnEconomicSituationChanged();
-        }
-        else if (targetParameter == "taxCoefficient")
-        {
-            Debug.Log("Executing a geometric event in economy model.");
-            taxCoefficient *= effectValue;
-            if (effectValue < 0)
-            {
-                Debug.Log("Negative taxCoefficient is given. It is invalid");
-            }
-
-        }
-        else
-        {
-            Debug.Log("Unknown parameter type is entered.");
-        }
-    }
-
     
     // TODO: connect this with UI.
     protected virtual void OnEconomicSituationChanged()
@@ -113,40 +90,6 @@ public class EconomyModel : MTPScriptableObject
         }
     }
 
-    private void ExecuteReverseEvent(string targetParameter, double effectValue)
-    {
-        if (targetParameter == "economicSituation")
-        {
-            Debug.Log("Executing a reverse geometric event in economy model.");
-            if (effectValue > 0)
-            {
-                double nominator = economicSituation - effectValue * MAX_ECONOMIC_SITUATION;
-                double denominator = 1 - effectValue;
-                economicSituation = nominator / denominator;
-            }
-            else
-            {
-                double nominator = economicSituation + effectValue * MIN_ECONOMIC_SITUATION;
-                double denominator = 1 + effectValue;
-                economicSituation = nominator / denominator;
-            }
-
-            OnEconomicSituationChanged();
-        }
-        else if (targetParameter == "taxCoefficient")
-        {
-            Debug.Log("Executing a reverse geometric event in economy model.");
-            taxCoefficient /= effectValue;
-            if (effectValue < 0)
-            {
-                Debug.Log("Negative taxCoefficient is given. It is invalid");
-            }
-        }
-        else
-        {
-            Debug.Log("Unknown parameter type is entered.");
-        }
-    }
 }
 
 

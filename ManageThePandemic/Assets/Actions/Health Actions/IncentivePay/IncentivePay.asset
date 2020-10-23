@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: IncentivePay
   m_EditorClassIdentifier: 
-  actionName: 
+  actionName: Incentive Payment
   description: 'Offer <b>incentive pay</b> to health care workers.
 
 '
-  type: 1
   hint: <i>It increases the motivation of health care workers.</i>
-  cost: 120
-  timeToComplete: 0
-  events: []
+  type: 1
+  cost: 450
+  timeToConstruct: 0
+  duration: 7
+  events:
+  - {fileID: 11400000, guid: 43afbf3f589c93442b4761db4b6399be, type: 2}
+  - {fileID: 11400000, guid: 46da3acbd068eb742a06c9f0463d92ad, type: 2}

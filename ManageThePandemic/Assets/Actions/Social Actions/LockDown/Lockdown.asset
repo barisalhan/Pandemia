@@ -12,8 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: Lockdown
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
-  timeToComplete: 0
-  events: []
+  actionName: Lockdown
+  description: '<b>Close all "non-essential" shops</b> and provide only <b>take-away</b>
+    option in open ones.  '
+  hint: It might have a huge impact on the economy.
+  type: 0
+  cost: 1000
+  timeToConstruct: 0
+  duration: 0
+  events:
+  - {fileID: 11400000, guid: 0e3ae44a0fd5db143a92d5344243e108, type: 2}
+  - {fileID: 11400000, guid: 41293baef0631c741b393fb43711bca5, type: 2}
+  - {fileID: 11400000, guid: 403df986eecc86c4380d541eb834b149, type: 2}
+  - {fileID: 11400000, guid: 33c8bbb4ed842ac44b0d39100f92bbb0, type: 2}
+  - {fileID: 11400000, guid: ad28eee72774a494ab070f38a4b8da6d, type: 2}

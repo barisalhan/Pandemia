@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
   m_Name: DistributeSanitizer
   m_EditorClassIdentifier: 
-  actionName: 
-  description: 
-  cost: 0
-  timeToComplete: 0
-  events: []
+  actionName: Distribute Sanitizer
+  description: Provide <b>sanitizer</b> in public places.
+  hint: 
+  type: 1
+  cost: 350
+  timeToConstruct: 0
+  duration: 7
+  events:
+  - {fileID: 11400000, guid: 2d435038a7e022f43871578e18005048, type: 2}
