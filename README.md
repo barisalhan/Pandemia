@@ -6,4 +6,4 @@ You can download and play our game from [Google Play Store](https://play.google.
 
 You can visit our [wiki page](https://github.com/barisalhan/Pandemia/wiki) for detailed technical information about the project.
 
-[Twitter](https://twitter.com/GamePandemia)
+Check our [Twitter](https://twitter.com/GamePandemia) page.
