@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - TabButton
+  - ActionObject
+  - ActionInfoPanel
   layers:
   - Default
   - TransparentFX
@@ -40,4 +43,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Layer1
+    uniqueID: 54185475
+    locked: 0
+  - name: Layer2
+    uniqueID: 3918558371
+    locked: 0
+  - name: Layer3
+    uniqueID: 1914904565
+    locked: 0
+  - name: Layer4
+    uniqueID: 4168566009
     locked: 0

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
+  m_Name: PostponeCorporateDebts
+  m_EditorClassIdentifier: 
+  actionName: Postpone Corporate Debts
+  description: 'Postpone <b>corporate debts</b> for a week.
+
+'
+  hint: <i>It decreases your income for a week.</i>
+  type: 1
+  cost: 500
+  timeToConstruct: 0
+  duration: 7
+  events:
+  - {fileID: 11400000, guid: 00cc040bc8bfd2b4396c6686fe4c20e4, type: 2}
+  - {fileID: 11400000, guid: b5b8fa5243eee6e46a5167a826a3f35c, type: 2}
+  - {fileID: 11400000, guid: deedee5a33631124cb50d26b0c907ce7, type: 2}

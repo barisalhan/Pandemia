@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
+  m_Name: GeneralCurfew
+  m_EditorClassIdentifier: 
+  actionName: Country-wide Curfew
+  description: Declare a one-week-long <b>curfew for the entire USA</b>.
+  hint: It is the most effective action you can take to reduce the spread of the virus.
+  type: 1
+  cost: 1000
+  timeToConstruct: 0
+  duration: 7
+  events:
+  - {fileID: 11400000, guid: b4882312b660e9444a466ad11a12e50d, type: 2}
+  - {fileID: 11400000, guid: 6e169bda4a0b27b41888d982206698ce, type: 2}
+  - {fileID: 11400000, guid: a5a0e1be765f1f6428dae87463576da6, type: 2}
+  - {fileID: 11400000, guid: 7cd4aaf2d22030e458ddc2086cc4ffe0, type: 2}
+  - {fileID: 11400000, guid: 0d7993a55fb08404b9322bc801a443dd, type: 2}

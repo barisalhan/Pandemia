@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
+  m_Name: FalseCureAnnouncement
+  m_EditorClassIdentifier: 
+  actionName: False Cure Announcement
+  description: Declare that the <b>medicine</b> is developed. <b>(Despite it is not)</b>
+  hint: It makes the society happier for a while but increases the virus spread.
+  type: 0
+  cost: 200
+  timeToConstruct: 0
+  duration: 0
+  events:
+  - {fileID: 11400000, guid: 1992cc123be4afe4a9af3327fd5b6fcc, type: 2}
+  - {fileID: 11400000, guid: 04a9172b23766284983af8d68200113c, type: 2}
+  - {fileID: 11400000, guid: f0cb323b71472f44096851dfdc4273de, type: 2}

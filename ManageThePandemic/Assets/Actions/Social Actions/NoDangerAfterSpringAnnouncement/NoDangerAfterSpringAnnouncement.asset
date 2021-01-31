@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
+  m_Name: NoDangerAfterSpringAnnouncement
+  m_EditorClassIdentifier: 
+  actionName: '"Summer will solve"'
+  description: Announce that <b>virus spread</b> rate will significantly <b>decrease</b>
+    in <b>hot weather</b>.
+  hint: It relieves both society and the economy
+  type: 0
+  cost: 200
+  timeToConstruct: 0
+  duration: 0
+  events:
+  - {fileID: 11400000, guid: c4316f4080317b54c8d77ed0443cb07a, type: 2}
+  - {fileID: 11400000, guid: cecd11c2ef973af4ba9aaf96e0cba8d7, type: 2}
+  - {fileID: 11400000, guid: 6952469ddfd9c3648b8c9364cc5100dc, type: 2}

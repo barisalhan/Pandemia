@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61d2537a166d8d44caab7cb210b04e0b, type: 3}
+  m_Name: SouthEast
+  m_EditorClassIdentifier: 
+  name: SouthEast
+  population: 70500000
+  travelFlowCoeff: 0.01
+  dailyTax: 14
+  isInfected: 0
+  isQuarantined: 0
+  healthSystemModel: {fileID: 11400000, guid: 74836df05c3ee0540a2ae4a0f7389a2b, type: 2}
+  virusModel: {fileID: 11400000, guid: 0f1d3c64da9e3ac4a827cc77746cea8d, type: 2}
+  economyModel: {fileID: 11400000, guid: c7b16f8db74a3294ebea75a159ea7214, type: 2}
+  societyModel: {fileID: 11400000, guid: a91ad3f33703e80459312eaf45b2a9f0, type: 2}

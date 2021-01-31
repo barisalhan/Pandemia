@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
+  m_Name: AntiVirusPSA
+  m_EditorClassIdentifier: 
+  actionName: Social Distancing Propaganda
+  description: "Make a <b>propoganda</b> to raise awareness about the importance of
+    <b>social distancing</b>. \n"
+  hint: <i>It slows down spread of the virus.</i>
+  type: 0
+  cost: 40
+  timeToConstruct: 0
+  duration: 0
+  events:
+  - {fileID: 11400000, guid: 32c1f48dd2bc3374ca515973ab8de987, type: 2}
+  - {fileID: 11400000, guid: 956a50a9bc642244785c7c4402411b57, type: 2}

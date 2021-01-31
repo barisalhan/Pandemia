@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
+  m_Name: BuyProductsFromPrivateSector
+  m_EditorClassIdentifier: 
+  actionName: Purchase Goods
+  description: <b>Purchase</b> goods <b>from local companies</b> to maintain their
+    production flow.
+  hint: 
+  type: 1
+  cost: 300
+  timeToConstruct: 0
+  duration: 1
+  events:
+  - {fileID: 11400000, guid: 53c919eb3468daa4fabd92d16dbed608, type: 2}
+  - {fileID: 11400000, guid: b1869f73186fa4c4ebf412e8b91d3434, type: 2}

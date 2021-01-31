@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
+  m_Name: PublicReliefAnnouncement
+  m_EditorClassIdentifier: 
+  actionName: Motivational Speech
+  description: Release public advertisements and make motivational speechs to <b>increase
+    society's patiance</b> during pandemia.
+  hint: 
+  type: 0
+  cost: 100
+  timeToConstruct: 0
+  duration: 0
+  events:
+  - {fileID: 11400000, guid: 754a843a5ed4f7943a69f6f3543160e5, type: 2}

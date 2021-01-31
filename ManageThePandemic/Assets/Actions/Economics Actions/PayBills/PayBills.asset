@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
+  m_Name: PayBills
+  m_EditorClassIdentifier: 
+  actionName: Pay Bills
+  description: Pay <b>utility bills</b> of poor families
+  hint: 
+  type: 1
+  cost: 150
+  timeToConstruct: 0
+  duration: 7
+  events:
+  - {fileID: 11400000, guid: e63c1a27b7f6b5b4ea47b50d927f23ad, type: 2}

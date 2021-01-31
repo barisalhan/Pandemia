@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
+  m_Name: VaccineExperimentOnHumanWithoutPermission
+  m_EditorClassIdentifier: 
+  actionName: Illegal Human Experiments
+  description: Start <b>illegal human experiments</b> by skipping animal testing and
+    legal procedures.
+  hint: <i>It is shortcut but there is a probability of being revealed. If it is the
+    case, you are going to be <b>IMPEACHED!</b></i>
+  type: 0
+  cost: 500
+  timeToConstruct: 5
+  duration: 0
+  events: []

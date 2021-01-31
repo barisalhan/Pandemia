@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59563915a63f9fc41b18bcaff8fbcd2f, type: 3}
+  m_Name: FreeSocialServices
+  m_EditorClassIdentifier: 
+  actionName: Free Social Services
+  description: Provide <b>social sevices</b> to heaithcare workers and their families
+    for <b>free</b>.
+  hint: 
+  type: 0
+  cost: 350
+  timeToConstruct: 0
+  duration: 7
+  events:
+  - {fileID: 11400000, guid: fea49721adedd474f9c7e554a90eb689, type: 2}
+  - {fileID: 11400000, guid: 3a5ce6119d9c29942ae00aed416caea2, type: 2}
